@@ -1,17 +1,21 @@
-package com.comp2042;
+package com.comp2042.managers;
 
-public class GameController implements InputEventListener {
+import com.comp2042.*;
+import com.comp2042.controllers.GameController;
+import com.comp2042.util.EventSource;
+
+public class GameManager implements InputEventListener {
 
     private Board board = new SimpleBoard(25, 10);
 
-    private final GuiController viewGuiController;
+    private final GameController viewGameController;
 
-    public GameController(GuiController c) {
-        viewGuiController = c;
+    public GameManager(GameController c) {
+        viewGameController = c;
         board.createNewBrick();
-        viewGuiController.setEventListener(this);
-        viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
-        viewGuiController.bindScore(board.getScore().scoreProperty());
+        viewGameController.setEventListener(this);
+        viewGameController.initGameView(board.getBoardMatrix(), board.getViewData());
+        viewGameController.bindScore(board.getScore().scoreProperty());
     }
 
     @Override
@@ -25,10 +29,10 @@ public class GameController implements InputEventListener {
                 board.getScore().add(clearRow.getScoreBonus());
             }
             if (board.createNewBrick()) {
-                viewGuiController.gameOver();
+                viewGameController.gameOver();
             }
 
-            viewGuiController.refreshGameBackground(board.getBoardMatrix());
+            viewGameController.refreshGameBackground(board.getBoardMatrix());
 
         } else {
             if (event.getEventSource() == EventSource.USER) {
@@ -60,6 +64,6 @@ public class GameController implements InputEventListener {
     @Override
     public void createNewGame() {
         board.newGame();
-        viewGuiController.refreshGameBackground(board.getBoardMatrix());
+        viewGameController.refreshGameBackground(board.getBoardMatrix());
     }
 }

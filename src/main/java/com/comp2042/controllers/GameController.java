@@ -1,5 +1,8 @@
-package com.comp2042;
+package com.comp2042.controllers;
 
+import com.comp2042.*;
+import com.comp2042.util.EventSource;
+import com.comp2042.util.EventType;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
@@ -23,7 +26,7 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GuiController implements Initializable {
+public class GameController implements Initializable {
 
     private static final int BRICK_SIZE = 20;
 

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<Pane fx:controller="com.comp2042.GuiController"
+<Pane fx:controller="com.comp2042.controllers.GameController"
       xmlns:fx="http://javafx.com/fxml">
     <GridPane fx:id="brickPanel" vgap="1" hgap="1"/>
     <BorderPane styleClass="gameBoard" fx:id="gameBoard">
@@ -21,6 +21,6 @@
         </VBox>
     </Group>
     <stylesheets>
-        <URL value="@window_style.css"/>
+        <URL value="@/css/window_style.css"/>
     </stylesheets>
 </Pane>

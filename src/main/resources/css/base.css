@@ -1,0 +1,39 @@
+.root {
+    -fx-font-size: 25;
+}
+.title {
+    -fx-text-fill: black;
+    -fx-font-size: 35;
+}
+
+Label {
+    -fx-text-fill: black;
+    -fx-font-family: "Poppins ExtraBold";
+    -fx-font-weight: bold;
+    -fx-effect:
+            dropshadow(gaussian, white, 8, 1.0, 2, 0),
+            dropshadow(gaussian, white, 8, 1.0, -2, 0),
+            dropshadow(gaussian, white, 8, 1.0, 0, 2),
+            dropshadow(gaussian, white, 8, 1.0, 0, -2);
+}
+
+
+.overlay {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.7), 20, 0.8, 0, 0);
+}
+
+.imgPane {
+    -fx-border-color: black;
+    -fx-border-width: 5px;
+    -fx-border-radius: 20px;
+    -fx-effect: dropshadow(gaussian, rgb(255, 255, 255), 30, 0.5, 0, 0);
+}
+
+.imgPreview {
+    -fx-overflow: hidden
+}
+
+
+
