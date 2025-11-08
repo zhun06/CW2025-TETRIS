@@ -1,4 +1,8 @@
-package com.comp2042;
+package com.comp2042.logic.games;
+
+import com.comp2042.logic.data.DownData;
+import com.comp2042.logic.data.ViewData;
+import com.comp2042.logic.moves.MoveEvent;
 
 public interface InputEventListener {
 

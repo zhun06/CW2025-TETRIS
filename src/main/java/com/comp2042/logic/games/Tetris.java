@@ -1,16 +1,21 @@
-package com.comp2042.managers;
+package com.comp2042.logic.games;
 
-import com.comp2042.*;
 import com.comp2042.controllers.GameController;
+import com.comp2042.logic.board.Board;
+import com.comp2042.logic.board.SimpleBoard;
+import com.comp2042.logic.data.ClearRow;
+import com.comp2042.logic.data.DownData;
+import com.comp2042.logic.data.ViewData;
+import com.comp2042.logic.moves.MoveEvent;
 import com.comp2042.util.EventSource;
 
-public class GameManager implements InputEventListener {
+public class Tetris implements InputEventListener {
 
     private Board board = new SimpleBoard(25, 10);
 
     private final GameController viewGameController;
 
-    public GameManager(GameController c) {
+    public Tetris(GameController c) {
         viewGameController = c;
         board.createNewBrick();
         viewGameController.setEventListener(this);

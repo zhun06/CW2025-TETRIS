@@ -1,6 +1,7 @@
 package com.comp2042.managers;
 
 import com.comp2042.controllers.*;
+import com.comp2042.logic.games.Tetris;
 import com.comp2042.util.GameChoice;
 
 import javafx.scene.Parent;
@@ -55,7 +56,7 @@ public class ControllerManager {
         gameRoot.requestFocus();
 
         // Start Game
-        new GameManager(gameController);
+        new Tetris(gameController);
     }
 
     // Getters

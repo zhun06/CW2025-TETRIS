@@ -14,7 +14,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         SceneManager.setStage(primaryStage);
         ControllerManager.callHomeController();
-        primaryStage.show(); // Show stage
+        primaryStage.show();
     }
 
 
