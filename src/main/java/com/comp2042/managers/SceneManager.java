@@ -27,6 +27,8 @@ public class SceneManager {
             scene = new Scene(root);
             stage.setScene(scene);
             setSceneStyle();
+            stage.setMinWidth(1000);
+            stage.setMinHeight(700);
 //            stage.show();
         }
     }

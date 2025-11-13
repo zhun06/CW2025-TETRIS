@@ -1,7 +1,6 @@
 package com.comp2042.managers;
 
 import com.comp2042.controllers.*;
-import com.comp2042.logic.games.TetrisGame;
 import com.comp2042.util.GameChoice;
 
 import javafx.scene.Parent;
@@ -51,12 +50,17 @@ public class ControllerManager {
             SceneManager.readFXML("game");
             gameController = SceneManager.getLoader().getController(); // Get loader -> get controller
             gameRoot = SceneManager.getRoot(); // Get root
+            gameController.addKeyHandler(); // Add key handler
         }
         SceneManager.setRoot(gameRoot); // Reuse root
         gameRoot.requestFocus();
 
         // Start Game
-        new TetrisGame(gameController);
+        switch (choice) {
+            case ZEN -> GameManager.startZen();
+            case FORTY_LINES -> GameManager.startForty();
+            case BLITZ ->  GameManager.startBlitz();
+        }
     }
 
     // Getters

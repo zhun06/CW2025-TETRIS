@@ -24,6 +24,4 @@ public class BrickRotator {
         this.brick = brick;
         currentShape = 0;
     }
-
-    public int getColor() {return brick.getColor();}
 }

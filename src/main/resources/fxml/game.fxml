@@ -81,10 +81,26 @@
                 </GridPane>
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="50.0">
-                <Button mnemonicParsing="false" text="PAUSE" />
-                <Button mnemonicParsing="false" text="RESTART" />
-                <Button mnemonicParsing="false" text="EXIT GAME" />
+                <Button fx:id="pauseBtn" mnemonicParsing="false" onAction="#onButtonClick" text="PAUSE"/>
+                <Button fx:id="restartBtn1" mnemonicParsing="false" onAction="#onButtonClick" text="RESTART"/>
+                <Button fx:id="exitBtn1" mnemonicParsing="false" onAction="#onButtonClick" text="EXIT GAME"/>
             </VBox>
         </HBox>
     </Group>
+    <VBox id="pauseGamePane" fx:id="pauseGamePane" alignment="CENTER" maxHeight="1.7976931348623157E308"
+          maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
+          prefWidth="1000.0" spacing="100.0" styleClass="overlay" visible="false">
+        <Label text="GAME PAUSED"/>
+        <Button fx:id="resumeBtn" mnemonicParsing="false" onAction="#onPauseButtonClick" text="RESUME"/>
+        <Button fx:id="restartBtn2" mnemonicParsing="false" onAction="#onPauseButtonClick" text="RESTART"/>
+        <Button fx:id="exitBtn2" mnemonicParsing="false" onAction="#onPauseButtonClick" text="EXIT GAME"/>
+    </VBox>
+    <VBox id="gameOverPane" fx:id="gameOverPane" alignment="CENTER" maxHeight="1.7976931348623157E308"
+          maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
+          prefWidth="1000.0" spacing="100.0" styleClass="overlay" visible="false">
+        <Label text="GAME OVER"/>
+        <Button fx:id="playAgainBtn" mnemonicParsing="false" onAction="#onGameOverButtonClick" text="PLAY AGAIN"/>
+        <Button fx:id="themeBtn" mnemonicParsing="false" onAction="#onGameOverButtonClick" text="CHANGE THEME"/>
+        <Button fx:id="exitBtn3" mnemonicParsing="false" onAction="#onGameOverButtonClick" text="EXIT GAME"/>
+    </VBox>
 </StackPane>

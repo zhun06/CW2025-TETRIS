@@ -3,6 +3,7 @@ package com.comp2042.renderers;
 import com.comp2042.logic.board.Board;
 import com.comp2042.logic.data.ViewData;
 import com.comp2042.logic.games.TetrisGame;
+import com.comp2042.managers.GameManager;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -24,9 +25,9 @@ public class Renderer {
     private final int BRICK_SIZE = TetrisGame.BRICK_SIZE;
 
     // Constructor
-    public Renderer(GridPane gamePanel, Board board) {
+    public Renderer(Board board) {
         this.board = board;
-        this.gamePanel = gamePanel;
+        this.gamePanel = GameManager.getGamePanel();
         this.rectangle = new Rectangle[ROWS][COLS];
         this.initializeBoard();
     }
@@ -43,10 +44,15 @@ public class Renderer {
         }
     }
 
-    // Draw existing bricks
-    public void updateBoard() {
+    // Render
+    public void render(ViewData brick) {
         this.refreshBoard();
+        this.renderBoard();
+        this.renderBrick(brick);
+    }
 
+    // Render existing bricks
+    public void renderBoard() {
         for (int i = 4; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 if (board.getBoardMatrix()[i][j] != 0) {
@@ -58,8 +64,8 @@ public class Renderer {
         }
     }
 
-    // Draw current brick
-    public void updateBrick(ViewData brick) {
+    // Render current brick
+    public void renderBrick(ViewData brick) {
         for (Point p : brick.getCoordinates()) {
             rectangle[p.y][p.x].setArcWidth(9);
             rectangle[p.y][p.x].setArcHeight(9);

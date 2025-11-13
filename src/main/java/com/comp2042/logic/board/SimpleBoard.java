@@ -12,11 +12,11 @@ import com.comp2042.logic.data.ViewData;
 import java.awt.*;
 
 public class SimpleBoard implements Board {
-
     private final int width ;
     private final int height;
     private final BrickGenerator brickGenerator;
     private final BrickRotator brickRotator;
+    private Brick currentBrick;
     private int[][] currentGameMatrix;
     private Point currentOffset;
     private final Score score;
@@ -88,10 +88,9 @@ public class SimpleBoard implements Board {
 
     @Override
     public boolean createNewBrick() {
-        Brick currentBrick = brickGenerator.getBrick();
+        currentBrick = brickGenerator.getBrick();
         brickRotator.setBrick(currentBrick);
-        currentOffset = new Point(4, 1);
-        System.out.println("New brick spawn Y = " + currentOffset.getY());
+        currentOffset = new Point(3, 1);
         return MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
     }
 
@@ -102,7 +101,7 @@ public class SimpleBoard implements Board {
 
     @Override
     public ViewData getViewData() {
-        return new ViewData(brickRotator.getCurrentShape(), brickRotator.getColor(), (int) currentOffset.getX(), (int) currentOffset.getY());
+        return new ViewData(brickRotator.getCurrentShape(), currentBrick.getColor(), (int) currentOffset.getX(), (int) currentOffset.getY());
     }
 
     @Override
@@ -115,14 +114,12 @@ public class SimpleBoard implements Board {
         ClearRow clearRow = MatrixOperations.checkRemoving(currentGameMatrix);
         currentGameMatrix = clearRow.getNewMatrix();
         return clearRow;
-
     }
 
     @Override
     public Score getScore() {
         return score;
     }
-
 
     @Override
     public void newGame() {
