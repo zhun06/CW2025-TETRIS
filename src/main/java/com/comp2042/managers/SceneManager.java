@@ -27,6 +27,7 @@ public class SceneManager {
             scene = new Scene(root);
             stage.setScene(scene);
             setSceneStyle();
+//            stage.show();
         }
     }
 
@@ -36,8 +37,13 @@ public class SceneManager {
         root = loader.load();
     }
 
+    // Change root
     public static void setRoot(Parent root) {
-        scene.setRoot(root); // Change root
+        scene.setRoot(root);
+//        if (!stage.isFullScreen()) {
+//            stage.sizeToScene();
+//            stage.centerOnScreen();
+//        }
     }
 
     public static void setSceneStyle() {

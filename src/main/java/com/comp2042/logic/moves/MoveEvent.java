@@ -1,4 +1,4 @@
-package com.comp2042;
+package com.comp2042.logic.moves;
 
 import com.comp2042.util.EventSource;
 import com.comp2042.util.EventType;

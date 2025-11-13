@@ -1,20 +1,28 @@
-package com.comp2042.managers;
+package com.comp2042.logic.games;
 
-import com.comp2042.*;
 import com.comp2042.controllers.GameController;
+import com.comp2042.logic.board.Board;
+import com.comp2042.logic.board.SimpleBoard;
+import com.comp2042.logic.data.ClearRow;
+import com.comp2042.logic.data.DownData;
+import com.comp2042.logic.data.ViewData;
+import com.comp2042.logic.moves.MoveEvent;
 import com.comp2042.util.EventSource;
 
-public class GameManager implements InputEventListener {
+public class TetrisGame implements InputEventListener {
+    public static int ROWS = 24;
+    public static int COLS = 10;
+    public static int BRICK_SIZE = 25;
 
-    private Board board = new SimpleBoard(25, 10);
+    private final Board board = new SimpleBoard(ROWS, COLS);
 
     private final GameController viewGameController;
 
-    public GameManager(GameController c) {
+    public TetrisGame(GameController c) {
         viewGameController = c;
         board.createNewBrick();
         viewGameController.setEventListener(this);
-        viewGameController.initGameView(board.getBoardMatrix(), board.getViewData());
+        viewGameController.initGameView(board);
         viewGameController.bindScore(board.getScore().scoreProperty());
     }
 
@@ -31,8 +39,6 @@ public class GameManager implements InputEventListener {
             if (board.createNewBrick()) {
                 viewGameController.gameOver();
             }
-
-            viewGameController.refreshGameBackground(board.getBoardMatrix());
 
         } else {
             if (event.getEventSource() == EventSource.USER) {
@@ -64,6 +70,5 @@ public class GameManager implements InputEventListener {
     @Override
     public void createNewGame() {
         board.newGame();
-        viewGameController.refreshGameBackground(board.getBoardMatrix());
     }
 }

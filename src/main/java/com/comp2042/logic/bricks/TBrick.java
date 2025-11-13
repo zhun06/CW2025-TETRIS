@@ -1,6 +1,6 @@
 package com.comp2042.logic.bricks;
 
-import com.comp2042.MatrixOperations;
+import com.comp2042.logic.board.MatrixOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,9 @@ final class TBrick implements Brick {
 
     public TBrick() {
         brickMatrix.add(new int[][]{
-                {0, 0, 0, 0},
                 {6, 6, 6, 0},
                 {0, 6, 0, 0},
+                {0, 0, 0, 0},
                 {0, 0, 0, 0}
         });
         brickMatrix.add(new int[][]{
@@ -40,4 +40,7 @@ final class TBrick implements Brick {
     public List<int[][]> getShapeMatrix() {
         return MatrixOperations.deepCopyList(brickMatrix);
     }
+
+    @Override
+    public int getColor() {return 6;}
 }

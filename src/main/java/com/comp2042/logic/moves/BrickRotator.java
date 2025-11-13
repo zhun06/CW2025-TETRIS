@@ -1,6 +1,7 @@
-package com.comp2042;
+package com.comp2042.logic.moves;
 
 import com.comp2042.logic.bricks.Brick;
+import com.comp2042.logic.data.NextShapeInfo;
 
 public class BrickRotator {
 
@@ -13,9 +14,7 @@ public class BrickRotator {
         return new NextShapeInfo(brick.getShapeMatrix().get(nextShape), nextShape);
     }
 
-    public int[][] getCurrentShape() {
-        return brick.getShapeMatrix().get(currentShape);
-    }
+    public int[][] getCurrentShape() { return brick.getShapeMatrix().get(currentShape); }
 
     public void setCurrentShape(int currentShape) {
         this.currentShape = currentShape;
@@ -26,5 +25,5 @@ public class BrickRotator {
         currentShape = 0;
     }
 
-
+    public int getColor() {return brick.getColor();}
 }

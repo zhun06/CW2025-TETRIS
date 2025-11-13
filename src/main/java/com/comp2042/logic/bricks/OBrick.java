@@ -1,6 +1,6 @@
 package com.comp2042.logic.bricks;
 
-import com.comp2042.MatrixOperations;
+import com.comp2042.logic.board.MatrixOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,4 +23,6 @@ final class OBrick implements Brick {
         return MatrixOperations.deepCopyList(brickMatrix);
     }
 
+    @Override
+    public int getColor() {return 4;}
 }
