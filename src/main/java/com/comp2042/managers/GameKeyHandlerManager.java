@@ -19,10 +19,6 @@ public class GameKeyHandlerManager {
     // Event handlers
     private EventHandler<KeyEvent> gameHandler;
     private EventHandler<KeyEvent> onPauseHandler, onGameOverHandler; // Generic handlers
-    // Game
-    private TetrisGame tetrisGame;
-    // Current game
-    private GameState currentGameState;
 
     // Constructor
     public GameKeyHandlerManager() {
@@ -36,15 +32,15 @@ public class GameKeyHandlerManager {
     }
 
     public void update() {
-        currentGameState = GameManager.getCurrentGameState();
+        GameState state = GameManager.getCurrentGameState();
 
-        switch (currentGameState) {
+        switch (state) {
             case START -> this.onStart();
             case PAUSE -> this.onPause();
             case RESUME -> this.onResume();
             case RESTART, EXIT -> this.onRestartOrExit();
             case GAMEOVER -> this.onGameOver();
-            case CHANGETHEME ->  this.onChangeTheme();
+            case CHANGETHEME -> this.onChangeTheme();
         }
     }
 
@@ -95,7 +91,6 @@ public class GameKeyHandlerManager {
     public void detachGameHandler() {gameRoot.removeEventHandler(KeyEvent.KEY_PRESSED, gameHandler);}
 
     public void setGameHandler(TetrisGame tetrisGame) {
-        this.tetrisGame = tetrisGame;
         gameHandler = event -> {
             switch (event.getCode()) {
                 case UP, W -> {
@@ -114,8 +109,13 @@ public class GameKeyHandlerManager {
                     tetrisGame.onRightEvent(new MoveEvent(EventType.RIGHT, EventSource.USER));
                     event.consume();
                 }
-                case SPACE, ENTER -> GameManager.pauseGame();
-                case R, P-> GameManager.restartGame();
+                case SPACE, TAB -> {
+                    tetrisGame.onHardDropEvent(new MoveEvent(EventType.HARD_DROP, EventSource.USER));
+                    event.consume();
+                }
+
+                case P -> GameManager.pauseGame();
+                case R, N-> GameManager.restartGame();
                 case E, Q -> {
                     try {
                         GameManager.exitGame();
@@ -137,7 +137,7 @@ public class GameKeyHandlerManager {
                         throw new RuntimeException(e);
                     }
                 }
-                case P, R -> GameManager.restartGame();
+                case R, N -> GameManager.restartGame();
                 case E, Q -> {
                     try {
                         GameManager.exitGame();
@@ -152,7 +152,7 @@ public class GameKeyHandlerManager {
     public void setOnGameOverHandler() {
         this.onGameOverHandler = keyEvent -> {
             switch (keyEvent.getCode()) {
-                case SPACE, ENTER, P, R -> GameManager.restartGame();
+                case SPACE, ENTER, R, N -> GameManager.restartGame();
                 case C, T -> {
                     try {
                         GameManager.changeTheme();

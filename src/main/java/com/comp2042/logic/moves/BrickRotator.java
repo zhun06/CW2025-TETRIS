@@ -8,6 +8,15 @@ public class BrickRotator {
     private Brick brick;
     private int currentShape = 0;
 
+    public int[][] KICK_OFFSETS = {
+            {0, 0},    // try original
+            {1, 0},    // right
+            {-1, 0},   // left
+            {0, -1},   // up
+            {2, 0},    // far right
+            {-2, 0}    // far left
+    };
+
     public NextShapeInfo getNextShape() {
         int nextShape = currentShape;
         nextShape = (++nextShape) % brick.getShapeMatrix().size();

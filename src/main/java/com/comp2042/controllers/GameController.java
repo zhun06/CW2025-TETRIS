@@ -6,17 +6,35 @@ import com.comp2042.managers.GameManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class GameController {
+    @FXML
+    private Label timeLabel, rowsLabel, currentScoreLabel, highScoreLabel;
+
+    @FXML
+    private GridPane gameBoard;
+
+    @FXML
+    public Canvas vfxCanvas;
+
+    @FXML
+    private GridPane preview1, preview2, preview3;
+
+    @FXML
+    private VBox pauseGamePane, gameOverPane;
 
     @FXML // In Game
     private Button pauseBtn, restartBtn1, exitBtn1;
@@ -27,12 +45,6 @@ public class GameController {
     @FXML // End Game
     private Button playAgainBtn, themeBtn, exitBtn3;
 
-    @FXML
-    public GridPane brickPreview;
-    public VBox previewPane;
-
-    @FXML
-    private GridPane gamePanel;
 
 
     @FXML
@@ -89,4 +101,12 @@ public class GameController {
             if (key.getCode() == KeyCode.F) stage.setFullScreen(!stage.isFullScreen());
         });
     }
+
+    // Getters
+    public List<Label> getGameLabels() {return new ArrayList<>(Arrays.asList(timeLabel, rowsLabel, currentScoreLabel, highScoreLabel));}
+    public GridPane getGameBoard() {return gameBoard;}
+    public Canvas getVfxCanvas() {return vfxCanvas;}
+    public List<GridPane> getPreviewPanels() {return new ArrayList<>(Arrays.asList(preview1, preview2, preview3));}
+    public VBox getPauseGamePane() {return pauseGamePane;}
+    public VBox getGameOverPane() {return gameOverPane;}
 }

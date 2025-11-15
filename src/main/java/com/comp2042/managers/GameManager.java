@@ -1,11 +1,11 @@
 package com.comp2042.managers;
 
 
+import com.comp2042.controllers.GameController;
 import com.comp2042.engines.TetrisEngine;
 import com.comp2042.logic.games.TetrisGame;
 import com.comp2042.util.GameChoice;
 import com.comp2042.util.GameState;
-import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.GridPane;
 
@@ -26,21 +26,21 @@ public class GameManager {
     private static TimelineManager timelineManager; // Reuse
     private static OverlayManager overlayManager; // Reuse
 
+    private static GameController gameController;
+
     // Get resources (ONCE)
-    public static void initialize() {
+    public static void initialize(GameController gc) {
         if (gamePanel == null) {
-            Parent gameRoot = ControllerManager.getGameRoot();
-            gamePanel = (GridPane) gameRoot.lookup("#gamePanel"); // Find by fx:id
+            gameController = gc;
             gameKeyHandlerManager = new GameKeyHandlerManager();
             timelineManager = new TimelineManager();
-            overlayManager = new OverlayManager();
+            overlayManager = new OverlayManager(gameController);
         }
     }
 
     public static void startZen() {
-        game = new TetrisGame();
-        GameManager.initialize();
-        engine = new TetrisEngine(game);
+        if (game == null) game = new TetrisGame();
+        engine = new TetrisEngine(game, gameController);
         engine.start();
 
         currentGameChoice = GameChoice.ZEN;
@@ -57,32 +57,33 @@ public class GameManager {
     }
 
     public static void startGame() {
-        GameManager.focusCanvas();
         currentGameState = GameState.START;
         timelineManager.update();
         gameKeyHandlerManager.update();
+        GameManager.setFocus();
     }
 
     public static void pauseGame() {
         currentGameState = GameState.PAUSE;
         timelineManager.update();
         gameKeyHandlerManager.update();
-        overlayManager.showPauseGame();
+        overlayManager.update();
     }
 
     public static void resumeGame() throws IOException{
         currentGameState = GameState.RESUME;
         timelineManager.update();
         gameKeyHandlerManager.update();
-        overlayManager.hidePauseGame();
+        overlayManager.update();
+        GameManager.setFocus();
     }
 
     public static void restartGame() {
         currentGameState = GameState.RESTART;
         timelineManager.update();
         gameKeyHandlerManager.update();
-        overlayManager.hidePauseGame();
-        overlayManager.hideGameOver();
+        overlayManager.update();
+        GameManager.setFocus();
 
         switch (currentGameChoice) {
             case ZEN -> GameManager.startZen();
@@ -94,7 +95,7 @@ public class GameManager {
     public static void changeTheme() throws IOException {
         currentGameState = GameState.CHANGETHEME;
         gameKeyHandlerManager.update();
-        overlayManager.hideGameOver();
+        overlayManager.update();
         ControllerManager.callThemeController();
     }
 
@@ -103,8 +104,7 @@ public class GameManager {
         currentGameState = GameState.EXIT;
         timelineManager.update();
         gameKeyHandlerManager.update();
-        overlayManager.hidePauseGame();
-        overlayManager.hideGameOver();
+        overlayManager.update();
         ControllerManager.callHomeController();
     }
 
@@ -112,19 +112,17 @@ public class GameManager {
         currentGameState = GameState.GAMEOVER;
         timelineManager.update();
         gameKeyHandlerManager.update();
-        overlayManager.showGameOver();
+        overlayManager.update();
     }
 
     // Notify managers when game over
     public static Runnable setOnGameOver() {return GameManager::runOnGameOver;}
 
-    // Focus canvas
-    private static void focusCanvas() {gamePanel.requestFocus();}
-
 
     // Getter
     public static GameChoice getCurrentGameChoice() {return currentGameChoice;}
     public static GameState getCurrentGameState() {return currentGameState;}
-    public static GridPane getGamePanel() {return gamePanel;}
 
+    // Set focus
+    private static void setFocus() {gameController.getGameBoard().requestFocus();}
 }

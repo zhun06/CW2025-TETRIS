@@ -1,6 +1,6 @@
 .root {
     -fx-background-image: url("/images/theme3.jpg");
-    -fx-background-size: cover;      /* scale to fill */
+    -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }

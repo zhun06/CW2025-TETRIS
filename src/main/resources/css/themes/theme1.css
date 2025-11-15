@@ -1,6 +1,61 @@
 .root {
     -fx-background-image: url("/images/theme1.jpg");
-    -fx-background-size: cover;      /* scale to fill */
+    -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+}
+
+/*Game board*/
+.gamePanel {
+    -fx-background-color: black;
+    -fx-border-color: linear-gradient(#2A5058, #61a2b1);
+}
+
+.previewPanel {
+    -fx-background-color: black;
+    -fx-border-color: linear-gradient(#2A5058, #61a2b1);
+}
+
+/*Labels*/
+.title, .homeLabel, .themeLabel {
+    -fx-background-color: black;
+    -fx-text-fill: orange;
+    -fx-effect: dropshadow( gaussian , black , 2 , 0.0 , 1 , 1 );
+}
+
+.inGameLabel {
+    -fx-background-color: black;
+    -fx-text-fill: orange;
+    -fx-effect: dropshadow( gaussian , black , 2 , 0.0 , 1 , 1 );
+}
+
+.previewLabel {
+    -fx-background-color: black;
+    -fx-text-fill: orange;
+    -fx-effect: dropshadow( gaussian , black , 2 , 0.0 , 1 , 1 );
+}
+
+.onPauseLabel, .onGameOverLabel {
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(to bottom, #FFD700, #FFA500);
+    -fx-effect: dropshadow( gaussian , black , 4 , 0.0 , 2 , 2 );
+}
+
+/*Buttons*/
+.inGameBtn {
+    -fx-background-color: linear-gradient(to bottom, #2A5058, #61a2b1);
+    -fx-text-fill: black;
+    -fx-border-color: orange;
+}
+
+.arrowBtn, .themeBtn, .homeBtn, .onPauseBtn, .onGameOverBtn {
+    -fx-background-color: black;
+    -fx-text-fill: linear-gradient(to bottom, #FFD700, #FFA500);
+    -fx-border-color: yellow;
+}
+
+.inGameButton:hover, .overlayButton:hover, .arrowBtn:hover, .themeBtn:hover {
+    -fx-background-color: linear-gradient(to bottom, #61a2b1, #2A5058);
+    -fx-text-fill: white;
+    -fx-border-color: gold;
 }

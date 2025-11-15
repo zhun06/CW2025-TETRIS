@@ -1,10 +1,9 @@
 package com.comp2042.renderers;
 
+import com.comp2042.controllers.GameController;
 import com.comp2042.logic.board.Board;
 import com.comp2042.logic.data.ViewData;
 import com.comp2042.logic.games.TetrisGame;
-import com.comp2042.managers.GameManager;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -14,7 +13,7 @@ import javafx.scene.shape.StrokeType;
 import java.awt.*;
 import java.util.Arrays;
 
-public class Renderer {
+public class BoardRenderer {
     private final Board board;
     private final GridPane gamePanel;
 
@@ -25,20 +24,22 @@ public class Renderer {
     private final int BRICK_SIZE = TetrisGame.BRICK_SIZE;
 
     // Constructor
-    public Renderer(Board board) {
+    public BoardRenderer(GameController gameController, Board board) {
+        this.gamePanel = gameController.getGameBoard();
         this.board = board;
-        this.gamePanel = GameManager.getGamePanel();
         this.rectangle = new Rectangle[ROWS][COLS];
         this.initializeBoard();
     }
 
     // Initialize board
     private void initializeBoard() {
-        gamePanel.setBackground(Background.fill(Color.BLACK));
+        gamePanel.getChildren().clear(); // Remove old rectangles
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 Rectangle rect = new Rectangle(BRICK_SIZE, BRICK_SIZE);
                 rectangle[i][j] = rect;
+                rect.setStrokeWidth(1);
+                rect.setStrokeType(StrokeType.INSIDE);
                 gamePanel.add(rect, j, i);
             }
         }
@@ -48,11 +49,12 @@ public class Renderer {
     public void render(ViewData brick) {
         this.refreshBoard();
         this.renderBoard();
+        this.renderGhost(brick);
         this.renderBrick(brick);
     }
 
     // Render existing bricks
-    public void renderBoard() {
+    private void renderBoard() {
         for (int i = 4; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 if (board.getBoardMatrix()[i][j] != 0) {
@@ -65,13 +67,25 @@ public class Renderer {
     }
 
     // Render current brick
-    public void renderBrick(ViewData brick) {
+    private void renderBrick(ViewData brick) {
         for (Point p : brick.getCoordinates()) {
             rectangle[p.y][p.x].setArcWidth(9);
             rectangle[p.y][p.x].setArcHeight(9);
+            rectangle[p.y][p.x].setStroke(Color.DARKBLUE);
             rectangle[p.y][p.x].setFill(setFillColor(brick.getFillColor()));
         }
     }
+
+    // Render ghost brick
+    private void renderGhost(ViewData brick) {
+        for (Point p : brick.getGhostCoordinates()) {
+            rectangle[p.y][p.x].setArcWidth(9);
+            rectangle[p.y][p.x].setArcHeight(9);
+            rectangle[p.y][p.x].setStroke(Color.DARKBLUE);
+            rectangle[p.y][p.x].setFill(setGhostColor(brick.getFillColor()));
+        }
+    }
+
 
     // Refresh board
     private  void refreshBoard() {
@@ -79,12 +93,12 @@ public class Renderer {
             for (Rectangle rect : rects) {
                 rect.setArcWidth(0);
                 rect.setArcHeight(0);
+                rect.setStroke(Color.BLACK);
                 rect.setFill(Color.BLACK);
             }
         }
         for (int i = 4; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
-                rectangle[i][j].setStrokeType(StrokeType.INSIDE);
                 rectangle[i][j].setStroke(Color.DARKBLUE);
             }
         }
@@ -102,6 +116,20 @@ public class Renderer {
             default -> Color.TRANSPARENT;
         };
     }
+
+    private Paint setGhostColor(int value) {
+        return switch (value) {
+            case 1 -> Color.AQUA.deriveColor(0, 1, 1, 0.35);
+            case 2 -> Color.BLUEVIOLET.deriveColor(0, 1, 1, 0.35);
+            case 3 -> Color.DARKGREEN.deriveColor(0, 1, 1, 0.35);
+            case 4 -> Color.YELLOW.deriveColor(0, 1, 1, 0.35);
+            case 5 -> Color.RED.deriveColor(0, 1, 1, 0.35);
+            case 6 -> Color.BEIGE.deriveColor(0, 1, 1, 0.35);
+            case 7 -> Color.BURLYWOOD.deriveColor(0, 1, 1, 0.35);
+            default -> Color.TRANSPARENT;
+        };
+    }
+
 
     private void printBoard(int[][] board) {
         for (int i = 0; i < ROWS; i++) {

@@ -16,7 +16,5 @@ public final class NextShapeInfo {
         return MatrixOperations.copy(shape);
     }
 
-    public int getPosition() {
-        return position;
-    }
+    public int getPosition() {return position;}
 }

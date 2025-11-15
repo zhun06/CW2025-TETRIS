@@ -1,9 +1,12 @@
 package com.comp2042.engines;
 
+import com.comp2042.controllers.GameController;
 import com.comp2042.logic.games.TetrisGame;
 import com.comp2042.logic.moves.MoveEvent;
 import com.comp2042.managers.GameManager;
-import com.comp2042.renderers.Renderer;
+import com.comp2042.renderers.BoardRenderer;
+import com.comp2042.renderers.PreviewRenderer;
+import com.comp2042.renderers.StatsRenderer;
 import com.comp2042.util.EventSource;
 import com.comp2042.util.EventType;
 import javafx.animation.AnimationTimer;
@@ -11,21 +14,27 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+// Setup timeline and rendering
 public class TetrisEngine  {
-    private Renderer renderer; // Interface, render based on theme
+    // Renderers
+    private StatsRenderer statsRenderer;
+    private BoardRenderer boardRenderer;
+    private PreviewRenderer previewRenderer;
+
     private Timeline boardTimeLine;
     private AnimationTimer gameLoop;
     private int boardTick = 400; // milliseconds per update
-    private final int inputTick = 10;
     private Runnable onGameOver;
 
     private final TetrisGame game;
+    private final GameController gameController;
 
     private String currentTheme;
 
     // Constructor
-    public TetrisEngine(TetrisGame game) {
+    public TetrisEngine(TetrisGame game, GameController gameController) {
         this.game = game;
+        this.gameController = gameController;
     }
 
     public void start() {
@@ -36,20 +45,11 @@ public class TetrisEngine  {
     }
 
     private void initialize() {
-//        currentTheme = SceneManager.getTheme();
-        renderer = new Renderer(game.getBoard());
-//        this.setRenderer();
+        statsRenderer = new StatsRenderer(gameController);
+        boardRenderer = new BoardRenderer(gameController, game.getBoard());
+        previewRenderer = new PreviewRenderer(gameController);
         onGameOver = GameManager.setOnGameOver();
     }
-
-    // Decides which ThemeRenderer to use for each theme
-//    private void setRenderer() {
-//        switch (currentTheme) {
-//            case "retro" -> renderer = new RetroRenderer(game);
-//            case "neon" -> renderer = new NeonRenderer(game);
-//            case "candy" -> renderer = new CandyRenderer(game);
-//        }
-//    }
 
     private void setupBoardTimeline() {
         boardTimeLine = new Timeline(new KeyFrame(Duration.millis(boardTick), e -> {
@@ -64,7 +64,9 @@ public class TetrisEngine  {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                renderer.render(game.getViewData());
+                statsRenderer.render(game.getScore());
+                boardRenderer.render(game.getViewData());
+                previewRenderer.render(game.getNextBricks());
             }
         };
     }
@@ -76,7 +78,7 @@ public class TetrisEngine  {
     }
 
     private void updateSpeed() {
-        double multiplier = 1.0;
+        double multiplier = 1.0 + game.getScore().scoreProperty().getValue() / 10000.0;
         double capped = Math.min(multiplier, 2.0); // prevent insane speeds
         boardTimeLine.setRate(capped);
     }

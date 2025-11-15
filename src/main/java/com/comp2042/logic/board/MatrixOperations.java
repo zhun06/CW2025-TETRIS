@@ -30,11 +30,10 @@ public class MatrixOperations {
     }
 
     private static boolean checkOutOfBound(int[][] matrix, int targetX, int targetY) {
-        boolean returnValue = true;
         if (targetX >= 0 && targetY < matrix.length && targetX < matrix[targetY].length) {
-            returnValue = false;
+            return false;
         }
-        return returnValue;
+        return true;
     }
 
     public static int[][] copy(int[][] original) {

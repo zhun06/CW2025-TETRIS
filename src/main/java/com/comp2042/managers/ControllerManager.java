@@ -56,6 +56,7 @@ public class ControllerManager {
         gameRoot.requestFocus();
 
         // Start Game
+        GameManager.initialize(gameController);
         switch (choice) {
             case ZEN -> GameManager.startZen();
             case FORTY_LINES -> GameManager.startForty();
