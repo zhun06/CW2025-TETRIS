@@ -15,4 +15,5 @@ public interface InputEventListener {
     void onHardDropEvent(MoveEvent event);
 
     void createNewGame();
+
 }

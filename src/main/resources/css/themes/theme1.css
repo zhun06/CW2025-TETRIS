@@ -35,7 +35,7 @@
     -fx-effect: dropshadow( gaussian , black , 2 , 0.0 , 1 , 1 );
 }
 
-.onPauseLabel, .onGameOverLabel {
+.onPauseLabel, .resultLabel {
     -fx-font-weight: bold;
     -fx-text-fill: linear-gradient(to bottom, #FFD700, #FFA500);
     -fx-effect: dropshadow( gaussian , black , 4 , 0.0 , 2 , 2 );

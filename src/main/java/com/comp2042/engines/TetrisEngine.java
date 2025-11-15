@@ -23,11 +23,12 @@ public class TetrisEngine  {
 
     private Timeline boardTimeLine;
     private AnimationTimer gameLoop;
-    private int boardTick = 400; // milliseconds per update
     private Runnable onGameOver;
 
     private final TetrisGame game;
     private final GameController gameController;
+
+    private int currentSpeed;
 
     private String currentTheme;
 
@@ -52,9 +53,10 @@ public class TetrisEngine  {
     }
 
     private void setupBoardTimeline() {
-        boardTimeLine = new Timeline(new KeyFrame(Duration.millis(boardTick), e -> {
+        currentSpeed = game.getFallSpeed();
+        boardTimeLine = new Timeline(new KeyFrame(Duration.millis(currentSpeed), e -> {
             game.onDownEvent(new MoveEvent(EventType.DOWN, EventSource.THREAD));
-            this.updateSpeed();
+            this.checkSpeedChange();
             checkGameOver();
         }));
         boardTimeLine.setCycleCount(Timeline.INDEFINITE);
@@ -64,23 +66,24 @@ public class TetrisEngine  {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                statsRenderer.render(game.getScore());
+                statsRenderer.render(game.getScore(), game.getRemainingTime(), game.getElapsedTime());
                 boardRenderer.render(game.getViewData());
                 previewRenderer.render(game.getNextBricks());
             }
         };
     }
 
+    private void checkSpeedChange() {
+        int desired = game.getFallSpeed();
+        if (desired != currentSpeed) {
+            setupBoardTimeline();
+        }
+    }
+
     private void checkGameOver() {
         if (game.isGameOver()) {
             onGameOver.run(); // Notify GameManager
         }
-    }
-
-    private void updateSpeed() {
-        double multiplier = 1.0 + game.getScore().scoreProperty().getValue() / 10000.0;
-        double capped = Math.min(multiplier, 2.0); // prevent insane speeds
-        boardTimeLine.setRate(capped);
     }
 
     // Getter

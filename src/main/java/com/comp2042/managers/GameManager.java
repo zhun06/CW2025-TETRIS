@@ -14,13 +14,11 @@ import java.io.IOException;
 // Manage ALL game loop
 // MANAGERS created once and REUSED
 public class GameManager {
-    private static GridPane gamePanel; // Reuse
-    private static Canvas vfxCanvas; // Reuse
     private static GameChoice currentGameChoice; // Updates
     private static GameState currentGameState; // Updates
-    // Game & Engine (abstract classes)
-    private static TetrisGame game; // New game
-    private static TetrisEngine engine; // New engine
+    // Game & Engine
+    private static TetrisGame game; // Reuse
+    private static TetrisEngine engine; // Reuse
     // Game-state managers
     private static GameKeyHandlerManager gameKeyHandlerManager; // Reuse
     private static TimelineManager timelineManager; // Reuse
@@ -30,8 +28,10 @@ public class GameManager {
 
     // Get resources (ONCE)
     public static void initialize(GameController gc) {
-        if (gamePanel == null) {
+        if (game == null) {
             gameController = gc;
+            game = new TetrisGame();
+            engine = new TetrisEngine(game, gameController);
             gameKeyHandlerManager = new GameKeyHandlerManager();
             timelineManager = new TimelineManager();
             overlayManager = new OverlayManager(gameController);
@@ -39,24 +39,27 @@ public class GameManager {
     }
 
     public static void startZen() {
-        if (game == null) game = new TetrisGame();
-        engine = new TetrisEngine(game, gameController);
-        engine.start();
-
         currentGameChoice = GameChoice.ZEN;
-        gameKeyHandlerManager.initialize(game);
-        timelineManager.initialize(engine);
+        engine.start();
         GameManager.startGame();
     }
 
     public static void startForty() {
-        startZen();
+        currentGameChoice = GameChoice.FORTY_LINES;
+        engine.start();
+        GameManager.startGame();
     }
+
     public static void startBlitz() {
-        startZen();
+        currentGameChoice = GameChoice.BLITZ;
+        engine.start();
+        GameManager.startGame();
     }
 
     public static void startGame() {
+        gameKeyHandlerManager.initialize(game);
+        timelineManager.initialize(engine);
+
         currentGameState = GameState.START;
         timelineManager.update();
         gameKeyHandlerManager.update();
@@ -65,6 +68,7 @@ public class GameManager {
 
     public static void pauseGame() {
         currentGameState = GameState.PAUSE;
+        game.pause();
         timelineManager.update();
         gameKeyHandlerManager.update();
         overlayManager.update();
@@ -72,6 +76,7 @@ public class GameManager {
 
     public static void resumeGame() throws IOException{
         currentGameState = GameState.RESUME;
+        game.resume();
         timelineManager.update();
         gameKeyHandlerManager.update();
         overlayManager.update();
@@ -93,7 +98,7 @@ public class GameManager {
     }
 
     public static void changeTheme() throws IOException {
-        currentGameState = GameState.CHANGETHEME;
+        currentGameState = GameState.CHANGE_THEME;
         gameKeyHandlerManager.update();
         overlayManager.update();
         ControllerManager.callThemeController();
@@ -109,7 +114,7 @@ public class GameManager {
     }
 
     private static void runOnGameOver() {
-        currentGameState = GameState.GAMEOVER;
+        currentGameState = GameState.GAME_OVER;
         timelineManager.update();
         gameKeyHandlerManager.update();
         overlayManager.update();
@@ -122,6 +127,7 @@ public class GameManager {
     // Getter
     public static GameChoice getCurrentGameChoice() {return currentGameChoice;}
     public static GameState getCurrentGameState() {return currentGameState;}
+    public static GameState getResultState() {return game.getResult();}
 
     // Set focus
     private static void setFocus() {gameController.getGameBoard().requestFocus();}

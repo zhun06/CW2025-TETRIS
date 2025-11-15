@@ -10,12 +10,12 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.Arrays;
 
 public class BoardRenderer {
     private final Board board;
-    private final GridPane gamePanel;
+    private final GridPane gameBoard;
 
     private final Rectangle[][] rectangle;
 
@@ -25,7 +25,7 @@ public class BoardRenderer {
 
     // Constructor
     public BoardRenderer(GameController gameController, Board board) {
-        this.gamePanel = gameController.getGameBoard();
+        this.gameBoard = gameController.getGameBoard();
         this.board = board;
         this.rectangle = new Rectangle[ROWS][COLS];
         this.initializeBoard();
@@ -33,14 +33,14 @@ public class BoardRenderer {
 
     // Initialize board
     private void initializeBoard() {
-        gamePanel.getChildren().clear(); // Remove old rectangles
+        gameBoard.getChildren().clear(); // Remove old rectangles
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 Rectangle rect = new Rectangle(BRICK_SIZE, BRICK_SIZE);
                 rectangle[i][j] = rect;
                 rect.setStrokeWidth(1);
                 rect.setStrokeType(StrokeType.INSIDE);
-                gamePanel.add(rect, j, i);
+                gameBoard.add(rect, j, i);
             }
         }
     }

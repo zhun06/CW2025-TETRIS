@@ -26,12 +26,14 @@
 .title {
     -fx-font-size: 50;
     -fx-font-weight: bold;
+    -fx-background-radius: 10;
 }
 
 .homeLabel {
     -fx-font-size: 40;
     -fx-font-weight: bold;
     -fx-cursor: hand;
+    -fx-background-radius: 10;
 }
 
 .homeBtn {
@@ -43,6 +45,7 @@
 .themeLabel {
     -fx-font-size: 40;
     -fx-font-weight: bold;
+    -fx-background-radius: 10;
 }
 
 .themeBtn {
@@ -62,7 +65,7 @@
 
 .previewPanel {
     -fx-background-color: black;
-    -fx-background-radius: 12px;
+    -fx-background-radius: 10px;
     -fx-border-insets: -10px;
     -fx-border-width: 10px;
     -fx-border-radius: 12px;
@@ -71,6 +74,7 @@
 .inGameLabel {
     -fx-font-size: 25px;
     -fx-font-weight: bold;
+    -fx-background-radius: 10;
 }
 
 .inGameBtn {
@@ -105,7 +109,7 @@
 }
 
 /*On GameOver*/
-.onGameOverLabel {
+.resultLabel {
     -fx-font-size: 35px;
     -fx-font-weight: bold;
 }

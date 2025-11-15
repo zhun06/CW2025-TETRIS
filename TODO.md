@@ -16,8 +16,8 @@
 ## Enhancements
 - [x] Add ghost piece (where piece will land, translucent color)
 - [x] Add hard drop (space bar)
-- [ ] Add level progression (increasing speed)
-- [ ] Add different game modes
+- [x] Add level progression (increasing speed)
+- [x] Add different game modes
 - [x] Change background and block style to match (for better visibility)
 - [ ] Add Visual + Sound effects (clear row/s, level up)
 -  [ ] Add background music / Mute option

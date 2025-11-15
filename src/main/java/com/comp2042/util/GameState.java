@@ -2,11 +2,12 @@ package com.comp2042.util;
 
 public enum GameState {
     START,
-    INGAME,
     PAUSE,
     RESUME,
-    GAMEOVER,
+    GAME_OVER,
+    WIN,
+    LOSE,
     RESTART,
     EXIT,
-    CHANGETHEME
+    CHANGE_THEME
 }

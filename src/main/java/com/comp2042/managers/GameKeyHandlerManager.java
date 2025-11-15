@@ -39,8 +39,8 @@ public class GameKeyHandlerManager {
             case PAUSE -> this.onPause();
             case RESUME -> this.onResume();
             case RESTART, EXIT -> this.onRestartOrExit();
-            case GAMEOVER -> this.onGameOver();
-            case CHANGETHEME -> this.onChangeTheme();
+            case GAME_OVER -> this.onGameOver();
+            case CHANGE_THEME -> this.onChangeTheme();
         }
     }
 
@@ -130,7 +130,7 @@ public class GameKeyHandlerManager {
     public void setOnPauseHandler() {
         this.onPauseHandler = keyEvent -> {
             switch (keyEvent.getCode()) {
-                case SPACE, ENTER -> {
+                case SPACE, P -> {
                     try {
                         GameManager.resumeGame();
                     } catch (IOException e) {

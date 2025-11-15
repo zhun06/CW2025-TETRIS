@@ -22,7 +22,7 @@ import java.util.List;
 
 public class GameController {
     @FXML
-    private Label timeLabel, rowsLabel, currentScoreLabel, highScoreLabel;
+    private Label levelLabel, timeLabel, rowsLabel, currentScoreLabel, highScoreLabel, resultLabel;
 
     @FXML
     private GridPane gameBoard;
@@ -34,7 +34,7 @@ public class GameController {
     private GridPane preview1, preview2, preview3;
 
     @FXML
-    private VBox pauseGamePane, gameOverPane;
+    private VBox pauseGamePane, resultPane;
 
     @FXML // In Game
     private Button pauseBtn, restartBtn1, exitBtn1;
@@ -103,10 +103,11 @@ public class GameController {
     }
 
     // Getters
-    public List<Label> getGameLabels() {return new ArrayList<>(Arrays.asList(timeLabel, rowsLabel, currentScoreLabel, highScoreLabel));}
+    public List<Label> getGameLabels() {return new ArrayList<>(Arrays.asList(levelLabel, timeLabel, rowsLabel, currentScoreLabel, highScoreLabel));}
     public GridPane getGameBoard() {return gameBoard;}
     public Canvas getVfxCanvas() {return vfxCanvas;}
     public List<GridPane> getPreviewPanels() {return new ArrayList<>(Arrays.asList(preview1, preview2, preview3));}
     public VBox getPauseGamePane() {return pauseGamePane;}
-    public VBox getGameOverPane() {return gameOverPane;}
+    public VBox getResultPane() {return resultPane;}
+    public Label getResultLabel() {return resultLabel;}
 }

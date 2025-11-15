@@ -7,39 +7,41 @@ import javafx.animation.Timeline;
 
 // Start, pause, resume, stop
 public class TimelineManager {
-    private GameState gameState;
+    // Engine
+    TetrisEngine engine;
     // Timeline
-    private Timeline tetrisBoardTimeline;
+    private Timeline boardTimeline;
     // Animation timer
     private AnimationTimer tetrisLoop;
 
     public void initialize(TetrisEngine engine) {
-        tetrisBoardTimeline = engine.getBoardTimeLine();
+        this.engine = engine;
         tetrisLoop = engine.getGameLoop();
     }
 
     public void update() {
-        gameState = GameManager.getCurrentGameState();
+        boardTimeline = engine.getBoardTimeLine();
 
+        GameState gameState = GameManager.getCurrentGameState();
         switch (gameState) {
             case START, RESUME -> this.onStartOrResume();
             case PAUSE -> this.onPause();
-            case GAMEOVER, EXIT, RESTART -> this.onGameOverOrExitOrRestart();
+            case GAME_OVER, EXIT, RESTART -> this.onGameOverOrExitOrRestart();
         }
     }
 
     private void onStartOrResume() {
-        tetrisBoardTimeline.play();
+        boardTimeline.play();
         tetrisLoop.start();
     }
 
     private void onPause() {
-        tetrisBoardTimeline.pause();
+        boardTimeline.pause();
         tetrisLoop.stop();
     }
 
     private void onGameOverOrExitOrRestart() {
-        tetrisBoardTimeline.stop();
+        boardTimeline.stop();
         tetrisLoop.stop();
     }
 
