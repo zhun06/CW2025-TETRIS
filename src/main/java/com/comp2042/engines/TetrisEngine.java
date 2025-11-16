@@ -76,7 +76,9 @@ public class TetrisEngine  {
     private void checkSpeedChange() {
         int desired = game.getFallSpeed();
         if (desired != currentSpeed) {
+            boardTimeLine.stop();
             setupBoardTimeline();
+            GameManager.updateGame();
         }
     }
 

@@ -3,6 +3,7 @@ package com.comp2042.controllers;
 import com.comp2042.managers.ControllerManager;
 import com.comp2042.managers.SceneManager;
 
+import com.comp2042.util.Theme;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -43,9 +44,9 @@ public class ThemeController {
         themePreview.setClip(clip);
 
         // Load images
-        images.add(new Image("/images/theme1.jpg"));
-        images.add(new Image("/images/theme2.jpg"));
-        images.add(new Image("/images/theme3.jpg"));
+        images.add(new Image("/images/neonBG.png"));
+        images.add(new Image("/images/natureBG.png"));
+        images.add(new Image("/images/candyBG.png"));
 
         // Set the first image
         themePreview.setImage(images.get(currentIndex));
@@ -88,7 +89,7 @@ public class ThemeController {
                     themePreview.setImage(images.get(currentIndex)); // Update themePreview
                     this.setTheme(); // Update css
                 }
-                case SPACE, ENTER, C -> {
+                case SPACE, ENTER, C, ESCAPE, E, Q -> {
                     try {
                         this.confirmBtn();
                     } catch (IOException e) {
@@ -103,9 +104,9 @@ public class ThemeController {
     // Update css
     private void setTheme() {
         switch (currentIndex) { // Update css stylesheet
-            case 0 -> SceneManager.setTheme("theme1");
-            case 1 -> SceneManager.setTheme("theme2");
-            case 2 -> SceneManager.setTheme("theme3");
+            case 0 -> SceneManager.setTheme(Theme.NEON);
+            case 1 -> SceneManager.setTheme(Theme.NATURE);
+            case 2 -> SceneManager.setTheme(Theme.CANDY);
         }
     }
 

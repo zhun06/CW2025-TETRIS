@@ -1,11 +1,11 @@
 package com.comp2042.renderers;
 
+import com.comp2042.colors.*;
 import com.comp2042.controllers.GameController;
 import com.comp2042.logic.bricks.Brick;
 import com.comp2042.logic.games.TetrisGame;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+import com.comp2042.managers.SceneManager;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
@@ -16,16 +16,27 @@ import java.util.Queue;
 public class PreviewRenderer {
     private final int BRICK_SIZE = TetrisGame.BRICK_SIZE;
     private final List<GridPane> grids;
-    private final List<Rectangle[][]> rectangles = new ArrayList<>(3);
+    private final List<Rectangle[][]> rectangles = new ArrayList<>();
+    private ThemeColor themeColor;
 
     // Constructor
     public PreviewRenderer(GameController gameController) {
-        grids = gameController.getPreviewPanels();
-        this.initialize();
+        grids = gameController.getPreviewGrids();
+        this.initializeColor();
+        this.initializePreview();
+    }
+
+    // Get color scheme
+    private void initializeColor() {
+        switch (SceneManager.getTheme()) {
+            case NEON -> themeColor = new NeonColor();
+            case NATURE -> themeColor = new NatureColor();
+            case CANDY -> themeColor = new CandyColor();
+        }
     }
 
     // Initialize preview
-    private void initialize() {
+    private void initializePreview() {
         for (int i = 0; i < 3; i++) {
             Rectangle[][] grid = new Rectangle[6][6];
             rectangles.add(grid);
@@ -34,7 +45,7 @@ public class PreviewRenderer {
                 for (int col = 0; col < 6; col++) {
                     Rectangle rect = new Rectangle(BRICK_SIZE, BRICK_SIZE);
                     grid[row][col] = rect;
-                    rect.setStrokeWidth(1);
+                    rect.setStrokeWidth(2);
                     rect.setStrokeType(StrokeType.INSIDE);
                     grids.get(i).add(rect, col, row);
                 }
@@ -52,8 +63,8 @@ public class PreviewRenderer {
                     if (value != 0 ){
                         rectangles.get(i)[j+1][k+1].setArcWidth(9);
                         rectangles.get(i)[j+1][k+1].setArcHeight(9);
-                        rectangles.get(i)[j+1][k+1].setFill(setFillColor(value));
-                        rectangles.get(i)[j+1][k+1].setStroke(Color.DARKBLUE);
+                        rectangles.get(i)[j+1][k+1].setFill(themeColor.getBrickColor(value));
+                        rectangles.get(i)[j+1][k+1].setStroke(themeColor.getBrickOutline(value));
                     }
                 }
             }
@@ -65,23 +76,14 @@ public class PreviewRenderer {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 6; j++) {
                 for (int k = 0; k < 6; k++) {
-                    rectangles.get(i)[j][k].setStroke(Color.BLACK);
-                    rectangles.get(i)[j][k].setFill(Color.BLACK);
+                    rectangles.get(i)[j][k].setArcWidth(0);
+                    rectangles.get(i)[j][k].setArcHeight(0);
+                    rectangles.get(i)[j][k].setStroke(themeColor.getPreviewColor());
+                    rectangles.get(i)[j][k].setFill(themeColor.getPreviewColor());
                 }
             }
         }
     }
 
-    private Paint setFillColor(int value) {
-        return switch (value) {
-            case 1 -> Color.AQUA;
-            case 2 -> Color.BLUEVIOLET;
-            case 3 -> Color.DARKGREEN;
-            case 4 -> Color.YELLOW;
-            case 5 -> Color.RED;
-            case 6 -> Color.BEIGE;
-            case 7 -> Color.BURLYWOOD;
-            default -> Color.TRANSPARENT;
-        };
-    }
+
 }

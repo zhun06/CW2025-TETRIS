@@ -1,0 +1,83 @@
+.root {
+    -fx-background-image: url("/images/neonBG.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+/*Panes*/
+.gamePanel, .previewPanel {
+    -fx-border-color: linear-gradient(to right,
+    #C300FF, #FF2B8F, #2F5BFF);
+}
+
+/*Labels*/
+.title {
+    -fx-text-fill: white;
+    -fx-effect:
+            dropshadow(gaussian, black, 5, 1.0, 2, 0),
+            dropshadow(gaussian, black, 5, 1.0, -2, 0),
+            dropshadow(gaussian, black, 5, 1.0, 0, 2),
+            dropshadow(gaussian, black, 5, 1.0, 0, -2);
+}
+
+.homeLabel, .themeLabel{
+    -fx-text-fill: white;
+    -fx-effect:
+            dropshadow(gaussian, black, 4, 1.0, 2, 0),
+            dropshadow(gaussian, black, 4, 1.0, -2, 0),
+            dropshadow(gaussian, black, 4, 1.0, 0, 2),
+            dropshadow(gaussian, black, 4, 1.0, 0, -2);
+}
+
+.inGameLabel {
+    -fx-text-fill: white;
+    -fx-effect:
+            dropshadow(gaussian, black, 4, 1.0, 2, 0),
+            dropshadow(gaussian, black, 4, 1.0, -2, 0),
+            dropshadow(gaussian, black, 4, 1.0, 0, 2),
+            dropshadow(gaussian, black, 4, 1.0, 0, -2);
+}
+
+#timeLabel {
+    -fx-text-fill: red;
+}
+
+.previewLabel {
+    -fx-text-fill: #FF2B5CFF;
+}
+
+.overlayLabel {
+    -fx-text-fill: #FF2B5CFF;
+    -fx-effect:
+            dropshadow(gaussian, black, 5, 1.0, 2, 0),
+            dropshadow(gaussian, black, 5, 1.0, -2, 0),
+            dropshadow(gaussian, black, 5, 1.0, 0, 2),
+            dropshadow(gaussian, black, 5, 1.0, 0, -2);
+}
+
+/* Buttons */
+.arrowBtn, .themeBtn, .homeBtn, .inGameBtn {
+    -fx-background-color: #1a1a2e;
+    -fx-text-fill: #FF2B5CFF;
+    -fx-border-color: linear-gradient(to right, #2F5BFF, #C300FF, #FF2B8F);
+}
+
+.arrowBtn:hover, .themeBtn:hover, .homeBtn:hover, .inGameBtn:hover {
+    -fx-background-color: #2F5BFF;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: linear-gradient(to right, #FF2B8F, #C300FF, #2F5BFF);
+}
+
+.overlayBtn {
+    -fx-background-color: #2a2a44;
+    -fx-text-fill: #FF2B5CFF;
+    -fx-border-color: linear-gradient(to right, #FF2B8F, #C300FF, #2F5BFF);
+}
+
+.overlayBtn:hover {
+    -fx-background-color: #3a3a66;
+    -fx-text-fill: #FF5CA8;
+    -fx-border-color: linear-gradient(to right, #FF5CA8, #D100FF, #2F5BFF);
+}
+

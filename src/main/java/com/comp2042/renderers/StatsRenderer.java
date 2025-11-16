@@ -28,7 +28,7 @@ public class StatsRenderer {
             case ZEN -> {
                 showLabel(levelLabel);
                 hideLabel(timeLabel);
-                showLabel(rowsLabel);
+                hideLabel(rowsLabel);
                 showLabel(currentScoreLabel);
                 showLabel(highScoreLabel);
             }
@@ -42,6 +42,34 @@ public class StatsRenderer {
         }
     }
 
+    public void render(Score score, Duration remainingTime, Duration elapsedTime) {
+        this.renderTime(remainingTime, elapsedTime);
+        this.renderLevel(score);
+        this.renderRows(score);
+        this.renderScore(score);
+        this.renderHighScore(score);
+    }
+
+    private void renderTime(Duration remainingTime, Duration elapsedTime) {
+        switch (gameChoice) {
+            case FORTY_LINES -> {timeLabel.setText("Time: " + formatSeconds(elapsedTime));}
+            case BLITZ -> {timeLabel.setText("Time left: " + formatSeconds(remainingTime));}
+        }
+    }
+
+    private void renderLevel(Score score) {levelLabel.setText("Level: " + score.levelProperty().getValue());}
+
+    private void renderRows(Score score) {
+        switch (gameChoice) {
+            case FORTY_LINES -> {rowsLabel.setText("Rows remaining: " + score.rowsRemainingProperty().getValue());}
+            case BLITZ -> {rowsLabel.setText("Rows cleared: " + score.rowsClearedProperty().getValue());}
+        }
+    }
+
+    private void renderScore(Score score) {currentScoreLabel.setText("Current score: " + score.scoreProperty().getValue());}
+
+    private void renderHighScore(Score score) {highScoreLabel.setText("High score: " + score.highScoreProperty().getValue());}
+
     private void showLabel(Label label) {
         label.setVisible(true);
         label.setManaged(true);
@@ -50,30 +78,6 @@ public class StatsRenderer {
     private void hideLabel(Label label) {
         label.setVisible(false);
         label.setManaged(false);
-    }
-
-    public void render(Score score, Duration remainingTime, Duration elapsedTime) {
-        this.renderTime(remainingTime, elapsedTime);
-        levelLabel.setText("Level: " + score.levelProperty().getValue());
-        rowsLabel.setText("Rows cleared: " + score.rowsClearedProperty().getValue());
-        currentScoreLabel.setText("Current score: " + score.scoreProperty().getValue());
-        highScoreLabel.setText("High score: " + score.highScoreProperty().getValue());
-    }
-
-    public void renderTime(Duration remainingTime, Duration elapsedTime) {
-        GameChoice choice= GameManager.getCurrentGameChoice();
-        switch (choice) {
-            case FORTY_LINES -> {
-                timeLabel.setVisible(true);
-                timeLabel.setManaged(true);
-                timeLabel.setText(formatSeconds(elapsedTime));
-            }
-            case BLITZ -> {
-                timeLabel.setVisible(true);
-                timeLabel.setManaged(true);
-                timeLabel.setText(formatSeconds(remainingTime));
-            }
-        }
     }
 
     private String formatSeconds(Duration d) {

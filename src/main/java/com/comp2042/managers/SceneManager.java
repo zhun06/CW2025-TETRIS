@@ -1,5 +1,6 @@
 package com.comp2042.managers;
 
+import com.comp2042.util.Theme;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,7 +19,8 @@ public class SceneManager {
     private static FXMLLoader loader;
     private static Stage stage;
     private static Scene scene;
-    private static String currentTheme = "theme1"; // Default
+    private static Theme currentTheme = Theme.NEON; // Default
+    private static String fileName = "theme1";
 
     // Initialize scene (ONCE)
     public static void initScene() {
@@ -29,7 +31,7 @@ public class SceneManager {
             setSceneStyle();
             stage.setMinWidth(1000);
             stage.setMinHeight(700);
-//            stage.show();
+            stage.show();
         }
     }
 
@@ -42,22 +44,27 @@ public class SceneManager {
     // Change root
     public static void setRoot(Parent root) {
         scene.setRoot(root);
-//        if (!stage.isFullScreen()) {
-//            stage.sizeToScene();
-//            stage.centerOnScreen();
-//        }
+        if (!stage.isFullScreen()) {
+            stage.sizeToScene();
+            stage.centerOnScreen();
+        }
     }
 
-    public static void setSceneStyle() {
+    private static void setSceneStyle() {
         scene.getStylesheets().add(SceneManager.class.getResource("/css/base.css").toExternalForm());
         SceneManager.setTheme(currentTheme);
     }
 
-    public static void setTheme(String themeName) {
+    public static void setTheme(Theme theme) {
         // Remove any existing theme stylesheet
         scene.getStylesheets().removeIf(s -> s.contains("/css/themes/"));
-        currentTheme = themeName;
-        scene.getStylesheets().add(SceneManager.class.getResource("/css/themes/" + currentTheme + ".css").toExternalForm());
+        currentTheme = theme;
+        switch(currentTheme) {
+            case NEON -> fileName = "neon";
+            case NATURE -> fileName = "nature";
+            case CANDY -> fileName = "candy";
+        }
+        scene.getStylesheets().add(SceneManager.class.getResource("/css/themes/" + fileName + ".css").toExternalForm());
     }
 
     // Setters
@@ -69,7 +76,7 @@ public class SceneManager {
     public static FXMLLoader getLoader() {return loader;}
     public static Scene getScene() {return scene;}
     public static Stage getStage() {return stage;}
-    public static String getTheme() {return currentTheme;}
+    public static Theme getTheme() {return currentTheme;}
 }
 
 

@@ -26,6 +26,7 @@ public class TimelineManager {
         switch (gameState) {
             case START, RESUME -> this.onStartOrResume();
             case PAUSE -> this.onPause();
+            case UPDATE -> this.onUpdate();
             case GAME_OVER, EXIT, RESTART -> this.onGameOverOrExitOrRestart();
         }
     }
@@ -38,6 +39,10 @@ public class TimelineManager {
     private void onPause() {
         boardTimeline.pause();
         tetrisLoop.stop();
+    }
+
+    private void onUpdate() {
+        boardTimeline.play();
     }
 
     private void onGameOverOrExitOrRestart() {

@@ -66,6 +66,11 @@ public class GameManager {
         GameManager.setFocus();
     }
 
+    public static void updateGame() {
+        currentGameState = GameState.UPDATE;
+        timelineManager.update();
+    }
+
     public static void pauseGame() {
         currentGameState = GameState.PAUSE;
         game.pause();

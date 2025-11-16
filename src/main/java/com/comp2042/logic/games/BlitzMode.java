@@ -4,29 +4,25 @@ import com.comp2042.util.GameState;
 
 import java.time.Duration;
 
+// 90 seconds to clear as many rows as possible
 public class BlitzMode implements GameMode{
-    private TetrisGame game;
-    private final int requiredRows = 10;
+    private final TetrisGame game;
 
     // Constructor
     public BlitzMode(TetrisGame game) {this.game = game;}
 
     @Override
-    public void onGameStart() {
-        game.startTimer(Duration.ofMinutes(2));
-    }
+    public void onGameStart() {game.startTimer(Duration.ofSeconds(90));}
 
     @Override
     public void onTick() {
         if (game.isTimeUp()) {
-            if (game.getScore().rowsClearedProperty().getValue() >= requiredRows) {
-                game.setResult(GameState.WIN);
-            }
-            else  {
-                game.setResult(GameState.LOSE);
-            }
+            game.setResult(GameState.GAME_OVER);
             game.setGameOver(true);
         }
     }
+
+    @Override
+    public void onBoardFull() {game.setResult(GameState.GAME_OVER);}
 
 }

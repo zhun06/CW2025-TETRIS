@@ -58,11 +58,10 @@ public class TetrisGame implements InputEventListener {
             board.getScore().addScore(clearRow.getScoreBonus());
             gameMode.onLineClear();
         }
-        if (board.isFull() || gameOver) {
+        if (board.isFull()) {
             board.getScore().setHighScore();
-            result = GameState.GAME_OVER;
+            gameMode.onBoardFull();
             gameOver = true;
-            gameMode.onGameOver();
         }
     }
 

@@ -1,0 +1,82 @@
+.root {
+    -fx-background-image: url("/images/natureBG.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+/*Panes*/
+.gamePanel, .previewPanel {
+    -fx-border-color: linear-gradient(to right,
+    #2E7D32, #A5D6A7, #66BB6A); /* Forest green gradient */
+}
+
+/*Labels*/
+.title {
+    -fx-text-fill: #2C8333FF; /* Dark green */
+    -fx-effect:
+            dropshadow(gaussian, black, 5, 1.0, 2, 0),
+            dropshadow(gaussian, black, 5, 1.0, -2, 0),
+            dropshadow(gaussian, black, 5, 1.0, 0, 2),
+            dropshadow(gaussian, black, 5, 1.0, 0, -2);
+}
+
+.homeLabel, .themeLabel{
+    -fx-text-fill: #4CAF50; /* Medium green */
+    -fx-effect:
+            dropshadow(gaussian, black, 4, 1.0, 2, 0),
+            dropshadow(gaussian, black, 4, 1.0, -2, 0),
+            dropshadow(gaussian, black, 4, 1.0, 0, 2),
+            dropshadow(gaussian, black, 4, 1.0, 0, -2);
+}
+
+.inGameLabel {
+    -fx-text-fill: #4CAF50; /* Medium green */
+    -fx-effect:
+            dropshadow(gaussian, black, 4, 1.0, 2, 0),
+            dropshadow(gaussian, black, 4, 1.0, -2, 0),
+            dropshadow(gaussian, black, 4, 1.0, 0, 2),
+            dropshadow(gaussian, black, 4, 1.0, 0, -2);
+}
+
+#timeLabel {
+    -fx-text-fill: #BF360C; /* Earthy red */
+}
+
+.previewLabel {
+    -fx-text-fill: #388E3C; /* Green accent */
+}
+
+.overlayLabel {
+    -fx-text-fill: #2E7D32;
+    -fx-effect:
+            dropshadow(gaussian, black, 5, 1.0, 2, 0),
+            dropshadow(gaussian, black, 5, 1.0, -2, 0),
+            dropshadow(gaussian, black, 5, 1.0, 0, 2),
+            dropshadow(gaussian, black, 5, 1.0, 0, -2);
+}
+
+/* Buttons */
+.arrowBtn, .themeBtn, .homeBtn, .inGameBtn {
+    -fx-background-color: #1B5E20; /* Dark forest green */
+    -fx-text-fill: #A5D6A7; /* Soft green */
+    -fx-border-color: #4CAF50; /* Solid medium green */
+}
+
+.arrowBtn:hover, .themeBtn:hover, .homeBtn:hover, .inGameBtn:hover {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #2E7D32; /* Dark green on hover */
+}
+
+.overlayBtn {
+    -fx-background-color: #33691E;
+    -fx-text-fill: #A5D6A7;
+    -fx-border-color: #66BB6A;
+}
+
+.overlayBtn:hover {
+    -fx-background-color: #66BB6A;
+    -fx-text-fill: #1B5E20;
+    -fx-border-color: #2E7D32;
+}

@@ -1,0 +1,84 @@
+.root {
+    -fx-background-image: url("/images/candyBG.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+/*Panes*/
+.gamePanel, .previewPanel {
+    -fx-border-color: linear-gradient(to right,
+    #FD39B1FF, #FFD700, #F87019FF); /* Pink, yellow, orange candy gradient */
+}
+
+/*Labels*/
+.title {
+    -fx-text-fill: #FF3E96; /* Bright candy pink */
+    -fx-effect:
+            dropshadow(gaussian, black, 5, 1.0, 2, 0),
+            dropshadow(gaussian, black, 5, 1.0, -2, 0),
+            dropshadow(gaussian, black, 5, 1.0, 0, 2),
+            dropshadow(gaussian, black, 5, 1.0, 0, -2);
+}
+
+.homeLabel, .themeLabel{
+    -fx-text-fill: #FF60A9FF; /* Brighter pink */
+    -fx-effect:
+            dropshadow(gaussian, black, 4, 1.0, 2, 0),
+            dropshadow(gaussian, black, 4, 1.0, -2, 0),
+            dropshadow(gaussian, black, 4, 1.0, 0, 2),
+            dropshadow(gaussian, black, 4, 1.0, 0, -2);
+}
+
+.inGameLabel {
+    -fx-text-fill: #FFD700; /* Candy yellow */
+    -fx-effect:
+            dropshadow(gaussian, black, 4, 1.0, 2, 0),
+            dropshadow(gaussian, black, 4, 1.0, -2, 0),
+            dropshadow(gaussian, black, 4, 1.0, 0, 2),
+            dropshadow(gaussian, black, 4, 1.0, 0, -2);
+}
+
+#timeLabel {
+    -fx-text-fill: #FF69B4; /* Hot pink */
+}
+
+.previewLabel {
+    -fx-text-fill: #FF8C42; /* Candy orange accent */
+}
+
+.overlayLabel {
+    -fx-text-fill: #FF6EC7;
+    -fx-effect:
+            dropshadow(gaussian, black, 5, 1.0, 2, 0),
+            dropshadow(gaussian, black, 5, 1.0, -2, 0),
+            dropshadow(gaussian, black, 5, 1.0, 0, 2),
+            dropshadow(gaussian, black, 5, 1.0, 0, -2);
+}
+
+/* Main buttons */
+.arrowBtn, .themeBtn, .homeBtn, .inGameBtn {
+    -fx-background-color: #C56A86; /* darker candy pink */
+    -fx-text-fill: #FFD1E0; /* soft light pink for contrast */
+    -fx-border-color: #990033; /* dark red border */
+}
+
+.arrowBtn:hover, .themeBtn:hover, .homeBtn:hover, .inGameBtn:hover {
+    -fx-background-color: #993366;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #FF3366;
+}
+
+/* Overlay button */
+.overlayBtn {
+    -fx-background-color: #FF8C42; /* candy orange */
+    -fx-text-fill: #FFF0E0; /* soft cream/light pink for contrast */
+    -fx-border-color: #D66114FF; /* darker orange */
+}
+
+.overlayBtn:hover {
+    -fx-background-color: #FF69B4;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #FF3E96;
+}
+

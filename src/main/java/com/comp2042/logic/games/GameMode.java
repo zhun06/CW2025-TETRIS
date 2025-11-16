@@ -6,7 +6,7 @@ public interface GameMode {
     default void onTick() {}            // Every gravity tick
     default void onLineClear() {}       // When lines cleared
     default void onGameStart() {}       // On new game
-    default void onGameOver() {}        // On game over
+    default void onBoardFull() {}        // Board full
 }
 
 

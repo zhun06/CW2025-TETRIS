@@ -1,24 +1,24 @@
 package com.comp2042.managers;
 
 import com.comp2042.controllers.GameController;
-import com.comp2042.logic.games.TetrisGame;
 import com.comp2042.util.GameState;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 
 // Manages overlays & pop-ups
 public class OverlayManager {
-    private final Pane pauseGamePane;
-    private final Pane resultPane;
+    private final Pane pauseGamePanel;
+    private final Pane resultPanel;
     private final Label resultLabel;
 
     public OverlayManager(GameController gameController) {
 
-        this.pauseGamePane = gameController.getPauseGamePane();
-        this.resultPane = gameController.getResultPane();
+        this.pauseGamePanel = gameController.getPauseGamePanel();
+        this.resultPanel = gameController.getResultPanel();
         this.resultLabel = gameController.getResultLabel();
     }
 
@@ -38,26 +38,32 @@ public class OverlayManager {
     }
 
 
-    public void showPauseGame() {pauseGamePane.setVisible(true);}
+    public void showPauseGame() {
+        pauseGamePanel.setVisible(true);}
 
-    public void hidePauseGame() {pauseGamePane.setVisible(false);}
+    public void hidePauseGame() {
+        pauseGamePanel.setVisible(false);}
 
-    public void hideResult() {resultPane.setVisible(false);}
+    public void hideResult() {
+        resultPanel.setVisible(false);}
 
     public void showResult() {
         GameState result = GameManager.getResultState();
         switch (result) {
             case LOSE ->  {
                 resultLabel.setText("You Lost");
-                resultLabel.setBackground(Background.fill(Color.RED));
+                resultLabel.setTextFill(Color.RED);
             }
             case WIN ->  {
                 resultLabel.setText("You Won");
-                resultLabel.setBackground(Background.fill(Color.GREEN));
+                resultLabel.setTextFill(Color.GREEN);
             }
-            case GAME_OVER -> resultLabel.setText("Game Over");
+            case GAME_OVER -> {
+                resultLabel.setText("Game Over");
+                resultLabel.setTextFill(Color.DARKGRAY);
+            }
         }
-        resultPane.setVisible(true);
+        resultPanel.setVisible(true);
     }
 
 }

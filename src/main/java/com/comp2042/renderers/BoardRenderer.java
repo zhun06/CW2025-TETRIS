@@ -1,17 +1,17 @@
 package com.comp2042.renderers;
 
+import com.comp2042.colors.*;
 import com.comp2042.controllers.GameController;
 import com.comp2042.logic.board.Board;
 import com.comp2042.logic.data.ViewData;
 import com.comp2042.logic.games.TetrisGame;
+import com.comp2042.managers.SceneManager;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
 import java.awt.Point;
-import java.util.Arrays;
+
 
 public class BoardRenderer {
     private final Board board;
@@ -23,17 +23,30 @@ public class BoardRenderer {
     private final int COLS = TetrisGame.COLS;
     private final int BRICK_SIZE = TetrisGame.BRICK_SIZE;
 
+    private ThemeColor themeColor; // Interface (Current theme)
+
     // Constructor
     public BoardRenderer(GameController gameController, Board board) {
         this.gameBoard = gameController.getGameBoard();
         this.board = board;
         this.rectangle = new Rectangle[ROWS][COLS];
+        this.initializeColor();
         this.initializeBoard();
+    }
+
+    // Get color scheme
+    private void initializeColor() {
+        switch (SceneManager.getTheme()) {
+            case NEON -> themeColor = new NeonColor();
+            case NATURE -> themeColor = new NatureColor();
+            case CANDY -> themeColor = new CandyColor();
+        }
     }
 
     // Initialize board
     private void initializeBoard() {
         gameBoard.getChildren().clear(); // Remove old rectangles
+
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 Rectangle rect = new Rectangle(BRICK_SIZE, BRICK_SIZE);
@@ -58,9 +71,11 @@ public class BoardRenderer {
         for (int i = 4; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 if (board.getBoardMatrix()[i][j] != 0) {
+                    rectangle[i][j].setStrokeWidth(2);
                     rectangle[i][j].setArcWidth(9);
                     rectangle[i][j].setArcHeight(9);
-                    rectangle[i][j].setFill(setFillColor(board.getBoardMatrix()[i][j]));
+                    rectangle[i][j].setFill(themeColor.getBrickColor(board.getBoardMatrix()[i][j]));
+                    rectangle[i][j].setStroke(themeColor.getBrickOutline(board.getBoardMatrix()[i][j]));
                 }
             }
         }
@@ -69,20 +84,22 @@ public class BoardRenderer {
     // Render current brick
     private void renderBrick(ViewData brick) {
         for (Point p : brick.getCoordinates()) {
+            rectangle[p.y][p.x].setStrokeWidth(2);
             rectangle[p.y][p.x].setArcWidth(9);
             rectangle[p.y][p.x].setArcHeight(9);
-            rectangle[p.y][p.x].setStroke(Color.DARKBLUE);
-            rectangle[p.y][p.x].setFill(setFillColor(brick.getFillColor()));
+            rectangle[p.y][p.x].setFill(themeColor.getBrickColor(brick.getFillColor()));
+            rectangle[p.y][p.x].setStroke(themeColor.getBrickOutline(brick.getFillColor()));
         }
     }
 
     // Render ghost brick
     private void renderGhost(ViewData brick) {
         for (Point p : brick.getGhostCoordinates()) {
+            rectangle[p.y][p.x].setStrokeWidth(2);
             rectangle[p.y][p.x].setArcWidth(9);
             rectangle[p.y][p.x].setArcHeight(9);
-            rectangle[p.y][p.x].setStroke(Color.DARKBLUE);
-            rectangle[p.y][p.x].setFill(setGhostColor(brick.getFillColor()));
+            rectangle[p.y][p.x].setStroke(themeColor.getBrickOutline(brick.getFillColor()));
+            rectangle[p.y][p.x].setFill(themeColor.getGhostColor(brick.getFillColor()));
         }
     }
 
@@ -91,51 +108,20 @@ public class BoardRenderer {
     private  void refreshBoard() {
         for (Rectangle[] rects : rectangle) {
             for (Rectangle rect : rects) {
+                rect.setStrokeWidth(1);
                 rect.setArcWidth(0);
                 rect.setArcHeight(0);
-                rect.setStroke(Color.BLACK);
-                rect.setFill(Color.BLACK);
+                rect.setStroke(themeColor.getBoardColor());
+                rect.setFill(themeColor.getBoardColor());
             }
         }
         for (int i = 4; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
-                rectangle[i][j].setStroke(Color.DARKBLUE);
+                rectangle[i][j].setStroke(themeColor.getGridColor());
             }
         }
     }
 
-    private Paint setFillColor(int value) {
-        return switch (value) {
-            case 1 -> Color.AQUA;
-            case 2 -> Color.BLUEVIOLET;
-            case 3 -> Color.DARKGREEN;
-            case 4 -> Color.YELLOW;
-            case 5 -> Color.RED;
-            case 6 -> Color.BEIGE;
-            case 7 -> Color.BURLYWOOD;
-            default -> Color.TRANSPARENT;
-        };
-    }
-
-    private Paint setGhostColor(int value) {
-        return switch (value) {
-            case 1 -> Color.AQUA.deriveColor(0, 1, 1, 0.35);
-            case 2 -> Color.BLUEVIOLET.deriveColor(0, 1, 1, 0.35);
-            case 3 -> Color.DARKGREEN.deriveColor(0, 1, 1, 0.35);
-            case 4 -> Color.YELLOW.deriveColor(0, 1, 1, 0.35);
-            case 5 -> Color.RED.deriveColor(0, 1, 1, 0.35);
-            case 6 -> Color.BEIGE.deriveColor(0, 1, 1, 0.35);
-            case 7 -> Color.BURLYWOOD.deriveColor(0, 1, 1, 0.35);
-            default -> Color.TRANSPARENT;
-        };
-    }
-
-
-    private void printBoard(int[][] board) {
-        for (int i = 0; i < ROWS; i++) {
-            System.out.println(Arrays.toString(board[i]));
-        }
-    }
 }
 
 

@@ -21,6 +21,7 @@ import java.util.List;
 
 
 public class GameController {
+
     @FXML
     private Label levelLabel, timeLabel, rowsLabel, currentScoreLabel, highScoreLabel, resultLabel;
 
@@ -34,7 +35,7 @@ public class GameController {
     private GridPane preview1, preview2, preview3;
 
     @FXML
-    private VBox pauseGamePane, resultPane;
+    private VBox pauseGamePanel, resultPanel;
 
     @FXML // In Game
     private Button pauseBtn, restartBtn1, exitBtn1;
@@ -44,8 +45,6 @@ public class GameController {
 
     @FXML // End Game
     private Button playAgainBtn, themeBtn, exitBtn3;
-
-
 
     @FXML
     public void initialize() {
@@ -106,8 +105,8 @@ public class GameController {
     public List<Label> getGameLabels() {return new ArrayList<>(Arrays.asList(levelLabel, timeLabel, rowsLabel, currentScoreLabel, highScoreLabel));}
     public GridPane getGameBoard() {return gameBoard;}
     public Canvas getVfxCanvas() {return vfxCanvas;}
-    public List<GridPane> getPreviewPanels() {return new ArrayList<>(Arrays.asList(preview1, preview2, preview3));}
-    public VBox getPauseGamePane() {return pauseGamePane;}
-    public VBox getResultPane() {return resultPane;}
+    public List<GridPane> getPreviewGrids() {return new ArrayList<>(Arrays.asList(preview1, preview2, preview3));}
+    public VBox getPauseGamePanel() {return pauseGamePanel;}
+    public VBox getResultPanel() {return resultPanel;}
     public Label getResultLabel() {return resultLabel;}
 }
