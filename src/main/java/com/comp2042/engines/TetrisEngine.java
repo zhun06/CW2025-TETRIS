@@ -4,9 +4,9 @@ import com.comp2042.controllers.GameController;
 import com.comp2042.logic.games.TetrisGame;
 import com.comp2042.logic.moves.MoveEvent;
 import com.comp2042.managers.GameManager;
-import com.comp2042.renderers.BoardRenderer;
-import com.comp2042.renderers.PreviewRenderer;
-import com.comp2042.renderers.StatsRenderer;
+import com.comp2042.renderers.*;
+import com.comp2042.setters.ResultSetter;
+import com.comp2042.setters.StatsSetter;
 import com.comp2042.util.EventSource;
 import com.comp2042.util.EventType;
 import javafx.animation.AnimationTimer;
@@ -16,10 +16,10 @@ import javafx.util.Duration;
 
 // Setup timeline and rendering
 public class TetrisEngine  {
-    // Renderers
-    private StatsRenderer statsRenderer;
     private BoardRenderer boardRenderer;
     private PreviewRenderer previewRenderer;
+    private StatsSetter statsSetter;
+    private ResultSetter resultSetter;
 
     private Timeline boardTimeLine;
     private AnimationTimer gameLoop;
@@ -29,8 +29,6 @@ public class TetrisEngine  {
     private final GameController gameController;
 
     private int currentSpeed;
-
-    private String currentTheme;
 
     // Constructor
     public TetrisEngine(TetrisGame game, GameController gameController) {
@@ -46,9 +44,10 @@ public class TetrisEngine  {
     }
 
     private void initialize() {
-        statsRenderer = new StatsRenderer(gameController);
+        statsSetter = new StatsSetter(gameController);
         boardRenderer = new BoardRenderer(gameController, game.getBoard());
         previewRenderer = new PreviewRenderer(gameController);
+        resultSetter = new ResultSetter(gameController);
         onGameOver = GameManager.setOnGameOver();
     }
 
@@ -66,7 +65,7 @@ public class TetrisEngine  {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                statsRenderer.render(game.getScore(), game.getRemainingTime(), game.getElapsedTime());
+                statsSetter.update(game.getScoreData(), game.getTimeData().getRemainingTime(), game.getTimeData().getElapsedTime(), game.getGameResult());
                 boardRenderer.render(game.getViewData());
                 previewRenderer.render(game.getNextBricks());
             }
@@ -84,6 +83,7 @@ public class TetrisEngine  {
 
     private void checkGameOver() {
         if (game.isGameOver()) {
+            resultSetter.update(game.getGameResult());
             onGameOver.run(); // Notify GameManager
         }
     }

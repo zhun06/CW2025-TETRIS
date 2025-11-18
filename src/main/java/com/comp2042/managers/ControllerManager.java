@@ -17,8 +17,9 @@ public class ControllerManager {
     private static HomeController homeController;
     private static ThemeController themeController;
     private static GameController gameController;
+    private static LeaderBoardController leaderBoardController;
     // Roots
-    private static Parent homeRoot, themeRoot, gameRoot;
+    private static Parent homeRoot, themeRoot, gameRoot, leaderBoardRoot;
 
     public static void callHomeController() throws IOException {
         SceneManager.initScene(); // Ensure scene exist
@@ -64,10 +65,24 @@ public class ControllerManager {
         }
     }
 
+    public static void callLeaderBoardController() throws IOException {
+        SceneManager.initScene(); // Ensure scene exist
+        if (leaderBoardController == null) {
+            SceneManager.readFXML("leaderBoard");
+            leaderBoardController = SceneManager.getLoader().getController(); // Get loader -> get controller
+            leaderBoardRoot = SceneManager.getRoot(); // Get root
+            leaderBoardController.addKeyHandler(); // Add key handler
+        }
+        leaderBoardController.refresh(); // Update leader board
+        SceneManager.setRoot(leaderBoardRoot); // Reuse root
+        leaderBoardRoot.requestFocus();
+    }
+
     // Getters
     public static Parent getHomeRoot() {return homeRoot;}
     public static Parent getThemeRoot() {return themeRoot;}
     public static Parent getGameRoot() {return gameRoot;}
+    public static Parent getLeaderBoardRoot() {return leaderBoardRoot;}
 
 }
 

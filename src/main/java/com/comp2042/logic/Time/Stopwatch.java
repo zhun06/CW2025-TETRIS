@@ -1,8 +1,9 @@
-package com.comp2042.logic.Time;
+package com.comp2042.logic.time;
 
 import java.time.Duration;
 import java.time.Instant;
 
+// Count up (elapsed time)
 public class Stopwatch {
     private Instant startTime;
     private Duration accumulated = Duration.ZERO;
@@ -33,7 +34,7 @@ public class Stopwatch {
         if (running) {
             return accumulated.plus(Duration.between(startTime, Instant.now()));
         } else {
-            return accumulated;
+            return Duration.ZERO;
         }
     }
 }

@@ -6,8 +6,6 @@ import com.comp2042.engines.TetrisEngine;
 import com.comp2042.logic.games.TetrisGame;
 import com.comp2042.util.GameChoice;
 import com.comp2042.util.GameState;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
@@ -102,11 +100,11 @@ public class GameManager {
         }
     }
 
-    public static void changeTheme() throws IOException {
-        currentGameState = GameState.CHANGE_THEME;
+    public static void viewLeaderBoard() throws IOException {
+        currentGameState = GameState.LEADER_BOARD;
         gameKeyHandlerManager.update();
         overlayManager.update();
-        ControllerManager.callThemeController();
+        ControllerManager.callLeaderBoardController();
     }
 
 
@@ -132,7 +130,6 @@ public class GameManager {
     // Getter
     public static GameChoice getCurrentGameChoice() {return currentGameChoice;}
     public static GameState getCurrentGameState() {return currentGameState;}
-    public static GameState getResultState() {return game.getResult();}
 
     // Set focus
     private static void setFocus() {gameController.getGameBoard().requestFocus();}

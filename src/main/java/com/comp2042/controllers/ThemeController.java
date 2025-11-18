@@ -71,7 +71,7 @@ public class ThemeController {
         this.setTheme();
     }
 
-    public void addKeyHandler() throws IOException {
+    public void addKeyHandler() {
         Parent root = ControllerManager.getThemeRoot();
         Stage stage = SceneManager.getStage();
         root.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
@@ -89,7 +89,7 @@ public class ThemeController {
                     themePreview.setImage(images.get(currentIndex)); // Update themePreview
                     this.setTheme(); // Update css
                 }
-                case SPACE, ENTER, C, ESCAPE, E, Q -> {
+                case SPACE, ENTER, C, E, Q -> {
                     try {
                         this.confirmBtn();
                     } catch (IOException e) {

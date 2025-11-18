@@ -22,8 +22,11 @@ import java.util.List;
 
 public class GameController {
 
-    @FXML
-    private Label levelLabel, timeLabel, rowsLabel, currentScoreLabel, highScoreLabel, resultLabel;
+    @FXML // In game
+    private Label levelLabel, timeLabel, rowsLabel, currentScoreLabel, highScoreLabel;
+
+    @FXML // End game
+    private Label gameResultLabel, levelResultLabel, timeResultLabel, rowsResultLabel, scoreResultLabel, highScoreResultLabel;
 
     @FXML
     private GridPane gameBoard;
@@ -44,7 +47,7 @@ public class GameController {
     private Button resumeBtn, restartBtn2, exitBtn2;
 
     @FXML // End Game
-    private Button playAgainBtn, themeBtn, exitBtn3;
+    private Button playAgainBtn, leaderBoardBtn, exitBtn3;
 
     @FXML
     public void initialize() {
@@ -85,8 +88,8 @@ public class GameController {
         if (event.getSource() == playAgainBtn) {
             GameManager.restartGame();
         }
-        if (event.getSource() == themeBtn) {
-            GameManager.changeTheme();
+        if (event.getSource() == leaderBoardBtn) {
+            GameManager.viewLeaderBoard();
         }
         if (event.getSource() == exitBtn3) {
             GameManager.exitGame();
@@ -108,5 +111,5 @@ public class GameController {
     public List<GridPane> getPreviewGrids() {return new ArrayList<>(Arrays.asList(preview1, preview2, preview3));}
     public VBox getPauseGamePanel() {return pauseGamePanel;}
     public VBox getResultPanel() {return resultPanel;}
-    public Label getResultLabel() {return resultLabel;}
+    public List<Label> getResultLabels() {return new ArrayList<>(Arrays.asList(gameResultLabel, levelResultLabel, timeResultLabel, rowsResultLabel, scoreResultLabel, highScoreResultLabel));}
 }

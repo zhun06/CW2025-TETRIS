@@ -1,0 +1,101 @@
+package com.comp2042.setters;
+
+import com.comp2042.controllers.GameController;
+import com.comp2042.logic.data.GameResult;
+import com.comp2042.logic.data.Score;
+import com.comp2042.managers.GameManager;
+import com.comp2042.util.GameChoice;
+import javafx.scene.control.Label;
+
+import java.time.Duration;
+
+
+public class StatsSetter {
+    private final GameChoice gameChoice;
+    private final Label levelLabel, timeLabel, rowsLabel, currentScoreLabel, highScoreLabel;
+
+    public StatsSetter(GameController gameController) {
+        gameChoice= GameManager.getCurrentGameChoice();
+        this.levelLabel = gameController.getGameLabels().get(0);
+        this.timeLabel = gameController.getGameLabels().get(1);
+        this.rowsLabel = gameController.getGameLabels().get(2);
+        this.currentScoreLabel = gameController.getGameLabels().get(3);
+        this.highScoreLabel = gameController.getGameLabels().get(4);
+        this.initialize();
+    }
+
+    private void initialize() {
+        switch (gameChoice) {
+            case ZEN -> {
+                showLabel(levelLabel);
+                hideLabel(timeLabel);
+                hideLabel(rowsLabel);
+                showLabel(currentScoreLabel);
+                showLabel(highScoreLabel);
+            }
+            case FORTY_LINES, BLITZ -> {
+                hideLabel(levelLabel);
+                showLabel(timeLabel);
+                showLabel(rowsLabel);
+                hideLabel(currentScoreLabel);
+                showLabel(highScoreLabel);
+            }
+        }
+    }
+
+    public void update(Score score, Duration remainingTime, Duration elapsedTime, GameResult gameResult) {
+        this.setLevel(score);
+        this.setTime(remainingTime, elapsedTime);
+        this.setRows(score);
+        this.setScore(score);
+        this.setHighScore(gameResult);
+    }
+
+    private void setLevel(Score score) {levelLabel.setText("Level: " + score.levelProperty().getValue());}
+
+    private void setTime(Duration remainingTime, Duration elapsedTime) {
+        switch (gameChoice) {
+            case FORTY_LINES -> timeLabel.setText("Time: " + formatSeconds(elapsedTime));
+            case BLITZ -> timeLabel.setText("Time left: " + formatSeconds(remainingTime));
+        }
+    }
+
+    private void setRows(Score score) {
+        switch (gameChoice) {
+            case FORTY_LINES -> rowsLabel.setText("Rows remaining: " + score.rowsRemainingProperty().getValue());
+            case BLITZ -> rowsLabel.setText("Rows cleared: " + score.rowsClearedProperty().getValue());
+        }
+    }
+
+    private void setScore(Score score) {currentScoreLabel.setText("Current score: " + score.scoreProperty().getValue());}
+
+    private void setHighScore(GameResult gameResult) {
+        switch (gameChoice) {
+            case ZEN -> highScoreLabel.setText("High Score: " + gameResult.highScoreProperty().getValue());
+            case FORTY_LINES ->  {
+                if (gameResult.bestTimeProperty().get() == null) {
+                    highScoreLabel.setText("Best time: none");
+                }
+                else highScoreLabel.setText("Best time: " + formatSeconds(gameResult.bestTimeProperty().get()));
+            }
+            case BLITZ ->   highScoreLabel.setText("Most rows: " + gameResult.mostRowsProperty().getValue());
+
+        }
+    }
+
+    private void showLabel(Label label) {
+        label.setVisible(true);
+        label.setManaged(true);
+    }
+
+    private void hideLabel(Label label) {
+        label.setVisible(false);
+        label.setManaged(false);
+    }
+
+    private String formatSeconds(Duration d) {
+        double seconds = d.toNanos() / 1_000_000_000.0;
+        return String.format("%.2f", seconds);
+    }
+
+}

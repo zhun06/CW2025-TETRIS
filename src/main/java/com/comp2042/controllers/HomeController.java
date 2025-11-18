@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 // Controls landing page
 public class HomeController {
     @FXML
-    private Button prevBtn, nextBtn, themeBtn, startBtn, quitBtn;
+    private Button prevBtn, nextBtn, themeBtn, startBtn, leaderBoardBtn, quitBtn;
 
     @FXML
     private ImageView gamePreview;
@@ -76,6 +76,9 @@ public class HomeController {
         if (event.getSource() == themeBtn) {
             this.themeBtn();
         }
+        if (event.getSource() == leaderBoardBtn) {
+            this.leaderBoardBtn();
+        }
         if (event.getSource() == startBtn) {
             this.startBtn();
         }
@@ -106,6 +109,13 @@ public class HomeController {
                         throw new RuntimeException(e);
                     }
                 }
+                case L -> {
+                    try {
+                        this.leaderBoardBtn();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 case SPACE, ENTER, S, P -> {
                     try {
                         this.startBtn();
@@ -125,12 +135,11 @@ public class HomeController {
         });
     }
 
-    @FXML
+
     private void themeBtn() throws IOException {
         ControllerManager.callThemeController();
     }
 
-    @FXML
     private void startBtn() throws IOException {
         switch (currentIndex) {
             case 0 -> ControllerManager.callGameController(ZEN);
@@ -138,6 +147,10 @@ public class HomeController {
             case 2 -> ControllerManager.callGameController(BLITZ);
         }
     }
-    @FXML
+
+    public void leaderBoardBtn() throws IOException {
+        ControllerManager.callLeaderBoardController();
+    }
+
     private void quitBtn() throws IOException {Platform.exit();}
 }

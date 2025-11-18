@@ -21,7 +21,7 @@
             dropshadow(gaussian, black, 5, 1.0, 0, -2);
 }
 
-.homeLabel, .themeLabel{
+.homeLabel, .themeLabel, .resultLabel, .leaderBoardLabel {
     -fx-text-fill: #FF60A9FF; /* Brighter pink */
     -fx-effect:
             dropshadow(gaussian, black, 4, 1.0, 2, 0),
@@ -57,28 +57,89 @@
 }
 
 /* Main buttons */
-.arrowBtn, .themeBtn, .homeBtn, .inGameBtn {
+.arrowBtn, .themeBtn, .homeBtn, .inGameBtn, .leaderBoardBtn {
     -fx-background-color: #C56A86; /* darker candy pink */
     -fx-text-fill: #FFD1E0; /* soft light pink for contrast */
     -fx-border-color: #990033; /* dark red border */
 }
 
-.arrowBtn:hover, .themeBtn:hover, .homeBtn:hover, .inGameBtn:hover {
+.arrowBtn:hover, .themeBtn:hover, .homeBtn:hover, .inGameBtn:hover, .leaderBoardBtn:hover {
     -fx-background-color: #993366;
     -fx-text-fill: #FFFFFF;
     -fx-border-color: #FF3366;
 }
 
 /* Overlay button */
-.overlayBtn {
+.overlayBtn, .gameOverBtn {
     -fx-background-color: #FF8C42; /* candy orange */
     -fx-text-fill: #FFF0E0; /* soft cream/light pink for contrast */
     -fx-border-color: #D66114FF; /* darker orange */
 }
 
-.overlayBtn:hover {
+.overlayBtn:hover, .gameOverBtn:hover {
     -fx-background-color: #FF69B4;
     -fx-text-fill: #FFFFFF;
     -fx-border-color: #FF3E96;
 }
 
+/* ------------------ Candy TableView Colors ------------------ */
+.table-view {
+    -fx-background-color: #ffd6e8; /* Soft pastel pink */
+    -fx-border-color: linear-gradient(to right,
+    #FD39B1FF, #FFD700, #F87019FF); /* pink-yellow-orange */
+}
+
+.table-view .column-header {
+    -fx-background-color: #FFB6C1; /* candy pink */
+    -fx-border-color: #C56A86;     /* purple-pink */
+}
+
+/* Column header background */
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom,
+    #FFB6C1,
+    #FFA3B5
+    );
+}
+
+/* Column header text */
+.table-view .column-header .label {
+    -fx-text-fill: #FF3E96; /* bright candy pink */
+    -fx-effect:
+            dropshadow(gaussian, black, 3, 1, 0, 0);
+}
+
+/* Normal rows */
+.table-row-cell {
+    -fx-background-color: #FFE4EF; /* soft cotton-candy pink */
+    -fx-text-fill: #C7007D; /* stronger pink text */
+}
+
+/* Alternate rows */
+.table-row-cell:odd {
+    -fx-background-color: #FFD1E0;
+}
+
+/* Hover */
+.table-row-cell:hover {
+    -fx-background-color: #FF69B4; /* hot pink */
+    -fx-text-fill: white;
+}
+
+/* Selected row */
+.table-row-cell:selected {
+    -fx-background-color: #f1589d; /* candy neon pink */
+    -fx-text-fill: white;
+}
+
+/* Table cells */
+.table-cell {
+    -fx-text-fill: #C7007D;
+}
+
+/* Header separator lines */
+.table-view .column-header,
+.table-view .filler {
+    -fx-border-color: #FF3E96;
+    -fx-border-width: 0 0 2 0;
+}

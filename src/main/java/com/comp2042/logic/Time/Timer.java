@@ -1,8 +1,9 @@
-package com.comp2042.logic.Time;
+package com.comp2042.logic.time;
 
 import java.time.Duration;
 import java.time.Instant;
 
+// Count down (remaining time)
 public class Timer {
     private Instant endTime;
     private Duration remainingWhenPaused = Duration.ZERO;

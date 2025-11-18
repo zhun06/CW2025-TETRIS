@@ -10,5 +10,6 @@ public enum GameState {
     LOSE,
     RESTART,
     EXIT,
-    CHANGE_THEME
+    CHANGE_THEME,
+    LEADER_BOARD
 }

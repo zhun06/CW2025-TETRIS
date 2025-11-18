@@ -40,7 +40,7 @@ public class GameKeyHandlerManager {
             case RESUME -> this.onResume();
             case RESTART, EXIT -> this.onRestartOrExit();
             case GAME_OVER -> this.onGameOver();
-            case CHANGE_THEME -> this.onChangeTheme();
+            case LEADER_BOARD -> this.onLeaderBoard();
         }
     }
 
@@ -74,7 +74,7 @@ public class GameKeyHandlerManager {
     }
 
     // Change Theme
-    public void onChangeTheme() {this.detachHandler(onGameOverHandler);}
+    public void onLeaderBoard() {this.detachHandler(onGameOverHandler);}
 
     // Generic key handlers
     public void attachHandler(EventHandler<KeyEvent> handler) {
@@ -152,10 +152,10 @@ public class GameKeyHandlerManager {
     public void setOnGameOverHandler() {
         this.onGameOverHandler = keyEvent -> {
             switch (keyEvent.getCode()) {
-                case SPACE, ENTER, R, N -> GameManager.restartGame();
-                case C, T -> {
+                case SPACE, ENTER, R, P, N -> GameManager.restartGame();
+                case L -> {
                     try {
-                        GameManager.changeTheme();
+                        GameManager.viewLeaderBoard();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

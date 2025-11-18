@@ -25,7 +25,7 @@ public class SimpleBoard implements Board {
     private Queue<Brick> nextBricks;
     // Util
     private Point currentOffset;
-    private final Score score;
+    private Score score;
     private boolean isFull;
 
     // Constructor
@@ -34,7 +34,6 @@ public class SimpleBoard implements Board {
         this.height = rows;
         brickGenerator = new RandomBrickGenerator();
         brickRotator = new BrickRotator();
-        score = new Score();
     }
 
     @Override
@@ -178,7 +177,6 @@ public class SimpleBoard implements Board {
     public ClearRow clearRow() {
         ClearRow clearRow = MatrixOperations.checkRemoving(currentGameMatrix);
         currentGameMatrix = clearRow.getNewMatrix();
-        score.addScore(clearRow.getScoreBonus());
         return clearRow;
     }
 
@@ -194,7 +192,7 @@ public class SimpleBoard implements Board {
     public void newGame() {
         currentGameMatrix = new int[height][width];
         nextBricks = new ArrayDeque<>();
-        score.reset();
+        score = new Score();
         isFull = false;
         createNewBrick();
     }

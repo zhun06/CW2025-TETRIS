@@ -24,11 +24,11 @@ root {
 
 /*Labels*/
 .title, .overlayLabel {
-    -fx-font-size: 50px;
+    -fx-font-size: 60px;
     -fx-font-weight: bold;
 }
 
-.homeLabel, .themeLabel {
+.homeLabel, .themeLabel, .resultLabel, .leaderBoardLabel {
     -fx-font-size: 40px;
     -fx-font-weight: bold;
 }
@@ -51,7 +51,7 @@ root {
 
 /*Buttons*/
 .arrowBtn {
-    -fx-font-size: 40;
+    -fx-font-size: 40px;
     -fx-font-weight: bold;
     -fx-border-width: 4px;
     -fx-border-radius: 10px;
@@ -60,8 +60,8 @@ root {
     -fx-padding: 8 20 8 20;
 }
 
-.homeBtn, .themeBtn {
-    -fx-font-size: 30;
+.homeBtn, .themeBtn, .leaderBoardBtn {
+    -fx-font-size: 25px;
     -fx-border-width: 4px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
@@ -80,11 +80,67 @@ root {
 }
 
 .overlayBtn {
-    -fx-font-size: 30;
+    -fx-font-size: 30px;
     -fx-font-weight: bold;
     -fx-border-width: 6px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
     -fx-padding: 10 25 10 25;
     -fx-cursor: hand;
+}
+
+.gameOverBtn {
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-border-width: 6px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 10 25 10 25;
+    -fx-cursor: hand;
+}
+
+/* ------------------ TableView Base ------------------ */
+.table-view {
+    -fx-padding: 10;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-table-cell-border-color: transparent; /* remove inner grid lines */
+}
+
+/* Column headers */
+.table-view .column-header {
+    -fx-padding: 10;
+}
+
+.table-view .column-header-background {
+    -fx-padding: 5 0 5 0;
+    -fx-background-insets: 0 0 1 0;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.table-view .column-header .label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+/* Table rows */
+.table-row-cell {
+    -fx-cell-size: 40px;   /* row height */
+    -fx-padding: 5 10;
+    -fx-background-insets: 0;
+}
+
+.table-cell {
+    -fx-font-size: 18px;
+    -fx-padding: 5 10;
+}
+
+/* Hover + Selected (no colors yet, neon.css will handle it) */
+.table-row-cell:hover {
+    -fx-background-insets: 0;
+}
+
+.table-row-cell:selected {
+    -fx-background-insets: 0;
 }
