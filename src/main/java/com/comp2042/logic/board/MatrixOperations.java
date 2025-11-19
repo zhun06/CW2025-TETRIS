@@ -90,7 +90,7 @@ public class MatrixOperations {
             }
         }
 
-        return new ClearRow(clearedRows.size(), tmp);
+        return new ClearRow(clearedRows.size(), clearedRows, tmp);
     }
 
     public static List<int[][]> deepCopyList(List<int[][]> list){

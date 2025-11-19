@@ -28,7 +28,6 @@ public final class GameResult {
 
     public GameResult() {
         mode = GameManager.getCurrentGameChoice();
-        System.out.println("Current game choice: " + mode);
         csvLoader = new CsvLoader();
         csvLoader.load();
 
@@ -64,6 +63,7 @@ public final class GameResult {
 
     // Update
     public void updateHighScore() {
+        if (gameState == GameState.LOSE || endTime.get() == Duration.ZERO) return;
         if (endScore.getValue() > highScore.getValue()){
             highScore.setValue(endScore.getValue());
         }

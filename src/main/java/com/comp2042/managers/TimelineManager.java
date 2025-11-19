@@ -3,7 +3,9 @@ package com.comp2042.managers;
 import com.comp2042.engines.TetrisEngine;
 import com.comp2042.util.GameState;
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 // Start, pause, resume, stop
 public class TimelineManager {

@@ -1,10 +1,6 @@
 package com.comp2042.logic.games;
 
-import com.comp2042.logic.data.ClearRow;
-import com.comp2042.logic.data.TimeData;
-import com.comp2042.logic.data.GameResult;
-import com.comp2042.logic.data.Score;
-import com.comp2042.logic.data.ViewData;
+import com.comp2042.logic.data.*;
 import com.comp2042.logic.time.Stopwatch;
 import com.comp2042.logic.time.Timer;
 import com.comp2042.logic.board.Board;
@@ -27,8 +23,10 @@ public class TetrisGame implements InputEventListener {
     private final Board board;
     private GameResult gameResult;
     // Data
+    private ClearRow clearRow;
+    private SfxData sfxData;
     private TimeData timeData;
-    private int fallSpeed = 400; // milliseconds per update
+    private int fallSpeed = 400;
     private boolean gameOver = false;
 
     // Constructor
@@ -43,6 +41,7 @@ public class TetrisGame implements InputEventListener {
         gameOver = false;
         board.newGame();
         gameMode.onGameStart();
+        sfxData.update(SfxEvent.GAME_START);
     }
 
     private void initialize() {
@@ -50,6 +49,7 @@ public class TetrisGame implements InputEventListener {
         Timer timer = new Timer();
         Stopwatch stopwatch = new Stopwatch();
         timeData = new TimeData(timer, stopwatch);
+        sfxData = new SfxData();
         gameResult = new GameResult();
     }
 
@@ -79,16 +79,18 @@ public class TetrisGame implements InputEventListener {
         board.hardDropBrick();
         board.getScore().onHardDropEvent();
         onMerge();
+        sfxData.update(SfxEvent.HARD_DROP);
     }
 
     private void onMerge () {
         board.mergeBrickToBackground();
         board.createNewBrick();
 
-        ClearRow clearRow = board.clearRow();
+        clearRow = board.clearRow();
         if (clearRow.getLinesRemoved() > 0) { // onLineClear
             board.getScore().onLineClear(clearRow);
             gameMode.onLineClear();
+            sfxData.update(SfxEvent.LINE_CLEAR);
         }
 
         if (board.isFull()) { // onBoardFull
@@ -99,8 +101,11 @@ public class TetrisGame implements InputEventListener {
 
     public void onGameOver() {
         gameResult.update(board.getScore(), timeData.getElapsedTime());
+        sfxData.update(SfxEvent.GAME_OVER);
         gameOver = true;
     }
+
+    public void onLevelUp() {sfxData.update(SfxEvent.LEVEL_UP);}
 
     @Override
     public void onLeftEvent(MoveEvent event) { board.moveBrickLeft(); }
@@ -113,18 +118,24 @@ public class TetrisGame implements InputEventListener {
 
     // Setters
     public void setFallSpeed(int fallSpeed) {this.fallSpeed = fallSpeed;} // Delay tick
-    public void setGameState(GameState gameState) {
-        gameResult.setGameState(gameState);} // GAME_OVER / WIN / LOSE
+    public void setGameState(GameState gameState) {gameResult.setGameState(gameState);} // GAME_OVER / WIN / LOSE
 
     // Getters
+    // Board & brick
     public Board getBoard() { return board; }
     public ViewData getViewData() { return board.getViewData(); }
     public Queue<Brick> getNextBricks() {return board.getNextBricks();}
-    public Score getScoreData() { return board.getScore(); }
+
+    // Score and stats
+    public Score getScore() { return board.getScore(); }
     public TimeData getTimeData() { return timeData; }
     public int getFallSpeed() { return fallSpeed; }
     public boolean isGameOver() { return gameOver; }
     public GameResult getGameResult() { return gameResult; }
+
+    // Special effects
+    public ClearRow getClearRow() {return clearRow;}
+    public SfxData getSfxData() { return sfxData; }
 
     // Pause & Resume
     public void pause() {timeData.onPause();}

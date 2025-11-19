@@ -14,16 +14,17 @@ public class FortyMode implements GameMode {
     @Override
     public void onGameStart() {
         game.setFallSpeed(fallSpeed);
-        game.getScoreData().setRowsRemaining(requiredRows);
+        game.getScore().setRowsRemaining(requiredRows);
         game.getTimeData().startStopwatch();
     }
 
     @Override
     public void onLineClear() {
-        int remainingRows = requiredRows - game.getScoreData().rowsClearedProperty().getValue();
-        game.getScoreData().setRowsRemaining(Math.max(0, remainingRows));
+        int remainingRows = requiredRows - game.getScore().rowsClearedProperty().getValue();
+        game.getScore().setRowsRemaining(Math.max(0, remainingRows));
 
         if (remainingRows <= 0) {
+            game.getScore().rowsClearedProperty().setValue(requiredRows);
             game.setGameState(GameState.WIN);
             game.onGameOver();
         }
