@@ -44,4 +44,17 @@ public class NeonColor implements ThemeColor {
             default -> Color.TRANSPARENT;
         };
     }
+
+    // VFX colors
+    @Override
+    public Paint getOverlayColor() {return Color.rgb(20, 0, 40, 0.35);}
+    @Override
+    public Paint getTextColor() { return Color.web("#FF2B5C"); }             // neon pink overlay text
+    @Override
+    public Paint getClearRowColor() { return Color.web("#FFC800"); }         // yellow glow for cleared rows
+    @Override
+    public Paint getLevelUpColor() { return Color.web("#00FFFF"); }          // cyan ring for level up
+
+
+
 }

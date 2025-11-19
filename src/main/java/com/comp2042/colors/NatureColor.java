@@ -47,5 +47,15 @@ public class NatureColor implements ThemeColor {
         };
     }
 
+    // VFX colors
+    @Override
+    public Paint getOverlayColor() {return Color.rgb(30, 80, 30, 0.25);}
+    @Override
+    public Paint getTextColor() { return Color.web("#2E7D32"); }             // forest green
+    @Override
+    public Paint getClearRowColor() { return Color.web("#A5D6A7"); }         // soft green glow for cleared rows
+    @Override
+    public Paint getLevelUpColor() { return Color.web("#66BB6A"); }          // leafy green ring
+
 
 }

@@ -45,4 +45,14 @@ public class CandyColor implements ThemeColor {
         };
     }
 
+    // VFX colors
+    @Override
+    public Paint getOverlayColor() {return Color.rgb(255, 200, 220, 0.3);}
+    @Override
+    public Paint getTextColor() { return Color.web("#F10D0DFF"); }             // candy pink overlay text
+    @Override
+    public Paint getClearRowColor() { return Color.web("#FFD700"); }         // candy yellow glow
+    @Override
+    public Paint getLevelUpColor() { return Color.web("#FF8C42"); }          // candy orange ring
+
 }
