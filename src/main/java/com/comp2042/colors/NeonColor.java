@@ -1,21 +1,20 @@
 package com.comp2042.colors;
 
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 public class NeonColor implements ThemeColor {
 
     @Override
-    public Paint getPreviewColor() {return Color.web("#151528");}
+    public Color getPreviewColor() {return Color.web("#151528");}
 
     @Override
-    public Paint getBoardColor() {return Color.web("#0a0f1f");}
+    public Color getBoardColor() {return Color.web("#0a0f1f");}
 
     @Override
-    public Paint getGridColor() {return Color.web("#22263D");}
+    public Color getGridColor() {return Color.web("#22263D");}
 
     @Override
-    public Paint getBrickColor(int value) {
+    public Color getBrickColor(int value) {
         return switch (value) {
             case 1 -> Color.web("#00F6FF");
             case 2 -> Color.web("#2F5BFF");
@@ -24,15 +23,16 @@ public class NeonColor implements ThemeColor {
             case 5 -> Color.web("#FFE84D");
             case 6 -> Color.web("#FF9933");
             case 7 -> Color.web("#FF2B4F");
+            case 8 -> Color.web("#FF00AA"); // neon magenta garbage
             default -> Color.TRANSPARENT;
         };
     }
 
     @Override
-    public Paint getBrickOutline(int value) {return Color.web("#000000AA");}
+    public Color getBrickOutline(int value) {return Color.web("#000000AA");}
 
     @Override
-    public Paint getGhostColor(int value) {
+    public Color getGhostColor(int value) {
         return switch (value) {
             case 1 -> Color.web("#A6FAFF");
             case 2 -> Color.web("#AEBBFF");
@@ -47,13 +47,13 @@ public class NeonColor implements ThemeColor {
 
     // VFX colors
     @Override
-    public Paint getOverlayColor() {return Color.rgb(20, 0, 40, 0.35);}
+    public Color getOverlayColor() {return Color.rgb(20, 0, 40, 0.35);}
     @Override
-    public Paint getTextColor() { return Color.web("#FF2B5C"); }             // neon pink overlay text
+    public Color getTextColor() { return Color.web("#FF2B5C"); }             // neon pink overlay text
     @Override
-    public Paint getClearRowColor() { return Color.web("#FFC800"); }         // yellow glow for cleared rows
+    public Color getClearRowColor() { return Color.web("#00FFFF");}         // neon cyan
     @Override
-    public Paint getLevelUpColor() { return Color.web("#00FFFF"); }          // cyan ring for level up
+    public Color getLevelUpColor() { return Color.web("#00FFFF"); }          // cyan ring for level up
 
 
 

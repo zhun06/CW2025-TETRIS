@@ -22,16 +22,18 @@ public class PreviewRenderer {
     // Constructor
     public PreviewRenderer(GameController gameController) {
         grids = gameController.getPreviewGrids();
-        this.initializeColor();
         this.initializePreview();
     }
+
+    // On new game
+    public void onNewGame() {this.initializeColor();}
 
     // Get color scheme
     private void initializeColor() {
         switch (SceneManager.getTheme()) {
-            case NEON -> themeColor = new NeonColor();
-            case NATURE -> themeColor = new NatureColor();
             case CANDY -> themeColor = new CandyColor();
+            case NATURE -> themeColor = new NatureColor();
+            case NEON -> themeColor = new NeonColor();
         }
     }
 

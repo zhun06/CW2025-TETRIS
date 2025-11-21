@@ -24,16 +24,15 @@ public class CsvLoader {
                 String[] parts = line.split(",");
 
                 GameChoice mode = GameChoice.valueOf(parts[0]);
-                int level = Integer.parseInt(parts[1]);
 
-                Duration time = "null".equals(parts[2])
+                Duration time = "null".equals(parts[1])
                         ? null
-                        : Duration.ofSeconds(Long.parseLong(parts[2]));
+                        : Duration.ofSeconds(Long.parseLong(parts[1]));
 
-                int score = Integer.parseInt(parts[3]);
-                int rows = Integer.parseInt(parts[4]);
+                int score = Integer.parseInt(parts[2]);
+                int rows = Integer.parseInt(parts[3]);
 
-                records.put(mode, new ScoreRecord(mode, level, time, score, rows));
+                records.put(mode, new ScoreRecord(mode, time, score, rows));
             }
 
         } catch (IOException e) {
@@ -52,13 +51,13 @@ public class CsvLoader {
 
     public void save() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
-            bw.write("mode,level,time,score,rows\n");
+            bw.write("mode,time,score,rows\n");
 
             for (ScoreRecord r : records.values()) {
                 String t = (r.time == null) ? "null"
                         : String.valueOf(r.time.getSeconds());
 
-                bw.write(r.mode + "," + r.level + "," + t + "," + r.score + "," + r.rows + "\n");
+                bw.write(r.mode + ","  + t + "," + r.score + "," + r.rows + "\n");
             }
 
         } catch (IOException e) {

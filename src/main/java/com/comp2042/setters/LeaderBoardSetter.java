@@ -13,17 +13,17 @@ import java.time.Duration;
 
 public class LeaderBoardSetter {
     private final TableView<ScoreRecord> leaderBoardTable;
-    private final TableColumn<ScoreRecord, String> modeColumn, levelColumn, timeColumn, scoreColumn, rowsColumn;
+    private final TableColumn<ScoreRecord, String> modeColumn, timeColumn, scoreColumn, rowsColumn;
 
     public LeaderBoardSetter(LeaderBoardController lbc) {
         leaderBoardTable = lbc.getLeaderBoardTable();
         modeColumn = lbc.getLeaderBoardColumns().get(0);
-        levelColumn = lbc.getLeaderBoardColumns().get(1);
-        timeColumn = lbc.getLeaderBoardColumns().get(2);
-        scoreColumn = lbc.getLeaderBoardColumns().get(3);
-        rowsColumn = lbc.getLeaderBoardColumns().get(4);
+        timeColumn = lbc.getLeaderBoardColumns().get(1);
+        scoreColumn = lbc.getLeaderBoardColumns().get(2);
+        rowsColumn = lbc.getLeaderBoardColumns().get(3);
 
         setColumnFactories();
+        centerColumn();
     }
 
     private void setColumnFactories() {
@@ -31,27 +31,47 @@ public class LeaderBoardSetter {
         modeColumn.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(String.valueOf(cellData.getValue().getMode())));
 
-        levelColumn.setCellValueFactory(cellData ->
-                new ReadOnlyObjectWrapper<>(String.valueOf(cellData.getValue().getLevel() == 0 ? "None" : cellData.getValue().getLevel())));
-
         timeColumn.setCellValueFactory(cellData -> {
-            Duration duration = cellData.getValue().getTime();
+            GameChoice mode = cellData.getValue().getMode();
+            if (mode.equals(GameChoice.ZEN) || mode.equals(GameChoice.BLITZ)) {
+                return new ReadOnlyObjectWrapper<>("N/A");
+            }
 
+            Duration duration = cellData.getValue().getTime();
             if (duration == null) {
                 return new ReadOnlyObjectWrapper<>("None");
             }
 
-            // Use the private formatSeconds method to format the non-null Duration
             String formattedTime = formatSeconds(duration);
 
             return new ReadOnlyObjectWrapper<>(formattedTime);
         });
 
-        scoreColumn.setCellValueFactory(cellData ->
-                new ReadOnlyObjectWrapper<>(String.valueOf(cellData.getValue().getScore())));
+        scoreColumn.setCellValueFactory(cellData -> {
+            GameChoice mode = cellData.getValue().getMode();
+            if (mode.equals(GameChoice.FORTY_LINES) || mode.equals(GameChoice.BLITZ) || mode.equals(GameChoice.HARDCORE) ) {
+                return new ReadOnlyObjectWrapper<>("N/A");
+            }
 
-        rowsColumn.setCellValueFactory(cellData ->
-                new ReadOnlyObjectWrapper<>(String.valueOf(cellData.getValue().getRows())));
+            return new ReadOnlyObjectWrapper<>(String.valueOf(cellData.getValue().getScore()));
+        });
+
+
+        rowsColumn.setCellValueFactory(cellData -> {
+            GameChoice mode = cellData.getValue().getMode();
+            if (mode.equals(GameChoice.ZEN) || mode.equals(GameChoice.FORTY_LINES) || mode.equals(GameChoice.HARDCORE)){
+                return new ReadOnlyObjectWrapper<>("N/A");
+            }
+            return new ReadOnlyObjectWrapper<>(String.valueOf(cellData.getValue().getRows()));
+        });
+
+    }
+
+    public void centerColumn() {
+        modeColumn.setStyle("-fx-alignment: CENTER;");
+        timeColumn.setStyle("-fx-alignment: CENTER;");
+        scoreColumn.setStyle("-fx-alignment: CENTER;");
+        rowsColumn.setStyle("-fx-alignment: CENTER;");
     }
 
     public void update() {
@@ -67,7 +87,6 @@ public class LeaderBoardSetter {
 
             ScoreRecord record = new ScoreRecord(
                     mode,
-                    scoreData.getLevel(),
                     scoreData.getTime(),
                     scoreData.getScore(),
                     scoreData.getRows()

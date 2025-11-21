@@ -11,27 +11,23 @@ import javafx.scene.paint.Color;
 import java.time.Duration;
 
 public class ResultSetter {
-    private final GameChoice gameChoice;
+    private GameChoice gameChoice;
     private GameState gameState; // GAME_OVER, WIN, LOSE
-    private final Label gameResult, levelResult, timeResult, rowsResult, scoreResult, highScoreResult;
+    private final Label gameResult, timeResult, rowsResult, scoreResult, highScoreResult;
 
     public ResultSetter(GameController gameController) {
-        this.gameChoice = GameManager.getCurrentGameChoice();
-
         this.gameResult = gameController.getResultLabels().get(0);
-        this.levelResult = gameController.getResultLabels().get(1);
-        this.timeResult = gameController.getResultLabels().get(2);
-        this.rowsResult = gameController.getResultLabels().get(3);
-        this.scoreResult = gameController.getResultLabels().get(4);
-        this.highScoreResult = gameController.getResultLabels().get(5);
-        this.initialize();
+        this.timeResult = gameController.getResultLabels().get(1);
+        this.rowsResult = gameController.getResultLabels().get(2);
+        this.scoreResult = gameController.getResultLabels().get(3);
+        this.highScoreResult = gameController.getResultLabels().get(4);
     }
 
     private void initialize() {
+        this.gameChoice = GameManager.getCurrentGameChoice();
         switch (gameChoice) {
             case ZEN -> {
                 showLabel(gameResult);
-                showLabel(levelResult);
                 hideLabel(timeResult);
                 hideLabel(rowsResult);
                 showLabel(scoreResult);
@@ -39,17 +35,24 @@ public class ResultSetter {
             }
             case FORTY_LINES ->  {
                 showLabel(gameResult);
-                hideLabel(levelResult);
-                showLabel(timeResult);
+                if (gameState.equals(GameState.LOSE)) {
+                    hideLabel(timeResult);
+                } else showLabel(timeResult);
                 hideLabel(rowsResult);
                 hideLabel(scoreResult);
                 showLabel(highScoreResult);
             }
             case BLITZ -> {
                 showLabel(gameResult);
-                hideLabel(levelResult);
                 hideLabel(timeResult);
                 showLabel(rowsResult);
+                hideLabel(scoreResult);
+                showLabel(highScoreResult);
+            }
+            case HARDCORE ->  {
+                showLabel(gameResult);
+                showLabel(timeResult);
+                hideLabel(rowsResult);
                 hideLabel(scoreResult);
                 showLabel(highScoreResult);
             }
@@ -58,9 +61,9 @@ public class ResultSetter {
 
     public void update(GameResult gameResult) {
         this.gameState = gameResult.getGameState();
+        this.initialize();
 
         this.setGameState();
-        this.setLevel(gameResult.endLevelProperty().get());
         this.setTime(gameResult.endTimeProperty().get());
         this.setRows(gameResult.endRowsProperty().get());
         this.setScore(gameResult.endScoreProperty().get());
@@ -79,16 +82,17 @@ public class ResultSetter {
             }
             case GAME_OVER -> {
                 this.gameResult.setText("Game Over");
-                this.gameResult.setTextFill(Color.DARKGRAY);
+                this.gameResult.setTextFill(Color.WHITE);
             }
         }
     }
 
-    private void setLevel(int level) {levelResult.setText("Level reached: " + level);}
-
     private void setTime(Duration endTime) {
         if (gameState == GameState.LOSE) return;
-        timeResult.setText("Time taken: " + formatSeconds(endTime));
+        switch (gameChoice) {
+            case FORTY_LINES ->  timeResult.setText("Time taken: " + formatSeconds(endTime));
+            case HARDCORE ->   timeResult.setText("Time survived: " + formatSeconds(endTime));
+        }
     }
 
     private void setRows(int rowsCleared) {rowsResult.setText("Rows cleared: " + rowsCleared);}
@@ -100,6 +104,7 @@ public class ResultSetter {
             case ZEN -> highScoreResult.setText("High Score: " + gameResult.highScoreProperty().getValue());
             case FORTY_LINES ->  highScoreResult.setText("Best time: " + formatSeconds(gameResult.bestTimeProperty().get()));
             case BLITZ ->   highScoreResult.setText("Most rows: " + gameResult.mostRowsProperty().getValue());
+            case HARDCORE ->   highScoreResult.setText("Longest time survived: " + formatSeconds(gameResult.bestTimeProperty().get()));
         }
     }
 

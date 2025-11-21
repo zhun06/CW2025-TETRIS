@@ -59,6 +59,7 @@ public class TetrisGame implements InputEventListener {
             case ZEN -> this.gameMode = new ZenMode(this);
             case FORTY_LINES -> this.gameMode = new FortyMode(this);
             case BLITZ -> this.gameMode = new BlitzMode(this);
+            case HARDCORE -> this.gameMode = new HardcoreMode(this);
         }
     }
 

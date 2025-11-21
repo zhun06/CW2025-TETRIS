@@ -10,18 +10,19 @@ import com.comp2042.managers.SceneManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-
-
 // Controls landing page
 public class HomeController {
+    @FXML
+    private StackPane root;
+
     @FXML
     private Button prevBtn, nextBtn, themeBtn, startBtn, leaderBoardBtn, quitBtn;
 
@@ -52,6 +53,7 @@ public class HomeController {
         images.add(new Image("/images/zen.png"));
         images.add(new Image("/images/fortyLines.png"));
         images.add(new Image("/images/blitz.png"));
+        images.add(new Image("/images/hardcore.png"));
 
         // Set the first image
         gamePreview.setImage(images.get(currentIndex));
@@ -88,7 +90,6 @@ public class HomeController {
     }
 
     public void addKeyHandler() {
-        Parent root = ControllerManager.getHomeRoot();
         Stage stage = SceneManager.getStage();
         root.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             switch (key.getCode()) {
@@ -123,13 +124,8 @@ public class HomeController {
                         throw new RuntimeException(e);
                     }
                 }
-                case E, Q -> {
-                    try {
-                        this.quitBtn();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+                case E, Q -> this.quitBtn();
+
                 case F -> stage.setFullScreen(!stage.isFullScreen());
             }
         });
@@ -145,6 +141,7 @@ public class HomeController {
             case 0 -> ControllerManager.callGameController(ZEN);
             case 1 -> ControllerManager.callGameController(FORTY_LINES);
             case 2 -> ControllerManager.callGameController(BLITZ);
+            case 3 -> ControllerManager.callGameController(HARDCORE);
         }
     }
 
@@ -152,5 +149,5 @@ public class HomeController {
         ControllerManager.callLeaderBoardController();
     }
 
-    private void quitBtn() throws IOException {Platform.exit();}
+    private void quitBtn() {Platform.exit();}
 }

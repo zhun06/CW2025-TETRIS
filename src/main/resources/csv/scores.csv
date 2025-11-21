@@ -1,4 +1,5 @@
-mode,level,time,score,rows
-ZEN,5,null,11780,105
-BLITZ,0,null,1270,17
-FORTY_LINES,0,186,4840,40
+mode,time,score,rows
+FORTY_LINES,164,0,0
+BLITZ,null,0,0
+HARDCORE,61,0,0
+ZEN,null,20110,0

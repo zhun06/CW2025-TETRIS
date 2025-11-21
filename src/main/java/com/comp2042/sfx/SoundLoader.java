@@ -3,26 +3,27 @@ package com.comp2042.sfx;
 import com.comp2042.util.SfxEvent;
 
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class SoundLoader {
-    private static AudioClip bgMusicClip;
+    private static MediaPlayer bgMusicPlayer;
     private static final Map<SfxEvent, AudioClip> soundCache = new HashMap<>();
 
+    // We don't want to instantiate this utility class
     private SoundLoader() {}
 
     public static void loadAll() {
-        // Cache background music
         String bgPath = "/audio/bg_music.mp3";
         URL bgMusic = SoundLoader.class.getResource(bgPath);
-
-        if (bgMusic == null) System.err.println("Missing background music: " + bgPath);
-        else {
-            bgMusicClip = new AudioClip(bgMusic.toExternalForm());
-            bgMusicClip.setCycleCount(AudioClip.INDEFINITE); // Loop forever
+        if (bgMusic != null) {
+            Media media = new Media(bgMusic.toExternalForm());
+            bgMusicPlayer = new MediaPlayer(media);
+            bgMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop
         }
 
         // Cache sfx sounds
@@ -44,13 +45,16 @@ public final class SoundLoader {
         if (clip != null) clip.play();
     }
 
-    //
     public static void playMusic() {
-        if (bgMusicClip != null) bgMusicClip.play();
+        if (bgMusicPlayer != null) bgMusicPlayer.play();
+    }
+
+    public static void pauseMusic() {
+        if (bgMusicPlayer != null) bgMusicPlayer.pause();
     }
 
     public static void stopMusic() {
-        if (bgMusicClip != null) bgMusicClip.stop();
+        if (bgMusicPlayer != null) bgMusicPlayer.stop();
     }
 
 }

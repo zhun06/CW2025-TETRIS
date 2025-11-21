@@ -1,21 +1,20 @@
 package com.comp2042.colors;
 
-import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
 
 public interface ThemeColor {
 
     // Board color
-    Paint getPreviewColor();
-    Paint getBoardColor();
-    Paint getGridColor();
-    Paint getBrickColor(int value);
-    Paint getBrickOutline(int value);
-    Paint getGhostColor(int value);
+    Color getPreviewColor();
+    Color getBoardColor();
+    Color getGridColor();
+    Color getBrickColor(int value);
+    Color getBrickOutline(int value);
+    Color getGhostColor(int value);
 
     // Vfx color
-    Paint getOverlayColor();
-    Paint getTextColor();
-    Paint getClearRowColor();
-    Paint getLevelUpColor();
-
+    Color getOverlayColor();
+    Color getTextColor();
+    Color getClearRowColor();
+    Color getLevelUpColor();
 }

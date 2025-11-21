@@ -1,4 +1,4 @@
-package com.comp2042.engines;
+package com.comp2042.engine;
 
 import com.comp2042.controllers.GameController;
 import com.comp2042.logic.games.TetrisGame;
@@ -17,12 +17,14 @@ import javafx.util.Duration;
 
 // Setup timeline and rendering
 public class TetrisEngine  {
-    // Helpers
+    // Boss
+    GameManager gameManager;
+    // Helpers (created once and REUSED)
     private BoardRenderer boardRenderer;
-    private SfxManager sfxManager;
     private PreviewRenderer previewRenderer;
     private StatsSetter statsSetter;
     private ResultSetter resultSetter;
+    private SfxManager sfxManager;
     // Timeline
     private Timeline boardTimeLine;
     private AnimationTimer gameLoop;
@@ -37,27 +39,37 @@ public class TetrisEngine  {
     private int currentSpeed;
 
     // Constructor
-    public TetrisEngine(TetrisGame game, GameController gameController) {
+    public TetrisEngine(GameManager gameManager, TetrisGame game, GameController gameController) {
+        this.gameManager = gameManager;
         this.game = game;
         this.gameController = gameController;
+        this.initialize();
+    }
+
+    // Once
+    private void initialize() {
+        boardRenderer = new BoardRenderer(gameController, game.getBoard());
+        previewRenderer = new PreviewRenderer(gameController);
+        statsSetter = new StatsSetter(gameController);
+        resultSetter = new ResultSetter(gameController);
+        sfxManager = new SfxManager(gameController);
+        onGameOver = gameManager.setOnGameOver();
     }
 
     public void start() {
         game.createNewGame();
-        this.initialize();
+        this.onNewGame();
         this.setupBoardTimeline();
         this.setupGameLoop();
-    }
-
-    private void initialize() {
-        statsSetter = new StatsSetter(gameController);
-        boardRenderer = new BoardRenderer(gameController, game.getBoard());
-        sfxManager = new SfxManager(gameController);
-        previewRenderer = new PreviewRenderer(gameController);
-        resultSetter = new ResultSetter(gameController);
         gameOverPending = false;
         gameOverHandled = false;
-        onGameOver = GameManager.setOnGameOver();
+    }
+
+    private void onNewGame() {
+        boardRenderer.onNewGame();
+        previewRenderer.onNewGame();
+        statsSetter.onNewGame();
+        sfxManager.onNewGame();
     }
 
     private void setupBoardTimeline() {
@@ -65,7 +77,6 @@ public class TetrisEngine  {
         boardTimeLine = new Timeline(new KeyFrame(Duration.millis(currentSpeed), e -> {
             game.onDownEvent(new MoveEvent(EventType.DOWN, EventSource.THREAD));
             this.checkSpeedChange();
-            checkGameOver();
         }));
         boardTimeLine.setCycleCount(Timeline.INDEFINITE);
     }
@@ -74,12 +85,13 @@ public class TetrisEngine  {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                checkGameOver();
                 if (!gameOverPending) {// Freeze game logic
-                    statsSetter.update(game.getScore(), game.getTimeData().getRemainingTime(), game.getTimeData().getElapsedTime(), game.getGameResult());
                     boardRenderer.render(game.getViewData());
                     previewRenderer.render(game.getNextBricks());
                 }
-                // Always update sfx
+                // Always update stats and sfx
+                statsSetter.update(game.getScore(), game.getTimeData().getRemainingTime(), game.getTimeData().getElapsedTime(), game.getGameResult());
                 sfxManager.update(game.getSfxData(), game.getClearRow());
                 if (gameOverPending) gameOverHandled = true; // Finished last tick
             }
@@ -91,7 +103,7 @@ public class TetrisEngine  {
         if (desired != currentSpeed) {
             boardTimeLine.stop();
             setupBoardTimeline();
-            GameManager.updateGame();
+            gameManager.updateGame();
         }
     }
 

@@ -1,6 +1,6 @@
 package com.comp2042.logic.data;
 
-import  com.comp2042.logic.time.*;
+import com.comp2042.logic.time.*;
 
 import java.time.Duration;
 

@@ -7,17 +7,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" spacing="50.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.comp2042.controllers.LeaderBoardController">
+<VBox fx:id="root" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" spacing="50.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.comp2042.controllers.LeaderBoardController">
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
         <Label styleClass="leaderBoardLabel" text="Leader Board" />
     </HBox>
-    <TableView fx:id="leaderBoardTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="750.0">
+    <TableView fx:id="leaderBoardTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0">
       <columns>
-          <TableColumn fx:id="modeColumn" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Game mode" />
-          <TableColumn fx:id="levelColumn" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Highest Level" />
-          <TableColumn fx:id="timeColumn" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Best time" />
-          <TableColumn fx:id="scoreColumn" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="High score" />
-          <TableColumn fx:id="rowsColumn" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Most rows" />
+          <TableColumn fx:id="modeColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Game mode" />
+          <TableColumn fx:id="timeColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Best time (sec)" />
+          <TableColumn fx:id="scoreColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="High score" />
+          <TableColumn fx:id="rowsColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Most rows" />
       </columns>
     </TableView>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">

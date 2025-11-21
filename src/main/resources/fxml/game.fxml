@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.comp2042.controllers.GameController">
+<StackPane fx:id="root" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.comp2042.controllers.GameController">
     <Group>
         <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0">
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1000.0" spacing="50.0">
@@ -25,7 +25,10 @@
                 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="250.0" styleClass="gamePanel">
                     <GridPane fx:id="gameBoard" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="250.0">
                     </GridPane>
-                    <Canvas fx:id="vfxCanvas" height="600.0" width="250.0" />
+                    <Canvas fx:id="sweepCanvas" height="600.0" width="250.0" />
+               <Canvas fx:id="popupCanvas" height="600.0" width="250.0" />
+               <Canvas fx:id="levelUpCanvas" height="600.0" width="250.0" />
+               <Canvas fx:id="gameOverCanvas" height="600.0" width="250.0" />
                 </StackPane>
                 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="150.0" styleClass="previewPanel">
                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="150.0" VBox.vgrow="NEVER">
@@ -101,19 +104,15 @@
         <Button fx:id="exitBtn2" mnemonicParsing="false" onAction="#onPauseButtonClick" styleClass="overlayBtn" text="EXIT GAME" />
     </VBox>
     <VBox fx:id="resultPanel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" spacing="50.0" styleClass="overlay" visible="false">
-        <Label fx:id="gameResultLabel" styleClass="resultLabel" text="GAME RESULT" />
-        <Label fx:id="levelResultLabel" styleClass="resultLabel" text="LEVEL RESULT" />
-        <Label fx:id="timeResultLabel" styleClass="resultLabel" text="TIME RESULT" />
-        <Label fx:id="rowsResultLabel" styleClass="resultLabel" text="ROWS RESULT" />
-        <Label fx:id="scoreResultLabel" styleClass="resultLabel" text="SCORE RESULT" />
-        <Label fx:id="highScoreResultLabel" styleClass="resultLabel" text="HIGHSCORE RESULT" />
+        <Label fx:id="gameResultLabel" styleClass="resultLabel" />
+        <Label fx:id="timeResultLabel" styleClass="resultLabel" />
+        <Label fx:id="rowsResultLabel" styleClass="resultLabel" />
+        <Label fx:id="scoreResultLabel" styleClass="resultLabel" />
+        <Label fx:id="highScoreResultLabel" styleClass="resultLabel" />
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
-            <Button fx:id="leaderBoardBtn" mnemonicParsing="false" onAction="#onGameOverButtonClick" styleClass="gameOverBtn"
-                    text="LEADER BOARD"/>
-            <Button fx:id="playAgainBtn" mnemonicParsing="false" onAction="#onGameOverButtonClick"
-                    styleClass="gameOverBtn" text="PLAY AGAIN"/>
-            <Button fx:id="exitBtn3" mnemonicParsing="false" onAction="#onGameOverButtonClick" styleClass="gameOverBtn"
-                    text="EXIT GAME"/>
+            <Button fx:id="leaderBoardBtn" mnemonicParsing="false" onAction="#onGameOverButtonClick" styleClass="gameOverBtn" text="LEADER BOARD" />
+            <Button fx:id="playAgainBtn" mnemonicParsing="false" onAction="#onGameOverButtonClick" styleClass="gameOverBtn" text="PLAY AGAIN" />
+            <Button fx:id="exitBtn3" mnemonicParsing="false" onAction="#onGameOverButtonClick" styleClass="gameOverBtn" text="EXIT GAME" />
         </HBox>
     </VBox>
 </StackPane>

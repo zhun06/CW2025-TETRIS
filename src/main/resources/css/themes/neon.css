@@ -5,142 +5,153 @@
     -fx-background-position: center;
 }
 
-/*Panes*/
+/* ===================== PANELS ===================== */
+.imgPane {
+    -fx-border-color: linear-gradient(to right,
+    #2F5BFF, #C300FF, #FF2B8F
+    );
+    -fx-border-width: 5px;
+    -fx-border-radius: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(195, 0, 255, 0.80), 30, 0.55, 0, 0);
+}
+
 .gamePanel, .previewPanel {
     -fx-border-color: linear-gradient(to right,
-    #C300FF, #FF2B8F, #2F5BFF);
-}
-
-/*Labels*/
-.title {
-    -fx-text-fill: white;
-    -fx-effect:
-            dropshadow(gaussian, black, 5, 1.0, 2, 0),
-            dropshadow(gaussian, black, 5, 1.0, -2, 0),
-            dropshadow(gaussian, black, 5, 1.0, 0, 2),
-            dropshadow(gaussian, black, 5, 1.0, 0, -2);
-}
-
-.homeLabel, .themeLabel, .resultLabel, .leaderBoardLabel {
-    -fx-text-fill: white;
-    -fx-effect:
-            dropshadow(gaussian, black, 4, 1.0, 2, 0),
-            dropshadow(gaussian, black, 4, 1.0, -2, 0),
-            dropshadow(gaussian, black, 4, 1.0, 0, 2),
-            dropshadow(gaussian, black, 4, 1.0, 0, -2);
-}
-
-.inGameLabel {
-    -fx-text-fill: white;
-    -fx-effect:
-            dropshadow(gaussian, black, 4, 1.0, 2, 0),
-            dropshadow(gaussian, black, 4, 1.0, -2, 0),
-            dropshadow(gaussian, black, 4, 1.0, 0, 2),
-            dropshadow(gaussian, black, 4, 1.0, 0, -2);
-}
-
-#timeLabel {
-    -fx-text-fill: red;
-}
-
-.previewLabel {
-    -fx-text-fill: #FF2B5CFF;
-}
-
-.overlayLabel {
-    -fx-text-fill: #FF2B5CFF;
-    -fx-effect:
-            dropshadow(gaussian, black, 5, 1.0, 2, 0),
-            dropshadow(gaussian, black, 5, 1.0, -2, 0),
-            dropshadow(gaussian, black, 5, 1.0, 0, 2),
-            dropshadow(gaussian, black, 5, 1.0, 0, -2);
-}
-
-/* Buttons */
-.arrowBtn, .themeBtn, .homeBtn, .inGameBtn, .leaderBoardBtn {
-    -fx-background-color: #1a1a2e;
-    -fx-text-fill: #FF2B5CFF;
-    -fx-border-color: linear-gradient(to right, #2F5BFF, #C300FF, #FF2B8F);
-}
-
-.arrowBtn:hover, .themeBtn:hover, .homeBtn:hover, .inGameBtn:hover, .leaderBoardBtn:hover {
-    -fx-background-color: #2F5BFF;
-    -fx-text-fill: #FFFFFF;
-    -fx-border-color: linear-gradient(to right, #FF2B8F, #C300FF, #2F5BFF);
-}
-
-.overlayBtn, .gameOverBtn {
-    -fx-background-color: #2a2a44;
-    -fx-text-fill: #FF2B5CFF;
-    -fx-border-color: linear-gradient(to right, #FF2B8F, #C300FF, #2F5BFF);
-}
-
-.overlayBtn:hover, .gameOverBtn:hover{
-    -fx-background-color: #3a3a66;
-    -fx-text-fill: #FF5CA8;
-    -fx-border-color: linear-gradient(to right, #FF5CA8, #D100FF, #2F5BFF);
-}
-
-/* ------------------ Neon TableView Colors ------------------ */
-.table-view {
-    -fx-background-color: #0d0d1a;
-    -fx-border-color: linear-gradient(to right, #2F5BFF, #C300FF, #FF2B8F);
-}
-
-/* Column header */
-.table-view .column-header {
-    -fx-background-color: rgba(0,0,0,0.8);
-    -fx-border-color: #FF2B4F;
-}
-
-/* Column header background */
-.table-view .column-header-background {
-    -fx-background-color: linear-gradient(to bottom,
-    #1a1a2e,
-    #13132b
+    #2F5BFF,
+    #C300FF,
+    #FF2B8F
     );
 }
 
-/* Column header text */
-.table-view .column-header .label {
-    -fx-text-fill: #FF2B8F;
-    -fx-effect:
-            dropshadow(gaussian, black, 3, 1, 0, 0);
+.overlay {
+    -fx-background-color: rgba(30, 30, 60, 0.18); /* slightly lighter, more translucent */
+    -fx-effect: dropshadow(gaussian, rgba(195, 0, 255, 0.65), 20, 0.95, 0, 0); /* softer neon glow */
 }
 
-/* Normal rows */
+/* ===================== LABELS ===================== */
+.title {
+    -fx-text-fill: white;
+    -fx-effect:
+            dropshadow(gaussian, #000000, 8, 0.9, 0, 0);
+}
+
+.homeLabel, .themeLabel, .resultLabel, .leaderBoardLabel, .inGameLabel {
+    -fx-text-fill: white;
+    -fx-effect:
+            dropshadow(gaussian, #000000, 6, 0.9, 0, 0);
+}
+
+#timeLabel {
+    -fx-text-fill: #FF2B5C; /* bright neon red-pink */
+}
+
+.previewLabel, .overlayLabel {
+    -fx-text-fill: #FF2B8F;
+    -fx-effect:
+            dropshadow(gaussian, #000000, 8, 0.8, 0, 0);
+}
+
+/* ===================== MAIN BUTTONS ===================== */
+.arrowBtn, .themeBtn, .homeBtn, .inGameBtn, .leaderBoardBtn {
+    -fx-background-color: #0E0E1A; /* darker neon base */
+    -fx-text-fill: #FF2B8F;
+    -fx-border-color: linear-gradient(to right,
+    #2F5BFF,
+    #C300FF,
+    #FF2B8F
+    );
+}
+
+.arrowBtn:hover, .themeBtn:hover, .homeBtn:hover, .inGameBtn:hover, .leaderBoardBtn:hover {
+    -fx-background-color: linear-gradient(to right,
+    #2F5BFF,
+    #C300FF
+    );
+    -fx-text-fill: white;
+    -fx-border-color: linear-gradient(to right,
+    #FF2B8F,
+    #C300FF,
+    #2F5BFF
+    );
+}
+
+/* ===================== OVERLAY BUTTONS ===================== */
+.overlayBtn, .gameOverBtn {
+    -fx-background-color: #1A1A33;
+    -fx-text-fill: #FF2B8F;
+    -fx-border-color: linear-gradient(to right,
+    #FF2B8F,
+    #C300FF,
+    #2F5BFF
+    );
+}
+
+.overlayBtn:hover, .gameOverBtn:hover {
+    -fx-background-color: #2A2A55;
+    -fx-text-fill: #FF5CA8;
+    -fx-border-color: linear-gradient(to right,
+    #FF5CA8,
+    #D100FF,
+    #2F5BFF
+    );
+}
+
+/* ===================== TABLE VIEW ===================== */
+.table-view {
+    -fx-background-color: #0A0A16;
+    -fx-border-color: linear-gradient(to right,
+    #2F5BFF,
+    #C300FF,
+    #FF2B8F
+    );
+}
+
+.table-view .column-header {
+    -fx-background-color: rgba(0, 0, 0, 0.85);
+    -fx-border-color: #C300FF;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom,
+    #151530,
+    #0F0F24
+    );
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #FF2B8F;
+    -fx-effect: dropshadow(gaussian, #000000, 5, 0.9, 0, 0);
+}
+
 .table-row-cell {
-    -fx-background-color: #1a1a2e;
+    -fx-background-color: #151526;
     -fx-text-fill: white;
 }
 
-/* Alternate rows (subtle, readable) */
 .table-row-cell:odd {
-    -fx-background-color: #151526;
+    -fx-background-color: #101020;
 }
 
-/* Hover effect */
 .table-row-cell:hover {
     -fx-background-color: #2F5BFF;
     -fx-text-fill: white;
 }
 
-/* Selected row */
 .table-row-cell:selected {
     -fx-background-color: #C300FF;
     -fx-text-fill: white;
 }
 
-/* Table cells */
 .table-cell {
     -fx-text-fill: white;
 }
 
-/* Column border separators */
 .table-view .column-header,
 .table-view .filler {
-    -fx-border-color: linear-gradient(to right, #FF2B8F, #C300FF, #2F5BFF);
+    -fx-border-color: linear-gradient(to right,
+    #FF2B8F,
+    #C300FF,
+    #2F5BFF
+    );
     -fx-border-width: 0 0 2 0;
 }
-
-

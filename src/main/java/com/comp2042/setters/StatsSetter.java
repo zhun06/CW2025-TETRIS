@@ -11,20 +11,19 @@ import java.time.Duration;
 
 
 public class StatsSetter {
-    private final GameChoice gameChoice;
+    private GameChoice gameChoice;
     private final Label levelLabel, timeLabel, rowsLabel, currentScoreLabel, highScoreLabel;
 
     public StatsSetter(GameController gameController) {
-        gameChoice= GameManager.getCurrentGameChoice();
         this.levelLabel = gameController.getGameLabels().get(0);
         this.timeLabel = gameController.getGameLabels().get(1);
         this.rowsLabel = gameController.getGameLabels().get(2);
         this.currentScoreLabel = gameController.getGameLabels().get(3);
         this.highScoreLabel = gameController.getGameLabels().get(4);
-        this.initialize();
     }
 
-    private void initialize() {
+    public void onNewGame() {
+        gameChoice = GameManager.getCurrentGameChoice();
         switch (gameChoice) {
             case ZEN -> {
                 showLabel(levelLabel);
@@ -37,6 +36,13 @@ public class StatsSetter {
                 hideLabel(levelLabel);
                 showLabel(timeLabel);
                 showLabel(rowsLabel);
+                hideLabel(currentScoreLabel);
+                showLabel(highScoreLabel);
+            }
+            case HARDCORE -> {
+                hideLabel(levelLabel);
+                showLabel(timeLabel);
+                hideLabel(rowsLabel);
                 hideLabel(currentScoreLabel);
                 showLabel(highScoreLabel);
             }
@@ -55,7 +61,7 @@ public class StatsSetter {
 
     private void setTime(Duration remainingTime, Duration elapsedTime) {
         switch (gameChoice) {
-            case FORTY_LINES -> timeLabel.setText("Time: " + formatSeconds(elapsedTime));
+            case FORTY_LINES, HARDCORE -> timeLabel.setText("Time: " + formatSeconds(elapsedTime));
             case BLITZ -> timeLabel.setText("Time left: " + formatSeconds(remainingTime));
         }
     }
@@ -63,7 +69,7 @@ public class StatsSetter {
     private void setRows(Score score) {
         switch (gameChoice) {
             case FORTY_LINES -> rowsLabel.setText("Rows remaining: " + score.rowsRemainingProperty().getValue());
-            case BLITZ -> rowsLabel.setText("Rows cleared: " + score.rowsClearedProperty().getValue());
+            case BLITZ, HARDCORE -> rowsLabel.setText("Rows cleared: " + score.rowsClearedProperty().getValue());
         }
     }
 
@@ -72,14 +78,13 @@ public class StatsSetter {
     private void setHighScore(GameResult gameResult) {
         switch (gameChoice) {
             case ZEN -> highScoreLabel.setText("High Score: " + gameResult.highScoreProperty().getValue());
-            case FORTY_LINES ->  {
+            case FORTY_LINES, HARDCORE ->  {
                 if (gameResult.bestTimeProperty().get() == null) {
                     highScoreLabel.setText("Best time: none");
                 }
                 else highScoreLabel.setText("Best time: " + formatSeconds(gameResult.bestTimeProperty().get()));
             }
             case BLITZ ->   highScoreLabel.setText("Most rows: " + gameResult.mostRowsProperty().getValue());
-
         }
     }
 

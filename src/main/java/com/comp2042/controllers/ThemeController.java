@@ -6,11 +6,11 @@ import com.comp2042.managers.SceneManager;
 import com.comp2042.util.Theme;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -19,6 +19,9 @@ import java.util.ArrayList;
 
 // Controls theme-switching page
 public class ThemeController {
+    @FXML
+    private VBox root;
+
     @FXML
     private Button prevBtn, nextBtn, confirmBtn;
 
@@ -44,9 +47,9 @@ public class ThemeController {
         themePreview.setClip(clip);
 
         // Load images
-        images.add(new Image("/images/neonBG.png"));
-        images.add(new Image("/images/natureBG.png"));
-        images.add(new Image("/images/candyBG.png"));
+        images.add(new Image("/images/candyPreview.png"));
+        images.add(new Image("/images/naturePreview.png"));
+        images.add(new Image("/images/neonPreview.png"));
 
         // Set the first image
         themePreview.setImage(images.get(currentIndex));
@@ -72,7 +75,6 @@ public class ThemeController {
     }
 
     public void addKeyHandler() {
-        Parent root = ControllerManager.getThemeRoot();
         Stage stage = SceneManager.getStage();
         root.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             switch (key.getCode()) {
@@ -104,9 +106,9 @@ public class ThemeController {
     // Update css
     private void setTheme() {
         switch (currentIndex) { // Update css stylesheet
-            case 0 -> SceneManager.setTheme(Theme.NEON);
+            case 0 -> SceneManager.setTheme(Theme.CANDY);
             case 1 -> SceneManager.setTheme(Theme.NATURE);
-            case 2 -> SceneManager.setTheme(Theme.CANDY);
+            case 2 -> SceneManager.setTheme(Theme.NEON);
         }
     }
 

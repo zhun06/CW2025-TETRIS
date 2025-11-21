@@ -6,11 +6,11 @@ import com.comp2042.managers.SceneManager;
 import com.comp2042.setters.LeaderBoardSetter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,12 +20,14 @@ import java.util.List;
 
 // Leader board page
 public class LeaderBoardController {
+    @FXML
+    private VBox root;
 
     @FXML
     private TableView<ScoreRecord> leaderBoardTable;
 
     @FXML
-    private TableColumn<ScoreRecord, String> modeColumn, levelColumn, timeColumn, scoreColumn, rowsColumn;
+    private TableColumn<ScoreRecord, String> modeColumn, timeColumn, scoreColumn, rowsColumn;
 
     @FXML
     private Button homeBtn, themeBtn;
@@ -47,7 +49,6 @@ public class LeaderBoardController {
     }
 
     public void addKeyHandler() {
-        Parent root = ControllerManager.getLeaderBoardRoot();
         Stage stage = SceneManager.getStage();
         root.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             switch (key.getCode()) {
@@ -75,5 +76,5 @@ public class LeaderBoardController {
 
     // Getters
     public TableView<ScoreRecord> getLeaderBoardTable() {return leaderBoardTable;}
-    public List<TableColumn<ScoreRecord, String>> getLeaderBoardColumns() {return new ArrayList<>(Arrays.asList(modeColumn, levelColumn, timeColumn, scoreColumn, rowsColumn));}
+    public List<TableColumn<ScoreRecord, String>> getLeaderBoardColumns() {return new ArrayList<>(Arrays.asList(modeColumn, timeColumn, scoreColumn, rowsColumn));}
 }

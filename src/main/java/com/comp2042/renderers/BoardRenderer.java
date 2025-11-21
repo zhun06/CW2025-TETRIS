@@ -12,7 +12,6 @@ import javafx.scene.shape.StrokeType;
 
 import java.awt.Point;
 
-
 public class BoardRenderer {
     private final Board board;
     private final GridPane gameBoard;
@@ -30,23 +29,23 @@ public class BoardRenderer {
         this.gameBoard = gameController.getGameBoard();
         this.board = board;
         this.rectangle = new Rectangle[ROWS][COLS];
-        this.initializeColor();
         this.initializeBoard();
     }
+
+    // On new game
+    public void onNewGame() {this.initializeColor();}
 
     // Get color scheme
     private void initializeColor() {
         switch (SceneManager.getTheme()) {
-            case NEON -> themeColor = new NeonColor();
-            case NATURE -> themeColor = new NatureColor();
             case CANDY -> themeColor = new CandyColor();
+            case NATURE -> themeColor = new NatureColor();
+            case NEON -> themeColor = new NeonColor();
         }
     }
 
     // Initialize board
     private void initializeBoard() {
-        gameBoard.getChildren().clear(); // Remove old rectangles
-
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 Rectangle rect = new Rectangle(BRICK_SIZE, BRICK_SIZE);
@@ -123,5 +122,3 @@ public class BoardRenderer {
     }
 
 }
-
-

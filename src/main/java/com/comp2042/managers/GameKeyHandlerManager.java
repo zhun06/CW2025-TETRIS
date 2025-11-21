@@ -1,6 +1,7 @@
 package com.comp2042.managers;
 
 
+import com.comp2042.controllers.GameController;
 import com.comp2042.logic.games.TetrisGame;
 import com.comp2042.logic.moves.MoveEvent;
 import com.comp2042.util.EventSource;
@@ -15,22 +16,27 @@ import java.io.IOException;
 
 // Add or remove event handlers based on game state
 public class GameKeyHandlerManager {
-    private final Parent gameRoot; // Game root
+    // Boss
+    private final GameManager gameManager;
+    // Game
+    TetrisGame tetrisGame;
+    // Game root
+    private final Parent gameRoot;
     // Event handlers
     private EventHandler<KeyEvent> gameHandler;
     private EventHandler<KeyEvent> onPauseHandler, onGameOverHandler; // Generic handlers
 
     // Constructor
-    public GameKeyHandlerManager() {
-        gameRoot = ControllerManager.getGameRoot();
+    public GameKeyHandlerManager(GameManager gameManager, TetrisGame game, GameController gameController) {
+        this.gameManager = gameManager;
+        this.tetrisGame = game;
+        this.gameRoot = gameController.root;
         this.setOnPauseHandler();
         this.setOnGameOverHandler();
-    }
-
-    public void initialize(TetrisGame tetrisGame) {
         this.setGameHandler(tetrisGame);
     }
 
+    // Change keys based on game state
     public void update() {
         GameState state = GameManager.getCurrentGameState();
 
@@ -114,11 +120,11 @@ public class GameKeyHandlerManager {
                     event.consume();
                 }
 
-                case P -> GameManager.pauseGame();
-                case R, N-> GameManager.restartGame();
+                case P -> gameManager.pauseGame();
+                case R, N-> gameManager.restartGame();
                 case E, Q -> {
                     try {
-                        GameManager.exitGame();
+                        gameManager.exitGame();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -132,15 +138,15 @@ public class GameKeyHandlerManager {
             switch (keyEvent.getCode()) {
                 case SPACE, P -> {
                     try {
-                        GameManager.resumeGame();
+                        gameManager.resumeGame();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
-                case R, N -> GameManager.restartGame();
+                case R, N -> gameManager.restartGame();
                 case E, Q -> {
                     try {
-                        GameManager.exitGame();
+                        gameManager.exitGame();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -152,17 +158,17 @@ public class GameKeyHandlerManager {
     public void setOnGameOverHandler() {
         this.onGameOverHandler = keyEvent -> {
             switch (keyEvent.getCode()) {
-                case SPACE, ENTER, R, P, N -> GameManager.restartGame();
+                case SPACE, ENTER, R, P, N -> gameManager.restartGame();
                 case L -> {
                     try {
-                        GameManager.viewLeaderBoard();
+                        gameManager.viewLeaderBoard();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
                 case E, Q -> {
                     try {
-                        GameManager.exitGame();
+                        gameManager.exitGame();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

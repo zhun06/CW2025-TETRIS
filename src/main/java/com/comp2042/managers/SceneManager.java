@@ -19,8 +19,11 @@ public class SceneManager {
     private static FXMLLoader loader;
     private static Stage stage;
     private static Scene scene;
-    private static Theme currentTheme = Theme.NEON; // Default
-    private static String fileName = "theme1";
+    private static Theme currentTheme = Theme.CANDY; // Default
+    private static String fileName;
+
+    // We don't want to instantiate this utility class
+    private SceneManager() {}
 
     // Initialize scene (ONCE)
     public static void initScene() {
@@ -60,9 +63,9 @@ public class SceneManager {
         scene.getStylesheets().removeIf(s -> s.contains("/css/themes/"));
         currentTheme = theme;
         switch(currentTheme) {
-            case NEON -> fileName = "neon";
-            case NATURE -> fileName = "nature";
             case CANDY -> fileName = "candy";
+            case NATURE -> fileName = "nature";
+            case NEON -> fileName = "neon";
         }
         scene.getStylesheets().add(SceneManager.class.getResource("/css/themes/" + fileName + ".css").toExternalForm());
     }

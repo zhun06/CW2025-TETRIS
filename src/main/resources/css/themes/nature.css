@@ -5,15 +5,33 @@
     -fx-background-position: center;
 }
 
-/*Panes*/
-.gamePanel, .previewPanel {
+/* ===================== PANELS ===================== */
+.imgPane {
     -fx-border-color: linear-gradient(to right,
-    #2E7D32, #A5D6A7, #66BB6A); /* Forest green gradient */
+    #2E7D32, #66BB6A, #2E7D32
+    );
+    -fx-border-width: 5px;
+    -fx-border-radius: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(46, 125, 50, 0.75), 30, 0.5, 0, 0);
 }
 
-/*Labels*/
+.gamePanel, .previewPanel {
+    -fx-border-color: linear-gradient(to right,
+    #2E7D32,
+    #66BB6A,
+    #A5D6A7
+    );
+}
+
+.overlay {
+    -fx-background-color: rgba(200, 230, 201, 0.18); /* mint green, lighter */
+    -fx-effect: dropshadow(gaussian, rgba(46, 125, 50, 0.65), 20, 0.9, 0, 0); /* softer green glow */
+}
+
+
+/* ===================== LABELS ===================== */
 .title {
-    -fx-text-fill: #2C8333FF; /* Dark green */
+    -fx-text-fill: #1B5E20; /* deep forest green */
     -fx-effect:
             dropshadow(gaussian, black, 5, 1.0, 2, 0),
             dropshadow(gaussian, black, 5, 1.0, -2, 0),
@@ -21,17 +39,8 @@
             dropshadow(gaussian, black, 5, 1.0, 0, -2);
 }
 
-.homeLabel, .themeLabel, .resultLabel, .leaderBoardLabel {
-    -fx-text-fill: #4CAF50; /* Medium green */
-    -fx-effect:
-            dropshadow(gaussian, black, 4, 1.0, 2, 0),
-            dropshadow(gaussian, black, 4, 1.0, -2, 0),
-            dropshadow(gaussian, black, 4, 1.0, 0, 2),
-            dropshadow(gaussian, black, 4, 1.0, 0, -2);
-}
-
-.inGameLabel {
-    -fx-text-fill: #4CAF50; /* Medium green */
+.homeLabel, .themeLabel, .resultLabel, .leaderBoardLabel, .inGameLabel {
+    -fx-text-fill: #388E3C; /* medium bright leaf green */
     -fx-effect:
             dropshadow(gaussian, black, 4, 1.0, 2, 0),
             dropshadow(gaussian, black, 4, 1.0, -2, 0),
@@ -40,106 +49,102 @@
 }
 
 #timeLabel {
-    -fx-text-fill: #BF360C; /* Earthy red */
+    -fx-text-fill: #BF360C; /* earthy red / sunset tone */
 }
 
-.previewLabel {
-    -fx-text-fill: #388E3C; /* Green accent */
+.previewLabel, .overlayLabel {
+    -fx-text-fill: #2E7D32; /* forest green */
+    -fx-effect: dropshadow(gaussian, black, 5, 0.9, 0, 0);
 }
 
-.overlayLabel {
-    -fx-text-fill: #2E7D32;
-    -fx-effect:
-            dropshadow(gaussian, black, 5, 1.0, 2, 0),
-            dropshadow(gaussian, black, 5, 1.0, -2, 0),
-            dropshadow(gaussian, black, 5, 1.0, 0, 2),
-            dropshadow(gaussian, black, 5, 1.0, 0, -2);
-}
-
-/* Buttons */
+/* ===================== MAIN BUTTONS ===================== */
 .arrowBtn, .themeBtn, .homeBtn, .inGameBtn, .leaderBoardBtn {
-    -fx-background-color: #1B5E20; /* Dark forest green */
-    -fx-text-fill: #A5D6A7; /* Soft green */
-    -fx-border-color: #4CAF50; /* Solid medium green */
+    -fx-background-color: #1B5E20;      /* forest base */
+    -fx-text-fill: #C8E6C9;             /* soft mint */
+    -fx-border-color: linear-gradient(to right,
+    #66BB6A,
+    #2E7D32
+    );
 }
 
 .arrowBtn:hover, .themeBtn:hover, .homeBtn:hover, .inGameBtn:hover, .leaderBoardBtn:hover {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: #FFFFFF;
-    -fx-border-color: #2E7D32; /* Dark green on hover */
+    -fx-background-color: #4CAF50;      /* leaf green */
+    -fx-text-fill: white;
+    -fx-border-color: linear-gradient(to right,
+    #2E7D32,
+    #1B5E20
+    );
 }
 
+/* ===================== OVERLAY BUTTONS ===================== */
 .overlayBtn, .gameOverBtn {
-    -fx-background-color: #33691E;
-    -fx-text-fill: #A5D6A7;
-    -fx-border-color: #66BB6A;
+    -fx-background-color: #33691E; /* moss green */
+    -fx-text-fill: #C8E6C9;
+    -fx-border-color: linear-gradient(to right,
+    #66BB6A,
+    #43A047
+    );
 }
 
 .overlayBtn:hover, .gameOverBtn:hover {
-    -fx-background-color: #66BB6A;
-    -fx-text-fill: #1B5E20;
+    -fx-background-color: #66BB6A; /* bright leafy green */
+    -fx-text-fill: #1B5E20;        /* dark forest */
     -fx-border-color: #2E7D32;
 }
 
-/* ------------------ Nature TableView Colors ------------------ */
+/* ===================== TABLE VIEW ===================== */
 .table-view {
-    -fx-background-color: #e8f5e9; /* very light plant green */
+    -fx-background-color: #E8F5E9; /* natural pale green */
     -fx-border-color: linear-gradient(to right,
-    #2E7D32, #A5D6A7, #66BB6A); /* nature gradient */
-}
-
-/* Column header */
-.table-view .column-header {
-    -fx-background-color: #1B2F1B; /* deep green */
-    -fx-border-color: #4A7C59;     /* moss green */
-}
-
-/* Column header background */
-.table-view .column-header-background {
-    -fx-background-color: linear-gradient(to bottom,
-    #C8E6C9,
+    #2E7D32,
+    #66BB6A,
     #A5D6A7
     );
 }
 
-/* Column header text */
+.table-view .column-header {
+    -fx-background-color: #1A3A1A; /* deep forest / nature shadow */
+    -fx-border-color: #5A7C5A;     /* moss neutral */
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom,
+    #C8E6C9,  /* mint */
+    #A5D6A7   /* sage */
+    );
+}
+
 .table-view .column-header .label {
-    -fx-text-fill: #2E7D32; /* forest green */
-    -fx-effect:
-            dropshadow(gaussian, black, 3, 1, 0, 0);
+    -fx-text-fill: #2E7D32;
+    -fx-effect: dropshadow(gaussian, black, 3, 0.9, 0, 0);
 }
 
-/* Normal rows */
 .table-row-cell {
-    -fx-background-color: #F1F8E9; /* pale green */
-    -fx-text-fill: #33691E; /* earthy dark green */
+    -fx-background-color: #F1F8E9; /* pale plant green */
+    -fx-text-fill: #2E4820;        /* deep natural green */
 }
 
-/* Alternate rows */
 .table-row-cell:odd {
     -fx-background-color: #E8F5E9;
 }
 
-/* Hover */
 .table-row-cell:hover {
-    -fx-background-color: #66BB6A; /* leafy green */
+    -fx-background-color: #66BB6A; /* fresh leaf green */
     -fx-text-fill: white;
 }
 
-/* Selected row */
 .table-row-cell:selected {
-    -fx-background-color: #63d668; /* dark forest green */
+    -fx-background-color: #43A047; /* deeper forest leaf */
     -fx-text-fill: white;
 }
 
-/* Table cells */
 .table-cell {
-    -fx-text-fill: #33691E;
+    -fx-text-fill: #2E4820;
 }
 
-/* Header separator */
 .table-view .column-header,
 .table-view .filler {
     -fx-border-color: #4CAF50;
     -fx-border-width: 0 0 2 0;
 }
+

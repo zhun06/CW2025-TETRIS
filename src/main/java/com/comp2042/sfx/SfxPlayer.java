@@ -16,7 +16,6 @@ public class SfxPlayer {
     }
 
     private void onStart() {
-        SoundLoader.playMusic();
         SoundLoader.play(SfxEvent.GAME_START);
     }
 

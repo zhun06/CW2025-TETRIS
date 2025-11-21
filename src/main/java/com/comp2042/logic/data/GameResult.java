@@ -20,7 +20,6 @@ public final class GameResult {
     private final IntegerProperty endScore = new SimpleIntegerProperty(0);
     private final IntegerProperty highScore = new SimpleIntegerProperty(0);
     private final IntegerProperty endLevel = new SimpleIntegerProperty(0);
-    private final IntegerProperty bestLevel = new SimpleIntegerProperty(0);
     private final IntegerProperty endRows = new SimpleIntegerProperty(0);
     private final IntegerProperty mostRows = new SimpleIntegerProperty(0);
     private final ObjectProperty<Duration> endTime = new SimpleObjectProperty<>(null);
@@ -32,7 +31,6 @@ public final class GameResult {
         csvLoader.load();
 
         highScore.setValue(csvLoader.get(mode).score);
-        bestLevel.setValue(csvLoader.get(mode).level);
         mostRows.setValue(csvLoader.get(mode).rows);
         bestTime.setValue(csvLoader.get(mode).time);
     }
@@ -46,10 +44,9 @@ public final class GameResult {
         this.updateHighScore();
         this.updateMostRows();
         this.updateBestTime();
-        this.updateBestLevel();
 
         // Update csv
-        ScoreRecord scoreRecord = new ScoreRecord(mode, bestLevel.getValue(), bestTime.getValue(), highScore.getValue(), mostRows.getValue());
+        ScoreRecord scoreRecord = new ScoreRecord(mode, bestTime.getValue(), highScore.getValue(), mostRows.getValue());
         csvLoader.update(mode, scoreRecord);
     }
 
@@ -62,26 +59,39 @@ public final class GameResult {
     public void setEndLevel(Score score) {this.endLevel.set(score.levelProperty().get());}
 
     // Update
-    public void updateHighScore() {
+    public void updateHighScore() { // Only for ZEN
+        if (mode.equals(GameChoice.ZEN)) {
+            if (endScore.getValue() > highScore.getValue()){
+                highScore.setValue(endScore.getValue());
+            }
+        }
+
+    }
+    public void updateMostRows() { // Only for BLITZ
+        if  (mode.equals(GameChoice.BLITZ)) {
+            if (endRows.getValue() > mostRows.getValue()) {
+                mostRows.setValue(endRows.getValue());
+            }
+        }
+    }
+
+    public void updateBestTime() { // For FORTY_LINES and HARD_CORE
         if (gameState == GameState.LOSE || endTime.get() == Duration.ZERO) return;
-        if (endScore.getValue() > highScore.getValue()){
-            highScore.setValue(endScore.getValue());
+        if (bestTime.get() == null || bestTime.get().isZero()) {
+            bestTime.setValue(endTime.getValue());
+            return;
         }
-    }
-    public void updateMostRows() {
-        if (endRows.getValue() > mostRows.getValue()) {
-            mostRows.setValue(endRows.getValue());
-        }
-    }
-    public void updateBestTime() {
-        if (gameState == GameState.LOSE || endTime.get() == Duration.ZERO) return;
-        if (bestTime.get() == null || endTime.get().compareTo(bestTime.get()) < 0){
-            bestTime.set(endTime.get());
-        }
-    }
-    public void updateBestLevel() {
-        if (endLevel.getValue() > bestLevel.getValue()) {
-            bestLevel.setValue(endLevel.getValue());
+        switch (mode) {
+            case FORTY_LINES -> { // Least time
+                if (endTime.get().compareTo(bestTime.get()) < 0){
+                    bestTime.set(endTime.get());
+                }
+            }
+            case HARDCORE ->  { // Longest time
+                if (endTime.get().compareTo(bestTime.get()) > 0){
+                    bestTime.set(endTime.get());
+                }
+            }
         }
     }
 
@@ -89,8 +99,6 @@ public final class GameResult {
     public GameState getGameState() {return gameState;}
     public IntegerProperty endScoreProperty() {return endScore;}
     public IntegerProperty highScoreProperty() {return highScore;}
-    public IntegerProperty endLevelProperty() {return endLevel;}
-    public IntegerProperty bestLevelProperty() {return bestLevel;}
     public IntegerProperty endRowsProperty() {return endRows;}
     public IntegerProperty mostRowsProperty() {return mostRows;}
     public ObjectProperty<Duration> endTimeProperty() {return endTime;}

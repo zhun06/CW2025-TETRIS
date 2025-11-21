@@ -10,16 +10,16 @@ import java.util.Deque;
 
 
 public class SfxManager {
-    private final Canvas vfxCanvas;
     private final VfxRenderer vfxRenderer;
     private final SfxPlayer sfxPlayer;
 
     // Constructor
     public SfxManager(GameController gameController) {
-        this.vfxCanvas = gameController.getVfxCanvas();
-        this.vfxRenderer = new VfxRenderer(vfxCanvas);
+        this.vfxRenderer = new VfxRenderer(gameController);
         this.sfxPlayer = new SfxPlayer();
     }
+
+    public void onNewGame() {this.vfxRenderer.onNewGame();}
 
     public void update(SfxData data, ClearRow clearRow) {
         Deque<SfxEvent> activeSfxEvents = data.getActiveSfxEvents();

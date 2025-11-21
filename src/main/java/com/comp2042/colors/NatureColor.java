@@ -1,21 +1,21 @@
 package com.comp2042.colors;
 
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+
 
 public class NatureColor implements ThemeColor {
 
     @Override
-    public Paint getPreviewColor() { return Color.web("#B2E3A0FF"); } // soft pale green, calm background
+    public Color getPreviewColor() { return Color.web("#B2E3A0FF"); } // soft pale green, calm background
 
     @Override
-    public Paint getBoardColor() { return Color.web("#9CD38CFF"); } // muted green, natural board tone
+    public Color getBoardColor() { return Color.web("#9CD38CFF"); } // muted green, natural board tone
 
     @Override
-    public Paint getGridColor() { return Color.web("#8DAA91"); } // darker green, subtle grid
+    public Color getGridColor() { return Color.web("#8DAA91"); } // darker green, subtle grid
 
     @Override
-    public Paint getBrickColor(int value) {
+    public Color getBrickColor(int value) {
         return switch (value) {
             case 1 -> Color.web("#2E7D32"); // rich forest green
             case 2 -> Color.web("#558B2F"); // deep moss green
@@ -24,17 +24,18 @@ public class NatureColor implements ThemeColor {
             case 5 -> Color.web("#6A1B9A"); // deep flower purple
             case 6 -> Color.web("#FBC02D"); // golden yellow (like sunflower)
             case 7 -> Color.web("#5D4037"); // chocolate brown
+            case 8 -> Color.web("#4B5A47"); // earthy muted dark green-brown
             default -> Color.TRANSPARENT;
         };
     }
 
     @Override
-    public Paint getBrickOutline(int value) {
+    public Color getBrickOutline(int value) {
         return Color.BLACK; //
     }
 
     @Override
-    public Paint getGhostColor(int value) {
+    public Color getGhostColor(int value) {
         return switch (value) {
             case 1 -> Color.web("#81C784"); // faded forest green
             case 2 -> Color.web("#7CB342"); // muted moss green
@@ -49,13 +50,13 @@ public class NatureColor implements ThemeColor {
 
     // VFX colors
     @Override
-    public Paint getOverlayColor() {return Color.rgb(30, 80, 30, 0.25);}
+    public Color getOverlayColor() {return Color.rgb(30, 80, 30, 0.25);}
     @Override
-    public Paint getTextColor() { return Color.web("#2E7D32"); }             // forest green
+    public Color getTextColor() { return Color.web("#2E7D32"); }             // forest green
     @Override
-    public Paint getClearRowColor() { return Color.web("#A5D6A7"); }         // soft green glow for cleared rows
+    public Color getClearRowColor() { return Color.web("#6FCD73FF"); }         // soft green glow for cleared rows
     @Override
-    public Paint getLevelUpColor() { return Color.web("#66BB6A"); }          // leafy green ring
+    public Color getLevelUpColor() { return Color.web("#66BB6A"); }          // leafy green ring
 
 
 }

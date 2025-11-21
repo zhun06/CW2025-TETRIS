@@ -2,105 +2,97 @@ package com.comp2042.managers;
 
 
 import com.comp2042.controllers.GameController;
-import com.comp2042.engines.TetrisEngine;
+import com.comp2042.engine.TetrisEngine;
 import com.comp2042.logic.games.TetrisGame;
+import com.comp2042.sfx.SoundLoader;
 import com.comp2042.util.GameChoice;
 import com.comp2042.util.GameState;
 
 import java.io.IOException;
 
+// Singleton class
 // Manage ALL game loop
-// MANAGERS created once and REUSED
+// ALL MANAGERS created once and REUSED
+// Game and engine created once and REUSED
 public class GameManager {
+    // Instance of itself
+    private static GameManager instance;
+    // Game & Engine
+    private final TetrisGame game; // Reuse
+    private final TetrisEngine engine; // Reuse
+    // Game-state managers (workers)
+    private final GameKeyHandlerManager gameKeyHandlerManager; // Reuse
+    private final TimelineManager timelineManager; // Reuse
+    private final OverlayManager overlayManager; // Reuse
+    // Game state (global)
     private static GameChoice currentGameChoice; // Updates
     private static GameState currentGameState; // Updates
-    // Game & Engine
-    private static TetrisGame game; // Reuse
-    private static TetrisEngine engine; // Reuse
-    // Game-state managers
-    private static GameKeyHandlerManager gameKeyHandlerManager; // Reuse
-    private static TimelineManager timelineManager; // Reuse
-    private static OverlayManager overlayManager; // Reuse
 
-    private static GameController gameController;
+    private final GameController gameController;
 
-    // Get resources (ONCE)
-    public static void initialize(GameController gc) {
-        if (game == null) {
-            gameController = gc;
-            game = new TetrisGame();
-            engine = new TetrisEngine(game, gameController);
-            gameKeyHandlerManager = new GameKeyHandlerManager();
-            timelineManager = new TimelineManager();
-            overlayManager = new OverlayManager(gameController);
+    private GameManager(GameController gameController) {
+        this.gameController = gameController;
+        this.game = new TetrisGame();
+        this.engine = new TetrisEngine(this, game, gameController);
+        this.gameKeyHandlerManager = new GameKeyHandlerManager(this, game, gameController);
+        this.timelineManager = new TimelineManager(this, engine);
+        this.overlayManager = new OverlayManager(this, gameController);
+    }
+
+    public static GameManager getInstance(GameController gameController) {
+        if (instance == null) {
+            instance = new GameManager(gameController);
         }
+        return instance;
     }
 
-    public static void startZen() {
-        currentGameChoice = GameChoice.ZEN;
-        engine.start();
-        GameManager.startGame();
-    }
-
-    public static void startForty() {
-        currentGameChoice = GameChoice.FORTY_LINES;
-        engine.start();
-        GameManager.startGame();
-    }
-
-    public static void startBlitz() {
-        currentGameChoice = GameChoice.BLITZ;
-        engine.start();
-        GameManager.startGame();
-    }
-
-    public static void startGame() {
-        gameKeyHandlerManager.initialize(game);
-        timelineManager.initialize(engine);
-
+    public void startGame(GameChoice gameChoice) {
         currentGameState = GameState.START;
+        currentGameChoice = gameChoice;
+        engine.start();
+        timelineManager.initialize();
         timelineManager.update();
         gameKeyHandlerManager.update();
-        GameManager.setFocus();
+        this.setFocus();
+        SoundLoader.playMusic();
     }
 
-    public static void updateGame() {
+    public void updateGame() {
         currentGameState = GameState.UPDATE;
         timelineManager.update();
     }
 
-    public static void pauseGame() {
+    public void pauseGame() {
         currentGameState = GameState.PAUSE;
         game.pause();
         timelineManager.update();
         gameKeyHandlerManager.update();
         overlayManager.update();
+        SoundLoader.pauseMusic();
     }
 
-    public static void resumeGame() throws IOException{
+    public void resumeGame() throws IOException{
         currentGameState = GameState.RESUME;
         game.resume();
         timelineManager.update();
         gameKeyHandlerManager.update();
         overlayManager.update();
-        GameManager.setFocus();
+        this.setFocus();
+        SoundLoader.playMusic();
     }
 
-    public static void restartGame() {
+    public void restartGame() {
         currentGameState = GameState.RESTART;
         timelineManager.update();
         gameKeyHandlerManager.update();
         overlayManager.update();
-        GameManager.setFocus();
+        this.setFocus();
+        SoundLoader.stopMusic();
 
-        switch (currentGameChoice) {
-            case ZEN -> GameManager.startZen();
-            case FORTY_LINES -> GameManager.startForty();
-            case BLITZ -> GameManager.startBlitz();
-        }
+        this.startGame(currentGameChoice);
     }
 
-    public static void viewLeaderBoard() throws IOException {
+    public void viewLeaderBoard() throws IOException {
         currentGameState = GameState.LEADER_BOARD;
         gameKeyHandlerManager.update();
         overlayManager.update();
@@ -108,23 +100,25 @@ public class GameManager {
     }
 
 
-    public static void exitGame() throws IOException {
+    public void exitGame() throws IOException {
         currentGameState = GameState.EXIT;
         timelineManager.update();
         gameKeyHandlerManager.update();
         overlayManager.update();
         ControllerManager.callHomeController();
+        SoundLoader.stopMusic();
     }
 
-    private static void runOnGameOver() {
+    private void runOnGameOver() {
         currentGameState = GameState.GAME_OVER;
         timelineManager.update();
         gameKeyHandlerManager.update();
         overlayManager.update();
+        SoundLoader.stopMusic();
     }
 
     // Notify managers when game over
-    public static Runnable setOnGameOver() {return GameManager::runOnGameOver;}
+    public Runnable setOnGameOver() {return this::runOnGameOver;}
 
 
     // Getter
@@ -132,5 +126,5 @@ public class GameManager {
     public static GameState getCurrentGameState() {return currentGameState;}
 
     // Set focus
-    private static void setFocus() {gameController.getGameBoard().requestFocus();}
+    private void setFocus() {gameController.getGameBoard().requestFocus();}
 }

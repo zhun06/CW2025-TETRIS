@@ -7,11 +7,15 @@ import javafx.scene.layout.Pane;
 
 // Manages overlays & pop-ups
 public class OverlayManager {
+    // Boss
+    GameManager gameManager;
+    // Panels
     private final Pane pauseGamePanel;
     private final Pane resultPanel;
 
 
-    public OverlayManager(GameController gameController) {
+    public OverlayManager(GameManager gameManager, GameController gameController) {
+        this.gameManager = gameManager;
         this.pauseGamePanel = gameController.getPauseGamePanel();
         this.resultPanel = gameController.getResultPanel();
     }

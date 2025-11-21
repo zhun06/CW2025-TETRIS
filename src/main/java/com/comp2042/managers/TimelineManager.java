@@ -1,24 +1,28 @@
 package com.comp2042.managers;
 
-import com.comp2042.engines.TetrisEngine;
+import com.comp2042.engine.TetrisEngine;
 import com.comp2042.util.GameState;
 import javafx.animation.AnimationTimer;
-import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
-import javafx.util.Duration;
 
 // Start, pause, resume, stop
 public class TimelineManager {
+    // Boss
+    GameManager gameManager;
     // Engine
     TetrisEngine engine;
     // Timeline
     private Timeline boardTimeline;
     // Animation timer
-    private AnimationTimer tetrisLoop;
+    private AnimationTimer gameLoop;
 
-    public void initialize(TetrisEngine engine) {
+    public TimelineManager(GameManager gameManager, TetrisEngine engine) {
+        this.gameManager = gameManager;
         this.engine = engine;
-        tetrisLoop = engine.getGameLoop();
+    }
+
+    public void initialize() {
+        gameLoop = engine.getGameLoop();
     }
 
     public void update() {
@@ -35,12 +39,12 @@ public class TimelineManager {
 
     private void onStartOrResume() {
         boardTimeline.play();
-        tetrisLoop.start();
+        gameLoop.start();
     }
 
     private void onPause() {
         boardTimeline.pause();
-        tetrisLoop.stop();
+        gameLoop.stop();
     }
 
     private void onUpdate() {
@@ -49,7 +53,7 @@ public class TimelineManager {
 
     private void onGameOverOrExitOrRestart() {
         boardTimeline.stop();
-        tetrisLoop.stop();
+        gameLoop.stop();
     }
 
 }

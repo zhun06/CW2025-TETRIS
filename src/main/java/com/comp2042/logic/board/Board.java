@@ -11,15 +11,17 @@ public interface Board {
 
     boolean moveBrickDown();
 
-    boolean moveBrickLeft();
+    void moveBrickLeft();
 
-    boolean moveBrickRight();
+    void moveBrickRight();
 
-    boolean rotateLeftBrick();
+    void rotateLeftBrick();
 
-    boolean hardDropBrick();
+    void hardDropBrick();
 
     void createNewBrick();
+
+    void setBoardMatrix(int[][] newBoardMatrix);
 
     int[][] getBoardMatrix();
 
