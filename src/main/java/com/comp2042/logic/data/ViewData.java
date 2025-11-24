@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ViewData {
-    private final int[][] brickData;
+    private final int[][] brickShape;
     private final int color;
     private final int xPosition;
     private final int yPosition;
     private final int ghostY;
 
-    public ViewData(int[][] brickData, int color, int xPosition, int yPosition, int ghostY) {
-        this.brickData = brickData;
+    public ViewData(int[][] brickShape, int color, int xPosition, int yPosition, int ghostY) {
+        this.brickShape = brickShape;
         this.color = color;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
@@ -20,11 +20,11 @@ public final class ViewData {
     }
 
     public List<Point> getCoordinates() {
-        return extract(brickData, xPosition, yPosition);
+        return extract(brickShape, xPosition, yPosition);
     }
 
     public List<Point> getGhostCoordinates() {
-        return extract(brickData, xPosition, ghostY);
+        return extract(brickShape, xPosition, ghostY);
     }
 
     private List<Point> extract(int[][] brick, int posX, int posY) {
@@ -38,6 +38,11 @@ public final class ViewData {
         }
         return coords;
     }
+    public int[][] getBrickShape() {return brickShape;}
+
+    public int getxPosition() {return xPosition;}
+
+    public int getyPosition() {return yPosition;}
 
     public int getFillColor() { return color; }
 }

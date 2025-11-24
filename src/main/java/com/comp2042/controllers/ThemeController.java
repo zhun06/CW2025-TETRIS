@@ -48,8 +48,11 @@ public class ThemeController {
 
         // Load images
         images.add(new Image("/images/candyPreview.png"));
+        images.add(new Image("/images/minionPreview.png"));
         images.add(new Image("/images/naturePreview.png"));
         images.add(new Image("/images/neonPreview.png"));
+        images.add(new Image("/images/oceanPreview.png"));
+        images.add(new Image("/images/sunsetPreview.png"));
 
         // Set the first image
         themePreview.setImage(images.get(currentIndex));
@@ -107,8 +110,11 @@ public class ThemeController {
     private void setTheme() {
         switch (currentIndex) { // Update css stylesheet
             case 0 -> SceneManager.setTheme(Theme.CANDY);
-            case 1 -> SceneManager.setTheme(Theme.NATURE);
-            case 2 -> SceneManager.setTheme(Theme.NEON);
+            case 1 -> SceneManager.setTheme(Theme.MINION);
+            case 2 -> SceneManager.setTheme(Theme.NATURE);
+            case 3 -> SceneManager.setTheme(Theme.NEON);
+            case 4 -> SceneManager.setTheme(Theme.OCEAN);
+            case 5 -> SceneManager.setTheme(Theme.SUNSET);
         }
     }
 

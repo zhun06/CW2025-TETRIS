@@ -1,0 +1,135 @@
+.root {
+    -fx-background-image: url("/images/minionBG.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: yellow;
+}
+
+/* ===================== PANELS ===================== */
+.imgPane {
+    -fx-border-color: linear-gradient(to right,
+    #FFEB3B, #FBC02D, #FFC107
+    );
+    -fx-border-width: 5px;
+    -fx-border-radius: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 235, 59, 0.75), 30, 0.5, 0, 0);
+}
+
+.gamePanel, .previewPanel {
+    -fx-border-color: linear-gradient(to right,
+    #FFEB3B, #FBC02D, #FFC107
+    );
+}
+
+.overlay {
+    -fx-background-color: rgba(255, 235, 59, 0.18); /* soft minion yellow */
+    -fx-effect: dropshadow(gaussian, rgba(255, 193, 7, 0.65), 20, 0.9, 0, 0);
+}
+
+/* ===================== LABELS ===================== */
+.title {
+    -fx-text-fill: #1976D2; /* minion goggles blue */
+    -fx-effect:
+            dropshadow(gaussian, black, 5, 1.0, 2, 0),
+            dropshadow(gaussian, black, 5, 1.0, -2, 0),
+            dropshadow(gaussian, black, 5, 1.0, 0, 2),
+            dropshadow(gaussian, black, 5, 1.0, 0, -2);
+}
+
+.homeLabel, .themeLabel, .resultLabel, .leaderBoardLabel, .inGameLabel {
+    -fx-text-fill: #0D47A1;
+    -fx-effect:
+            dropshadow(gaussian, black, 4, 1.0, 2, 0),
+            dropshadow(gaussian, black, 4, 1.0, -2, 0),
+            dropshadow(gaussian, black, 4, 1.0, 0, 2),
+            dropshadow(gaussian, black, 4, 1.0, 0, -2);
+}
+
+#timeLabel {
+    -fx-text-fill: #FFEB3B;
+}
+
+.previewLabel, .overlayLabel {
+    -fx-text-fill: #FFC107;
+    -fx-effect:
+            dropshadow(gaussian, black, 5, 1.0, 2, 0),
+            dropshadow(gaussian, black, 5, 1.0, -2, 0),
+            dropshadow(gaussian, black, 5, 1.0, 0, 2),
+            dropshadow(gaussian, black, 5, 1.0, 0, -2);
+}
+
+/* ===================== MAIN BUTTONS ===================== */
+.arrowBtn, .themeBtn, .homeBtn, .inGameBtn, .leaderBoardBtn {
+    -fx-background-color: #0D47A1;
+    -fx-text-fill: #FFEB3B;
+    -fx-border-color: linear-gradient(to right, #1976D2, #0D47A1);
+}
+
+.arrowBtn:hover, .themeBtn:hover, .homeBtn:hover, .inGameBtn:hover, .leaderBoardBtn:hover {
+    -fx-background-color: #1976D2;
+    -fx-text-fill: white;
+    -fx-border-color: linear-gradient(to right, #0D47A1, #0D47A1);
+}
+
+/* ===================== OVERLAY BUTTONS ===================== */
+.overlayBtn, .gameOverBtn {
+    -fx-background-color: #FFC107;
+    -fx-text-fill: #0D47A1;
+    -fx-border-color: linear-gradient(to right, #FFEB3B, #fb3e2d);
+}
+
+.overlayBtn:hover, .gameOverBtn:hover {
+    -fx-background-color: #FFEB3B;
+    -fx-text-fill: #0D47A1;
+    -fx-border-color: #FBC02D;
+}
+
+/* ===================== TABLE VIEW ===================== */
+.table-view {
+    -fx-background-color: #FFF9C4;
+    -fx-border-color: linear-gradient(to right, #FFEB3B, #FBC02D, #FFC107);
+}
+
+.table-view .column-header {
+    -fx-background-color: #FFEB3B;
+    -fx-border-color: #FBC02D;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #FFF176, #FFD54F);
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #0D47A1;
+    -fx-effect: dropshadow(gaussian, black, 3, 0.9, 0, 0);
+}
+
+.table-row-cell {
+    -fx-background-color: #FFFDE7;
+    -fx-text-fill: #0D47A1;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #FFF9C4;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #FFEB3B;
+    -fx-text-fill: #0D47A1;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #FBC02D;
+    -fx-text-fill: #0D47A1;
+}
+
+.table-cell {
+    -fx-text-fill: #0D47A1;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-border-color: #FFC107;
+    -fx-border-width: 0 0 2 0;
+}

@@ -16,8 +16,9 @@ import java.util.stream.IntStream;
 public class HardcoreMode implements GameMode {
     private final TetrisGame game;
     private final int fallSpeed = 200;
-    private final int interval = 5; // Interval between adding rows to board
+    private final Duration interval = Duration.ofSeconds(10); // Interval between adding rows to board
     private Duration prevTime;
+    private final Random random = new Random();
 
     // Constructor
     public HardcoreMode(TetrisGame game) {this.game = game;}
@@ -27,17 +28,26 @@ public class HardcoreMode implements GameMode {
         game.setFallSpeed(fallSpeed);
         game.getTimeData().startStopwatch();
         prevTime = game.getTimeData().getElapsedTime();
+
+        int[][] newRows = this.createNewRows(5);
+        int[][] newMatrix = this.buildShiftedMatrix(5, newRows);
+        game.getBoard().setBoardMatrix(newMatrix);
     }
 
     @Override
     public void onTick() {
         Duration elapsedTime = game.getTimeData().getElapsedTime();
-        if (elapsedTime.minus(prevTime).getSeconds() > interval) { // every interval
+        if (elapsedTime.minus(prevTime).compareTo(interval) >= 0) { // every interval
             prevTime = elapsedTime;
+            game.setGravityLock(true); // lock gravity
 
-            int rows = new Random().nextInt(3) + 1; // add 1-3 rows
-            int[][] newRows = this.createNewRows(rows);
-            this.addToBoard(rows, newRows);
+            int rows = random.nextInt(10) == 0 ? 2 : 1;  // 10% chance for 2 rows
+            int[][] newRows = this.createNewRows(rows); // create rows
+            int[][] newMatrix = this.buildShiftedMatrix(rows, newRows); // create new matrix
+
+            // update falling brick position to not intersect with new matrix
+            if (updateBrick(newMatrix)) game.getBoard().setBoardMatrix(newMatrix); // set new matrix
+            game.setGravityLock(false); // unlock gravity
         }
     }
 
@@ -51,24 +61,24 @@ public class HardcoreMode implements GameMode {
         int[][] newRows = new int[rows][TetrisGame.COLS];
 
         for (int i = 0; i < rows; i++) {
-            Arrays.fill(newRows[i], 8); // Initialize new rows as 8
-            List<Integer> emptyCells = getEmptyCells(); // Get random empty cells
+            Arrays.fill(newRows[i], 8); // initialize new rows as 8
+            List<Integer> emptyCells = getEmptyCells(); // get random empty cells
             for (Integer emptyCell : emptyCells) {
-                newRows[i][emptyCell] = 0; // Mark empty cells as 0
+                newRows[i][emptyCell] = 0; // mark empty cells as 0
             }
         }
         return newRows;
     }
 
-    // Get 3 random  empty cells for each row
+    // Get random  empty cells for each row
     private List<Integer> getEmptyCells() {
         List<Integer> numbers = IntStream.range(0, TetrisGame.COLS).boxed().collect(Collectors.toList());  // put in list
         Collections.shuffle(numbers); // shuffle
-        return numbers.subList(0, 3); // get first 3
+        return numbers.subList(0, 2); // get 2 random cells
     }
 
-    // Add new rows to board
-    private void addToBoard(int rows, int[][] newRows) {
+    // Build shifted matrix
+    private int[][] buildShiftedMatrix(int rows, int[][] newRows) {
         int[][] currentGameMatrix = MatrixOperations.copy(game.getBoard().getBoardMatrix());
         int[][] newGameMatrix = new int[TetrisGame.ROWS][TetrisGame.COLS];
 
@@ -81,17 +91,32 @@ public class HardcoreMode implements GameMode {
 
         System.out.println("New rows to be added: ");
         printMatrix(newRows);
+
         // Add new rows into new matrix
-        for (int i = TetrisGame.ROWS - rows; i < TetrisGame.ROWS; i++) {
-            int j = i - TetrisGame.ROWS + rows;
-            System.arraycopy(newRows[j], 0, newGameMatrix[i], 0, TetrisGame.COLS);
+        for (int i = 0; i < rows; i++) {
+            System.arraycopy(newRows[i], 0, newGameMatrix[TetrisGame.ROWS - rows + i], 0, TetrisGame.COLS);
         }
 
-        // Update current matrix
-        game.getBoard().setBoardMatrix(newGameMatrix);
-        System.out.println("Updated board matrix: ");
-        printMatrix(game.getBoard().getBoardMatrix());
+        System.out.println("New matrix: ");
+        printMatrix(newGameMatrix);
 
+        return newGameMatrix;
+    }
+
+    // Update
+    private boolean updateBrick(int[][] newMatrix) {
+        int[][] brick = game.getViewData().getBrickShape();
+        int offsetX = game.getViewData().getxPosition();
+        int offsetY = game.getViewData().getyPosition();
+        while (MatrixOperations.intersect(newMatrix, brick, offsetX, offsetY)) {
+            offsetY --; // move brick up
+            if (offsetY <= 3) { // out of visible board
+                game.onGameOver();
+                return false;
+            }
+        }
+        game.getBoard().setBrickOffset(offsetX, offsetY);
+        return true;
     }
 
     // Debug

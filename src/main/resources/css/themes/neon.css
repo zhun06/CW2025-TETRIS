@@ -32,13 +32,19 @@
 .title {
     -fx-text-fill: white;
     -fx-effect:
-            dropshadow(gaussian, #000000, 8, 0.9, 0, 0);
+            dropshadow(gaussian, black, 5, 1.0, 2, 0),
+            dropshadow(gaussian, black, 5, 1.0, -2, 0),
+            dropshadow(gaussian, black, 5, 1.0, 0, 2),
+            dropshadow(gaussian, black, 5, 1.0, 0, -2);
 }
 
 .homeLabel, .themeLabel, .resultLabel, .leaderBoardLabel, .inGameLabel {
     -fx-text-fill: white;
     -fx-effect:
-            dropshadow(gaussian, #000000, 6, 0.9, 0, 0);
+            dropshadow(gaussian, black, 4, 1.0, 2, 0),
+            dropshadow(gaussian, black, 4, 1.0, -2, 0),
+            dropshadow(gaussian, black, 4, 1.0, 0, 2),
+            dropshadow(gaussian, black, 4, 1.0, 0, -2);
 }
 
 #timeLabel {
@@ -48,7 +54,10 @@
 .previewLabel, .overlayLabel {
     -fx-text-fill: #FF2B8F;
     -fx-effect:
-            dropshadow(gaussian, #000000, 8, 0.8, 0, 0);
+            dropshadow(gaussian, black, 5, 1.0, 2, 0),
+            dropshadow(gaussian, black, 5, 1.0, -2, 0),
+            dropshadow(gaussian, black, 5, 1.0, 0, 2),
+            dropshadow(gaussian, black, 5, 1.0, 0, -2);
 }
 
 /* ===================== MAIN BUTTONS ===================== */

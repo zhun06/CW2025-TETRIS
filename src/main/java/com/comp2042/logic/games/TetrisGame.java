@@ -27,6 +27,7 @@ public class TetrisGame implements InputEventListener {
     private SfxData sfxData;
     private TimeData timeData;
     private int fallSpeed = 400;
+    private boolean gravityLock;
     private boolean gameOver = false;
 
     // Constructor
@@ -71,7 +72,9 @@ public class TetrisGame implements InputEventListener {
             onMerge();
         } else {
             if (event.getEventSource() == EventSource.USER) board.getScore().onDownEvent(); // User
-            else gameMode.onTick(); // Thread
+            else {
+                if(!gravityLock) gameMode.onTick(); // Thread
+            }
         }
     }
 
@@ -118,6 +121,7 @@ public class TetrisGame implements InputEventListener {
     public void onRotateEvent(MoveEvent event) { board.rotateLeftBrick(); }
 
     // Setters
+    public void setGravityLock (Boolean gravityLock) {this.gravityLock = gravityLock;}
     public void setFallSpeed(int fallSpeed) {this.fallSpeed = fallSpeed;} // Delay tick
     public void setGameState(GameState gameState) {gameResult.setGameState(gameState);} // GAME_OVER / WIN / LOSE
 

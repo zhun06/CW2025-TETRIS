@@ -64,8 +64,11 @@ public class SceneManager {
         currentTheme = theme;
         switch(currentTheme) {
             case CANDY -> fileName = "candy";
+            case MINION -> fileName = "minion";
             case NATURE -> fileName = "nature";
             case NEON -> fileName = "neon";
+            case OCEAN -> fileName = "ocean";
+            case SUNSET ->  fileName = "sunset";
         }
         scene.getStylesheets().add(SceneManager.class.getResource("/css/themes/" + fileName + ".css").toExternalForm());
     }

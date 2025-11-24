@@ -130,6 +130,11 @@ public class SimpleBoard implements Board {
     }
 
     @Override
+    public void setBrickOffset(int offsetX, int offsetY) {
+        this.currentOffset = new Point(offsetX, offsetY);
+    }
+
+    @Override
     public int[][] getBoardMatrix() {
         return currentGameMatrix;
     }

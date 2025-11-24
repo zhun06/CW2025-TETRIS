@@ -23,6 +23,8 @@ public interface Board {
 
     void setBoardMatrix(int[][] newBoardMatrix);
 
+    void setBrickOffset(int offsetX, int offsetY);
+
     int[][] getBoardMatrix();
 
     ViewData getViewData();

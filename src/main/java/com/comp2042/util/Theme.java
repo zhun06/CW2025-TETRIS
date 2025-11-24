@@ -1,7 +1,10 @@
 package com.comp2042.util;
 
 public enum Theme {
-    NEON,
+    CANDY,
+    MINION,
     NATURE,
-    CANDY
+    NEON,
+    OCEAN,
+    SUNSET
 }

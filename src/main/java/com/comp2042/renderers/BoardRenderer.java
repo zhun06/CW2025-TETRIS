@@ -39,8 +39,11 @@ public class BoardRenderer {
     private void initializeColor() {
         switch (SceneManager.getTheme()) {
             case CANDY -> themeColor = new CandyColor();
+            case MINION -> themeColor = new MinionColor();
             case NATURE -> themeColor = new NatureColor();
             case NEON -> themeColor = new NeonColor();
+            case OCEAN -> themeColor = new OceanColor();
+            case SUNSET -> themeColor = new SunsetColor();
         }
     }
 

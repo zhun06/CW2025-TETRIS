@@ -115,7 +115,7 @@ public class GameKeyHandlerManager {
                     tetrisGame.onRightEvent(new MoveEvent(EventType.RIGHT, EventSource.USER));
                     event.consume();
                 }
-                case SPACE, TAB -> {
+                case SPACE, TAB, ENTER -> {
                     tetrisGame.onHardDropEvent(new MoveEvent(EventType.HARD_DROP, EventSource.USER));
                     event.consume();
                 }
