@@ -1,5 +1,6 @@
 package com.comp2042.util;
 
+/*** Represents different special effects (SFX) events in the game.*/
 public enum SfxEvent {
     GAME_START,
     HARD_DROP,

@@ -12,6 +12,11 @@ import com.comp2042.util.*;
 
 import java.util.Queue;
 
+/**
+ * Core controller class that drives the Tetris gameplay.
+ * Handles input events, manages game modes, updates scoring and timing,
+ * and coordinates board state transitions such as merging and clearing rows.
+ */
 public class TetrisGame implements InputEventListener {
     // Game mode
     private GameMode gameMode;
@@ -30,12 +35,16 @@ public class TetrisGame implements InputEventListener {
     private boolean gravityLock;
     private boolean gameOver = false;
 
-    // Constructor
-    public TetrisGame() {
-        board = new SimpleBoard(ROWS, COLS); // Persistent
-    }
+    /**
+     * Constructs a new TetrisGame instance and initializes
+     * a persistent board used across play sessions.
+     */
+    public TetrisGame() {board = new SimpleBoard(ROWS, COLS);}
 
-    // Initializing game
+    /**
+     * Initializes and starts a new game session.
+     * Resets board state, timing, scoring, and triggers game-mode-specific setup.
+     */
     @Override
     public void createNewGame() {
         initialize();
@@ -45,6 +54,10 @@ public class TetrisGame implements InputEventListener {
         sfxData.update(SfxEvent.GAME_START);
     }
 
+    /**
+     * Internal setup method that initializes shared data
+     * such as timers, audio effects, and game result tracking.
+     */
     private void initialize() {
         setGameMode();
         Timer timer = new Timer();
@@ -54,6 +67,7 @@ public class TetrisGame implements InputEventListener {
         gameResult = new GameResult();
     }
 
+    /**Selects and assigns a game mode based on the current GameChoice.*/
     private void setGameMode() {
         GameChoice gameChoice = GameManager.getCurrentGameChoice();
         switch (gameChoice) {
@@ -64,7 +78,11 @@ public class TetrisGame implements InputEventListener {
         }
     }
 
-    // Moves
+    /**
+     * Handles downward movement events. Applies gravity or merges the brick
+     * if movement is no longer possible, and triggers game mode logic on ticks.
+     * @param event the movement event
+     */
     @Override
     public void onDownEvent(MoveEvent event) {
         boolean canMove = board.moveBrickDown();
@@ -78,6 +96,11 @@ public class TetrisGame implements InputEventListener {
         }
     }
 
+    /**
+     * Handles hard-drop input by instantly placing the brick,
+     * applying score, performing merge, and triggering sound effects.
+     * @param event the movement event
+     */
     @Override
     public void onHardDropEvent(MoveEvent event) {
         board.hardDropBrick();
@@ -86,6 +109,10 @@ public class TetrisGame implements InputEventListener {
         sfxData.update(SfxEvent.HARD_DROP);
     }
 
+    /**
+     * Merges the falling brick into the board background, clears rows if any,
+     * and spawns the next brick. Also checks if board is full.
+     */
     private void onMerge () {
         board.mergeBrickToBackground();
         board.createNewBrick();
@@ -103,20 +130,25 @@ public class TetrisGame implements InputEventListener {
         }
     }
 
+    /**Triggers game-over state and stores final results such as score and time.*/
     public void onGameOver() {
         gameResult.update(board.getScore(), timeData.getElapsedTime());
         sfxData.update(SfxEvent.GAME_OVER);
         gameOver = true;
     }
 
+    /**Add level up event to active sfx list*/
     public void onLevelUp() {sfxData.update(SfxEvent.LEVEL_UP);}
 
+    /** {@inheritDoc} */
     @Override
     public void onLeftEvent(MoveEvent event) { board.moveBrickLeft(); }
 
+    /** {@inheritDoc} */
     @Override
     public void onRightEvent(MoveEvent event) { board.moveBrickRight(); }
 
+    /** {@inheritDoc} */
     @Override
     public void onRotateEvent(MoveEvent event) { board.rotateLeftBrick(); }
 

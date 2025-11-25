@@ -2,17 +2,21 @@ package com.comp2042.colors;
 
 import javafx.scene.paint.Color;
 
+/**NeonColor theme implementing {@link ThemeColor} interface.*/
 public class NeonColor implements ThemeColor {
-
+    /** {@inheritDoc} */
     @Override
     public Color getPreviewColor() {return Color.web("#151528");}
 
+    /** {@inheritDoc} */
     @Override
     public Color getBoardColor() {return Color.web("#0a0f1f");}
 
+    /** {@inheritDoc} */
     @Override
     public Color getGridColor() {return Color.web("#22263D");}
 
+    /** {@inheritDoc} */
     @Override
     public Color getBrickColor(int value) {
         return switch (value) {
@@ -28,9 +32,11 @@ public class NeonColor implements ThemeColor {
         };
     }
 
+    /** {@inheritDoc} */
     @Override
     public Color getBrickOutline(int value) {return Color.web("#000000AA");}
 
+    /** {@inheritDoc} */
     @Override
     public Color getGhostColor(int value) {
         return switch (value) {
@@ -45,16 +51,16 @@ public class NeonColor implements ThemeColor {
         };
     }
 
-    // VFX colors
+    /** {@inheritDoc} */
     @Override
     public Color getOverlayColor() {return Color.rgb(20, 0, 40, 0.35);}
+    /** {@inheritDoc} */
     @Override
     public Color getTextColor() { return Color.web("#FF2B5C"); }             // neon pink overlay text
+    /** {@inheritDoc} */
     @Override
     public Color getClearRowColor() { return Color.web("#00FFFF");}         // neon cyan
+    /** {@inheritDoc} */
     @Override
     public Color getLevelUpColor() { return Color.web("#00FFFF"); }          // cyan ring for level up
-
-
-
 }

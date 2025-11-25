@@ -13,22 +13,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
+/**
+ * Renders the upcoming Tetris bricks in the preview panels.
+ */
 public class PreviewRenderer {
+
     private final int BRICK_SIZE = TetrisGame.BRICK_SIZE;
     private final List<GridPane> grids;
     private final List<Rectangle[][]> rectangles = new ArrayList<>();
     private ThemeColor themeColor;
 
-    // Constructor
+    /**
+     * Constructor.
+     * @param gameController the game controller containing the preview grids
+     */
     public PreviewRenderer(GameController gameController) {
         grids = gameController.getPreviewGrids();
         this.initializePreview();
     }
 
-    // On new game
-    public void onNewGame() {this.initializeColor();}
+    /** Initializes the preview colors when starting a new game. */
+    public void onNewGame() { this.initializeColor(); }
 
-    // Get color scheme
+    /** Sets the theme color scheme based on current scene theme. */
     private void initializeColor() {
         switch (SceneManager.getTheme()) {
             case CANDY -> themeColor = new CandyColor();
@@ -40,7 +47,7 @@ public class PreviewRenderer {
         }
     }
 
-    // Initialize preview
+    /** Initializes the preview grids with empty rectangles. */
     private void initializePreview() {
         for (int i = 0; i < 3; i++) {
             Rectangle[][] grid = new Rectangle[6][6];
@@ -58,6 +65,10 @@ public class PreviewRenderer {
         }
     }
 
+    /**
+     * Renders the next 3 bricks in the preview panels.
+     * @param brickPreview queue of upcoming bricks
+     */
     public void render(Queue<Brick> brickPreview) {
         refreshPreview();
         Brick[] bricks = brickPreview.toArray(new Brick[0]);
@@ -65,19 +76,19 @@ public class PreviewRenderer {
             for (int j = 0; j < 4; j++) {
                 for (int k = 0; k < 4; k++) {
                     int value = bricks[i].getShapeMatrix().getFirst()[j][k];
-                    if (value != 0 ){
-                        rectangles.get(i)[j+1][k+1].setArcWidth(9);
-                        rectangles.get(i)[j+1][k+1].setArcHeight(9);
-                        rectangles.get(i)[j+1][k+1].setFill(themeColor.getBrickColor(value));
-                        rectangles.get(i)[j+1][k+1].setStroke(themeColor.getBrickOutline(value));
+                    if (value != 0) {
+                        rectangles.get(i)[j + 1][k + 1].setArcWidth(9);
+                        rectangles.get(i)[j + 1][k + 1].setArcHeight(9);
+                        rectangles.get(i)[j + 1][k + 1].setFill(themeColor.getBrickColor(value));
+                        rectangles.get(i)[j + 1][k + 1].setStroke(themeColor.getBrickOutline(value));
                     }
                 }
             }
         }
     }
 
-//    Refresh board
-    private  void refreshPreview() {
+    /** Clears previous bricks from the preview panels. */
+    private void refreshPreview() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 6; j++) {
                 for (int k = 0; k < 6; k++) {
@@ -89,6 +100,4 @@ public class PreviewRenderer {
             }
         }
     }
-
-
 }

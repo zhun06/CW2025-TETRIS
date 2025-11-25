@@ -3,8 +3,14 @@ package com.comp2042.sfx;
 import com.comp2042.logic.data.ClearRow;
 import com.comp2042.util.SfxEvent;
 
+/**Plays sound effects for different game events.*/
 public class SfxPlayer {
 
+    /**
+     * Plays the appropriate sound effect for the given event.
+     * @param event The game event that triggers the sound.
+     * @param clearRow Data for line clears (used to play TETRIS sound).
+     */
     public void play(SfxEvent event, ClearRow clearRow) {
         switch(event) {
             case GAME_START -> this.onStart();
@@ -14,6 +20,7 @@ public class SfxPlayer {
             case GAME_OVER ->  this.onGameOver();
         }
     }
+
 
     private void onStart() {
         SoundLoader.play(SfxEvent.GAME_START);

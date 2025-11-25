@@ -18,7 +18,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// Leader board page
+/**
+ * Controller for the leaderboard page. Manages the leaderboard TableView,
+ * table columns, and navigation buttons to home and theme pages.
+ *
+ * <p>Provides functionality to refresh leaderboard data from CSV
+ * and handles keyboard shortcuts.</p>
+ */
 public class LeaderBoardController {
     @FXML
     private VBox root;
@@ -32,6 +38,12 @@ public class LeaderBoardController {
     @FXML
     private Button homeBtn, themeBtn;
 
+    /**
+     * Handles button clicks for home and theme navigation.
+     *
+     * @param event the button click event
+     * @throws IOException if an I/O error occurs
+     */
     @FXML
     private void onButtonClick(ActionEvent event) throws IOException {
         if (event.getSource() == homeBtn) {
@@ -42,12 +54,13 @@ public class LeaderBoardController {
         }
     }
 
-    // Update leaderboard using data from csv
+    /**Refreshes leaderboard data from CSV via {@link LeaderBoardSetter}.*/
     public void refresh() {
         LeaderBoardSetter leaderBoardSetter = new LeaderBoardSetter(this);
         leaderBoardSetter.update();
     }
 
+    /**Adds key event handler for navigation shortcuts (home, theme, fullscreen toggle).*/
     public void addKeyHandler() {
         Stage stage = SceneManager.getStage();
         root.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
@@ -71,6 +84,7 @@ public class LeaderBoardController {
         });
     }
 
+    // Private helper methods
     private void homeBtn() throws IOException {ControllerManager.callHomeController();}
     private void themeBtn() throws IOException {ControllerManager.callThemeController();}
 

@@ -10,13 +10,21 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Utility class to load and play audio resources for the game.
+ * Includes both SFX clips and background music.
+ */
 public final class SoundLoader {
     private static MediaPlayer bgMusicPlayer;
     private static final Map<SfxEvent, AudioClip> soundCache = new HashMap<>();
 
-    // We don't want to instantiate this utility class
+    /** Private constructor to prevent instantiation. */
     private SoundLoader() {}
 
+    /**
+     * Loads all audio resources (background music + SFX) into memory.
+     * Background music loops indefinitely.
+     */
     public static void loadAll() {
         String bgPath = "/audio/bg_music.mp3";
         URL bgMusic = SoundLoader.class.getResource(bgPath);
@@ -40,6 +48,10 @@ public final class SoundLoader {
         }
     }
 
+    /**
+     * Plays a cached audio clip for a given SFX event.
+     * @param event The SFX event to play.
+     */
     public static void play(SfxEvent event) {
         AudioClip clip = soundCache.get(event);
         if (clip != null) clip.play();

@@ -18,40 +18,47 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * Controller for the in-game UI. Manages the Tetris board, game state,
+ * score labels, previews, pause and game-over panels, and user input.
+ *
+ * <p>Handles button actions for pausing, restarting, exiting, resuming,
+ * and viewing leaderboards. Also provides keyboard shortcuts for
+ * fullscreen toggle.</p>
+ */
 public class GameController {
-
     @FXML
     public StackPane root;
 
-    @FXML // In game
+    @FXML // In game labels
     private Label levelLabel, timeLabel, rowsLabel, currentScoreLabel, highScoreLabel;
 
-    @FXML // End game
+    @FXML // End game labels
     private Label gameResultLabel, timeResultLabel, rowsResultLabel, scoreResultLabel, highScoreResultLabel;
 
     @FXML
     private GridPane gameBoard;
 
-    @FXML
+    @FXML // VFX canvases
     private Canvas sweepCanvas, popupCanvas, levelUpCanvas, gameOverCanvas;
 
-    @FXML
+    @FXML // Brick preview
     private GridPane preview1, preview2, preview3;
 
-    @FXML
+    @FXML // Overlay panels
     private VBox pauseGamePanel, resultPanel;
 
-    @FXML // In Game
+    @FXML // In game buttons
     private Button pauseBtn, restartBtn1, exitBtn1;
 
-    @FXML // Pause Game
+    @FXML // Pause game buttons
     private Button resumeBtn, restartBtn2, exitBtn2;
 
-    @FXML // End Game
+    @FXML // End game buttons
     private Button playAgainBtn, leaderBoardBtn, exitBtn3;
 
-    private GameManager gameManager; // Manage game states
+    // Manage game states
+    private GameManager gameManager;
 
     @FXML
     public void initialize() {
@@ -61,11 +68,22 @@ public class GameController {
         exitBtn1.setFocusTraversable(false);
     }
 
+    /**
+     * Sets the game manager instance to control game logic.
+     *
+     * @param gameManager the {@link GameManager} controlling the game
+     */
     public void setGameManager(GameManager gameManager) {
         this.gameManager = gameManager;
     }
 
-    @FXML // In Game
+    /**
+     * Handles in-game button clicks (pause, restart, exit).
+     *
+     * @param event the button click event
+     * @throws IOException if an I/O error occurs
+     */
+    @FXML // In game
     private void onButtonClick (ActionEvent event) throws IOException {
         if (event.getSource() == pauseBtn) {
             gameManager.pauseGame();
@@ -78,7 +96,13 @@ public class GameController {
         }
     }
 
-    @FXML // Pause Game
+    /**
+     * Handles pause menu button clicks (resume, restart, exit).
+     *
+     * @param event the button click event
+     * @throws IOException if an I/O error occurs
+     */
+    @FXML // Pause game
     private void onPauseButtonClick (ActionEvent event) throws IOException {
         if (event.getSource() == resumeBtn) {
             gameManager.resumeGame();
@@ -91,6 +115,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles end-game button clicks (play again, leaderboard, exit).
+     *
+     * @param event the button click event
+     * @throws IOException if an I/O error occurs
+     */
     @FXML // Game Over
     private void onGameOverButtonClick (ActionEvent event) throws IOException {
         if (event.getSource() == playAgainBtn) {
@@ -104,6 +134,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Adds key event handler to the root pane, e.g., toggle fullscreen on 'F'.
+     */
     public void addKeyHandler() {
         Stage stage = SceneManager.getStage();
         root.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {

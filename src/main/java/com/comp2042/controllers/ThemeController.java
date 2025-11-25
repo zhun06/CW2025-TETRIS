@@ -17,7 +17,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-// Controls theme-switching page
+/**
+ * Controller for the theme selection page. Manages previewing available
+ * themes, navigation buttons, and theme confirmation.
+ *
+ * <p>Handles button clicks and keyboard shortcuts for cycling themes,
+ * confirming selection, and updating the UI stylesheet.</p>
+ */
 public class ThemeController {
     @FXML
     private VBox root;
@@ -31,6 +37,12 @@ public class ThemeController {
     private final ArrayList<Image> images = new ArrayList<>();
     private static int currentIndex = 0;
 
+    /**
+     * Initializes the theme controller. Sets up focus traversal, clips for rounded
+     * corners on the preview, loads theme preview images, and displays the first preview.
+     *
+     * @throws IOException if image loading fails
+     */
     @FXML
     public void initialize() throws IOException {
         // Block focus
@@ -58,6 +70,12 @@ public class ThemeController {
         themePreview.setImage(images.get(currentIndex));
     }
 
+    /**
+     * Handles button clicks for navigating previews and confirming theme selection.
+     *
+     * @param event the button click event
+     * @throws IOException if an I/O error occurs
+     */
     @FXML
     private void onButtonClick(ActionEvent event) throws IOException {
         if (event.getSource() == prevBtn) {
@@ -77,6 +95,7 @@ public class ThemeController {
         this.setTheme();
     }
 
+    /**Adds key event handler to support navigation shortcuts and confirmation keys.*/
     public void addKeyHandler() {
         Stage stage = SceneManager.getStage();
         root.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
@@ -119,8 +138,6 @@ public class ThemeController {
     }
 
     @FXML
-    private void confirmBtn() throws IOException {
-        ControllerManager.callHomeController();
-    }
+    private void confirmBtn() throws IOException {ControllerManager.callHomeController();}
 }
 

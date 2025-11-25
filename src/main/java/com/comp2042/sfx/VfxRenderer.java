@@ -20,6 +20,11 @@ import javafx.util.Duration;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Renders visual effects (VFX) for game events on JavaFX canvases.
+ * Supports popups, line clear sweeps, level up rings, game start overlays,
+ * and game over scan-lines. Theme-aware through {@link ThemeColor}.
+ */
 public class VfxRenderer {
     private final Canvas popupCanvas;
     private final Canvas sweepCanvas;
@@ -40,6 +45,10 @@ public class VfxRenderer {
     private final double BOARD_WIDTH = COLS * BRICK_SIZE;
     private final double BOARD_HEIGHT = ROWS * BRICK_SIZE;
 
+    /**
+     * Constructs a VfxRenderer with the provided GameController.
+     * @param gameController The controller providing VFX canvases.
+     */
     public VfxRenderer(GameController gameController) {
         this.popupCanvas = gameController.getVfxCanvases().get(0);
         this.sweepCanvas = gameController.getVfxCanvases().get(1);
@@ -52,6 +61,7 @@ public class VfxRenderer {
         this.gameOverGC = gameOverCanvas.getGraphicsContext2D();
     }
 
+    /**Initializes theme for visual effects at the start of a new game.*/
     public void onNewGame() {
         switch (SceneManager.getTheme()) {
             case CANDY -> themeColor = new CandyColor();
@@ -63,6 +73,11 @@ public class VfxRenderer {
         }
     }
 
+    /**
+     * Renders a visual effect corresponding to a game event.
+     * @param event The SFX event to render visually.
+     * @param clearRow Optional data for cleared rows (used in line clear effect).
+     */
     public void render(SfxEvent event, ClearRow clearRow) {
         switch (event) {
             case GAME_START -> onStart();
@@ -72,11 +87,8 @@ public class VfxRenderer {
         }
     }
 
-
-    /* ===========================================================
-       GAME START — soft overlay fade
-       =========================================================== */
-    public void onStart() {
+    /** Visual effect for game start: overlay fade-in/out. */
+    private void onStart() {
         DoubleProperty alpha = new SimpleDoubleProperty(0);
 
         alpha.addListener((o, oldVal, a) -> {
@@ -97,10 +109,88 @@ public class VfxRenderer {
         tl.play();
     }
 
-    /* ===========================================================
-       POPUP TEXT — for line clear and level up
-       =========================================================== */
-    public void playPopup(String message, double centerYOffset) {
+    /** Visual effect for line clears: sweep animation + particles + popup. */
+    private void onLineClear(ClearRow clearRow) {
+        if (clearRow == null || clearRow.getClearedRows().isEmpty()) return;
+
+        List<Integer> rows = clearRow.getClearedRows();
+        int removed = clearRow.getLinesRemoved();
+
+        String text = switch (removed) {
+            case 1 -> "SINGLE";
+            case 2 -> "DOUBLE";
+            case 3 -> "TRIPLE";
+            case 4 -> "TETRIS!";
+            default -> removed + " LINES";
+        };
+
+        playPopup(text, 0);
+
+        DoubleProperty sweep = new SimpleDoubleProperty(0);
+        DoubleProperty alpha = new SimpleDoubleProperty(1);
+
+        sweep.addListener((o, oldV, v) -> drawLineClear(rows, v.doubleValue(), alpha.get()));
+        alpha.addListener((o, oldA, a) -> drawLineClear(rows, sweep.get(), a.doubleValue()));
+
+        Timeline tl = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(sweep, 0), new KeyValue(alpha, 1)),
+                new KeyFrame(Duration.seconds(0.45), new KeyValue(sweep, BOARD_WIDTH), new KeyValue(alpha, 0.8))
+        );
+
+        tl.setOnFinished(e -> sweepGC.clearRect(0, 0, sweepCanvas.getWidth(), sweepCanvas.getHeight()));
+        tl.play();
+    }
+
+    /** Visual effect for leveling up: popup text + expanding ring. */
+    private void onLevelUp() {
+        playPopup("LEVEL UP!", -40);
+
+        DoubleProperty radius = new SimpleDoubleProperty(0);
+        DoubleProperty alpha = new SimpleDoubleProperty(1);
+
+        radius.addListener((o, oldR, r) -> drawLevelUp(r.doubleValue(), alpha.get()));
+        alpha.addListener((o, oldA, a) -> drawLevelUp(radius.get(), a.doubleValue()));
+
+        Timeline tl = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(radius, 0), new KeyValue(alpha, 1)),
+                new KeyFrame(Duration.seconds(0.55), new KeyValue(radius, BOARD_WIDTH * 0.8), new KeyValue(alpha, 0))
+        );
+
+        tl.setOnFinished(e -> levelUpGC.clearRect(0, 0, levelUpCanvas.getWidth(), levelUpCanvas.getHeight()));
+        tl.play();
+    }
+
+    private void drawLevelUp(double radius, double alpha) {
+        levelUpGC.clearRect(0, 0, levelUpCanvas.getWidth(), levelUpCanvas.getHeight());
+
+        Color c = themeColor.getLevelUpColor();
+        levelUpGC.setStroke(Color.color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
+        levelUpGC.setLineWidth(6);
+
+        double cx = BOARD_WIDTH / 2;
+        double cy = BOARD_HEIGHT / 2;
+
+        levelUpGC.strokeOval(cx - radius, cy - radius, radius * 2, radius * 2);
+    }
+
+    /** Visual effect for game over: red scan-lines overlay. */
+    private void onGameOver() {
+        DoubleProperty alpha = new SimpleDoubleProperty(0);
+
+        alpha.addListener((o, old, a) -> drawScanlines(a.doubleValue()));
+
+        Timeline tl = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(alpha, 0)),
+                new KeyFrame(Duration.seconds(0.55), new KeyValue(alpha, 0.6)),
+                new KeyFrame(Duration.seconds(0.95), new KeyValue(alpha, 0))
+        );
+
+        tl.setOnFinished(e -> gameOverGC.clearRect(0, 0, gameOverCanvas.getWidth(), gameOverCanvas.getHeight()));
+        tl.play();
+    }
+
+    // Helper methods for drawing effects
+    private void playPopup(String message, double centerYOffset) {
         double startY = BOARD_HEIGHT / 2 + centerYOffset;
         double endY = startY - 45;
 
@@ -134,40 +224,6 @@ public class VfxRenderer {
         popupGC.fillText(msg, x, y);
     }
 
-    /* ===========================================================
-       LINE CLEAR — sweep + particles
-       =========================================================== */
-    public void onLineClear(ClearRow clearRow) {
-        if (clearRow == null || clearRow.getClearedRows().isEmpty()) return;
-
-        List<Integer> rows = clearRow.getClearedRows();
-        int removed = clearRow.getLinesRemoved();
-
-        String text = switch (removed) {
-            case 1 -> "SINGLE";
-            case 2 -> "DOUBLE";
-            case 3 -> "TRIPLE";
-            case 4 -> "TETRIS!";
-            default -> removed + " LINES";
-        };
-
-        playPopup(text, 0);
-
-        DoubleProperty sweep = new SimpleDoubleProperty(0);
-        DoubleProperty alpha = new SimpleDoubleProperty(1);
-
-        sweep.addListener((o, oldV, v) -> drawLineClear(rows, v.doubleValue(), alpha.get()));
-        alpha.addListener((o, oldA, a) -> drawLineClear(rows, sweep.get(), a.doubleValue()));
-
-        Timeline tl = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(sweep, 0), new KeyValue(alpha, 1)),
-                new KeyFrame(Duration.seconds(0.45), new KeyValue(sweep, BOARD_WIDTH), new KeyValue(alpha, 0.8))
-        );
-
-        tl.setOnFinished(e -> sweepGC.clearRect(0, 0, sweepCanvas.getWidth(), sweepCanvas.getHeight()));
-        tl.play();
-    }
-
     private void drawLineClear(List<Integer> rows, double sweep, double alpha) {
         sweepGC.clearRect(0, 0, sweepCanvas.getWidth(), sweepCanvas.getHeight());
 
@@ -191,58 +247,6 @@ public class VfxRenderer {
             sweepGC.setFill(Color.color(1, 1, 1, alpha * 0.7));
             sweepGC.fillOval(x, y - 4, 3, 3);
         }
-    }
-
-    /* ===========================================================
-       LEVEL UP — expanding ring
-       =========================================================== */
-    public void onLevelUp() {
-        playPopup("LEVEL UP!", -40);
-
-        DoubleProperty radius = new SimpleDoubleProperty(0);
-        DoubleProperty alpha = new SimpleDoubleProperty(1);
-
-        radius.addListener((o, oldR, r) -> drawLevelUp(r.doubleValue(), alpha.get()));
-        alpha.addListener((o, oldA, a) -> drawLevelUp(radius.get(), a.doubleValue()));
-
-        Timeline tl = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(radius, 0), new KeyValue(alpha, 1)),
-                new KeyFrame(Duration.seconds(0.55), new KeyValue(radius, BOARD_WIDTH * 0.8), new KeyValue(alpha, 0))
-        );
-
-        tl.setOnFinished(e -> levelUpGC.clearRect(0, 0, levelUpCanvas.getWidth(), levelUpCanvas.getHeight()));
-        tl.play();
-    }
-
-    private void drawLevelUp(double radius, double alpha) {
-        levelUpGC.clearRect(0, 0, levelUpCanvas.getWidth(), levelUpCanvas.getHeight());
-
-        Color c = themeColor.getLevelUpColor();
-        levelUpGC.setStroke(Color.color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
-        levelUpGC.setLineWidth(6);
-
-        double cx = BOARD_WIDTH / 2;
-        double cy = BOARD_HEIGHT / 2;
-
-        levelUpGC.strokeOval(cx - radius, cy - radius, radius * 2, radius * 2);
-    }
-
-    /* ===========================================================
-       GAME OVER — scanlines
-       =========================================================== */
-    public void onGameOver() {
-        DoubleProperty alpha = new SimpleDoubleProperty(0);
-
-        alpha.addListener((o, old, a) -> drawScanlines(a.doubleValue()));
-
-        Timeline tl = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(alpha, 0)),
-                new KeyFrame(Duration.seconds(0.55), new KeyValue(alpha, 0.6)),
-                new KeyFrame(Duration.seconds(0.95), new KeyValue(alpha, 0))
-        );
-
-        tl.setOnFinished(e -> gameOverGC.clearRect(0, 0, gameOverCanvas.getWidth(), gameOverCanvas.getHeight()));
-        tl.play();
     }
 
     private void drawScanlines(double alpha) {

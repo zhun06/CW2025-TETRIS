@@ -5,6 +5,7 @@ import com.comp2042.logic.board.MatrixOperations;
 import java.util.ArrayList;
 import java.util.List;
 
+/**Represents the T-shaped Tetris brick*/
 final class TBrick implements Brick {
 
     private final List<int[][]> brickMatrix = new ArrayList<>();
@@ -36,11 +37,13 @@ final class TBrick implements Brick {
         });
     }
 
+    /**{@inheritDoc}*/
     @Override
     public List<int[][]> getShapeMatrix() {
         return MatrixOperations.deepCopyList(brickMatrix);
     }
 
+    /**{@inheritDoc}*/
     @Override
     public int getColor() {return 6;}
 }

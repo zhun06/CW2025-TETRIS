@@ -2,18 +2,21 @@ package com.comp2042.colors;
 
 import javafx.scene.paint.Color;
 
-
+/**NatureColor theme implementing {@link ThemeColor} interface.*/
 public class NatureColor implements ThemeColor {
-
+    /** {@inheritDoc} */
     @Override
     public Color getPreviewColor() { return Color.web("#B2E3A0FF"); } // soft pale green, calm background
 
+    /** {@inheritDoc} */
     @Override
     public Color getBoardColor() { return Color.web("#9CD38CFF"); } // muted green, natural board tone
 
+    /** {@inheritDoc} */
     @Override
     public Color getGridColor() { return Color.web("#8DAA91"); } // darker green, subtle grid
 
+    /** {@inheritDoc} */
     @Override
     public Color getBrickColor(int value) {
         return switch (value) {
@@ -29,11 +32,11 @@ public class NatureColor implements ThemeColor {
         };
     }
 
+    /** {@inheritDoc} */
     @Override
-    public Color getBrickOutline(int value) {
-        return Color.BLACK; //
-    }
+    public Color getBrickOutline(int value) {return Color.BLACK;}
 
+    /** {@inheritDoc} */
     @Override
     public Color getGhostColor(int value) {
         return switch (value) {
@@ -48,15 +51,16 @@ public class NatureColor implements ThemeColor {
         };
     }
 
-    // VFX colors
+    /** {@inheritDoc} */
     @Override
     public Color getOverlayColor() {return Color.rgb(30, 80, 30, 0.25);}
+    /** {@inheritDoc} */
     @Override
     public Color getTextColor() { return Color.web("#2E7D32"); }             // forest green
+    /** {@inheritDoc} */
     @Override
     public Color getClearRowColor() { return Color.web("#6FCD73FF"); }         // soft green glow for cleared rows
+    /** {@inheritDoc} */
     @Override
     public Color getLevelUpColor() { return Color.web("#66BB6A"); }          // leafy green ring
-
-
 }

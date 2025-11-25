@@ -12,6 +12,10 @@ import javafx.beans.property.SimpleObjectProperty;
 
 import java.time.Duration;
 
+/**
+ * Tracks end-of-game statistics such as score, rows, level, and time.
+ * Handles persistence of best records through {@link CsvLoader}.
+ */
 public final class GameResult {
     private GameState gameState;
     private final GameChoice mode;
@@ -25,6 +29,7 @@ public final class GameResult {
     private final ObjectProperty<Duration> endTime = new SimpleObjectProperty<>(null);
     private final ObjectProperty<Duration> bestTime = new SimpleObjectProperty<>(null);
 
+    /**Loads the existing record for the current game mode.*/
     public GameResult() {
         mode = GameManager.getCurrentGameChoice();
         csvLoader = new CsvLoader();
@@ -35,6 +40,13 @@ public final class GameResult {
         bestTime.setValue(csvLoader.get(mode).time);
     }
 
+    /**
+     * Updates the result using the final statistics of the game.
+     * Also rewrites the CSV record if new best values are achieved.
+     *
+     * @param score final score object
+     * @param elapsedTime total time elapsed
+     */
     public void update(Score score, Duration elapsedTime) {
         this.setEndScore(score);
         this.setEndRows(score);

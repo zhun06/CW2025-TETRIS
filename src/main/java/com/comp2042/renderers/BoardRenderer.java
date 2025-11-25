@@ -12,19 +12,24 @@ import javafx.scene.shape.StrokeType;
 
 import java.awt.Point;
 
+/**
+ * Renders the main Tetris game board with current bricks, ghost bricks, and static blocks.
+ */
 public class BoardRenderer {
+
     private final Board board;
     private final GridPane gameBoard;
-
     private final Rectangle[][] rectangle;
-
     private final int ROWS = TetrisGame.ROWS;
     private final int COLS = TetrisGame.COLS;
     private final int BRICK_SIZE = TetrisGame.BRICK_SIZE;
+    private ThemeColor themeColor;
 
-    private ThemeColor themeColor; // Interface (Current theme)
-
-    // Constructor
+    /**
+     * Constructor.
+     * @param gameController the game controller containing the game board
+     * @param board the Tetris board model
+     */
     public BoardRenderer(GameController gameController, Board board) {
         this.gameBoard = gameController.getGameBoard();
         this.board = board;
@@ -32,10 +37,10 @@ public class BoardRenderer {
         this.initializeBoard();
     }
 
-    // On new game
-    public void onNewGame() {this.initializeColor();}
+    /** Initializes the board colors when starting a new game. */
+    public void onNewGame() { this.initializeColor(); }
 
-    // Get color scheme
+    /** Sets the theme color scheme based on current scene theme. */
     private void initializeColor() {
         switch (SceneManager.getTheme()) {
             case CANDY -> themeColor = new CandyColor();
@@ -47,7 +52,7 @@ public class BoardRenderer {
         }
     }
 
-    // Initialize board
+    /** Initializes the board grid with empty rectangles. */
     private void initializeBoard() {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -60,7 +65,10 @@ public class BoardRenderer {
         }
     }
 
-    // Render
+    /**
+     * Renders the board including current bricks and ghost bricks.
+     * @param brick the current moving brick data
+     */
     public void render(ViewData brick) {
         this.refreshBoard();
         this.renderBoard();
@@ -68,7 +76,7 @@ public class BoardRenderer {
         this.renderBrick(brick);
     }
 
-    // Render existing bricks
+    /** Renders all static bricks on the board. */
     private void renderBoard() {
         for (int i = 4; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -83,7 +91,7 @@ public class BoardRenderer {
         }
     }
 
-    // Render current brick
+    /** Renders the current moving brick. */
     private void renderBrick(ViewData brick) {
         for (Point p : brick.getCoordinates()) {
             rectangle[p.y][p.x].setStrokeWidth(2);
@@ -94,7 +102,7 @@ public class BoardRenderer {
         }
     }
 
-    // Render ghost brick
+    /** Renders the ghost brick shadow at the predicted landing position. */
     private void renderGhost(ViewData brick) {
         for (Point p : brick.getGhostCoordinates()) {
             rectangle[p.y][p.x].setStrokeWidth(2);
@@ -105,9 +113,8 @@ public class BoardRenderer {
         }
     }
 
-
-    // Refresh board
-    private  void refreshBoard() {
+    /** Refreshes the board to clear previous brick and ghost visuals. */
+    private void refreshBoard() {
         for (Rectangle[] rects : rectangle) {
             for (Rectangle rect : rects) {
                 rect.setStrokeWidth(1);
@@ -123,5 +130,4 @@ public class BoardRenderer {
             }
         }
     }
-
 }

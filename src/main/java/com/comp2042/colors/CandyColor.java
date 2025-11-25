@@ -2,17 +2,21 @@ package com.comp2042.colors;
 
 import javafx.scene.paint.Color;
 
+/**CandyColor theme implementing {@link ThemeColor} interface.*/
 public class CandyColor implements ThemeColor {
-
+    /** {@inheritDoc} */
     @Override
     public Color getPreviewColor() { return Color.web("#2E1F2F"); } // dark plum/pastel background
 
+    /** {@inheritDoc} */
     @Override
     public Color getBoardColor() { return Color.web("#F890BBFF"); } // light pink board
 
+    /** {@inheritDoc} */
     @Override
     public Color getGridColor() { return Color.web("#FAA9C8FF"); } // lighter pink grid for subtle contrast
 
+    /** {@inheritDoc} */
     @Override
     public Color getBrickColor(int value) {
         return switch (value) {
@@ -28,10 +32,11 @@ public class CandyColor implements ThemeColor {
         };
     }
 
-
+    /** {@inheritDoc} */
     @Override
     public Color getBrickOutline(int value) { return Color.BLACK; } // darker outline for contrast
 
+    /** {@inheritDoc} */
     @Override
     public Color getGhostColor(int value) {
         return switch (value) {
@@ -46,14 +51,16 @@ public class CandyColor implements ThemeColor {
         };
     }
 
-    // VFX colors
+    /** {@inheritDoc} */
     @Override
     public Color getOverlayColor() {return Color.rgb(255, 200, 220, 0.3);}
+    /** {@inheritDoc} */
     @Override
     public Color getTextColor() { return Color.web("#F10D0DFF"); }             // candy pink overlay text
+    /** {@inheritDoc} */
     @Override
     public Color getClearRowColor() { return Color.web("#FFD700"); }         // candy yellow glow
+    /** {@inheritDoc} */
     @Override
     public Color getLevelUpColor() { return Color.web("#FF8C42"); }          // candy orange ring
-
 }

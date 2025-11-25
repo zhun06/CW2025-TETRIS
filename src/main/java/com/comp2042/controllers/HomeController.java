@@ -18,7 +18,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-// Controls landing page
+/**
+ * Controller for the landing/home page. Manages the game mode
+ * preview, navigation buttons, game mode selection, start button,
+ * leaderboard access, and quit functionality.
+ *
+ * <p>Handles button clicks and keyboard shortcuts for navigation,
+ * game mode selection, and starting a game.</p>
+ */
 public class HomeController {
     @FXML
     private StackPane root;
@@ -32,6 +39,11 @@ public class HomeController {
     private final ArrayList<Image> images = new ArrayList<>();
     private static int currentIndex = 0;
 
+    /**
+     * Initializes the home page controller. Sets up focus traversal,
+     * clips for rounded corners on the game preview, loads game preview
+     * images, and displays the first preview.
+     */
     @FXML
     public void initialize() {
         // Block focus
@@ -59,6 +71,11 @@ public class HomeController {
         gamePreview.setImage(images.get(currentIndex));
     }
 
+    /**
+     * Handles previous/next game preview button clicks.
+     *
+     * @param event the button click event
+     */
     @FXML
     private void handleGamePreview(ActionEvent event) {
         if (event.getSource() == prevBtn) {
@@ -73,6 +90,12 @@ public class HomeController {
         gamePreview.setImage(images.get(currentIndex));
     }
 
+    /**
+     * Handles general home page button clicks (theme, leaderboard, start, quit).
+     *
+     * @param event the button click event
+     * @throws IOException if an I/O error occurs
+     */
     @FXML
     private void onButtonClick(ActionEvent event) throws IOException {
         if (event.getSource() == themeBtn) {
@@ -89,6 +112,10 @@ public class HomeController {
         }
     }
 
+    /**
+     * Adds key event handler to the root pane for navigation shortcuts
+     * (LEFT/RIGHT for preview, SPACE/ENTER to start, C/T for theme, etc.).
+     */
     public void addKeyHandler() {
         Stage stage = SceneManager.getStage();
         root.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
@@ -110,7 +137,7 @@ public class HomeController {
                         throw new RuntimeException(e);
                     }
                 }
-                case L -> {
+                case L, B -> {
                     try {
                         this.leaderBoardBtn();
                     } catch (IOException e) {
@@ -132,6 +159,7 @@ public class HomeController {
     }
 
 
+    // Private helper methods for button actions
     private void themeBtn() throws IOException {
         ControllerManager.callThemeController();
     }
@@ -145,9 +173,7 @@ public class HomeController {
         }
     }
 
-    public void leaderBoardBtn() throws IOException {
-        ControllerManager.callLeaderBoardController();
-    }
+    public void leaderBoardBtn() throws IOException {ControllerManager.callLeaderBoardController();}
 
     private void quitBtn() {Platform.exit();}
 }

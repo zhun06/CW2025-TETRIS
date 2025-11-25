@@ -11,8 +11,10 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-// Survive as long as possible, board rises every 10 seconds
-// Mark board as 8 in new rows
+/**
+ * Hardcore mode: survival-based gameplay where the board periodically rises.
+ * New rows with random holes are added every fixed interval, increasing difficulty.
+ */
 public class HardcoreMode implements GameMode {
     private final TetrisGame game;
     private final int fallSpeed = 200;
@@ -20,20 +22,28 @@ public class HardcoreMode implements GameMode {
     private Duration prevTime;
     private final Random random = new Random();
 
-    // Constructor
+    /**
+     * Constructs a HardcoreMode instance for a Tetris game.
+     * @param game the TetrisGame instance
+     */
     public HardcoreMode(TetrisGame game) {this.game = game;}
 
+    /**Initializes stopwatch timing and adds initial rising rows when the game starts.*/
     @Override
     public void onGameStart() {
         game.setFallSpeed(fallSpeed);
         game.getTimeData().startStopwatch();
         prevTime = game.getTimeData().getElapsedTime();
 
-        int[][] newRows = this.createNewRows(5);
-        int[][] newMatrix = this.buildShiftedMatrix(5, newRows);
-        game.getBoard().setBoardMatrix(newMatrix);
+        int[][] newRows = this.createNewRows(5); // creates 5 new rows
+        int[][] newMatrix = this.buildShiftedMatrix(5, newRows); // add new rows to matrix
+        game.getBoard().setBoardMatrix(newMatrix); // set new matrix as current
     }
 
+    /**
+     * Periodically raises the board by generating and inserting new rows.
+     * Also adjusts the current brick's position to avoid collisions.
+     */
     @Override
     public void onTick() {
         Duration elapsedTime = game.getTimeData().getElapsedTime();
@@ -51,6 +61,7 @@ public class HardcoreMode implements GameMode {
         }
     }
 
+    /**Ends the game if the board becomes full.*/
     @Override
     public void onBoardFull() {
         game.setGameState(GameState.GAME_OVER);
@@ -86,24 +97,16 @@ public class HardcoreMode implements GameMode {
         for (int i = 0; i < TetrisGame.ROWS - rows; i++) {
             System.arraycopy(currentGameMatrix[i+rows], 0, newGameMatrix[i], 0, TetrisGame.COLS);
         }
-        System.out.println("Copying shifted matrix: ");
-        printMatrix(newGameMatrix);
-
-        System.out.println("New rows to be added: ");
-        printMatrix(newRows);
 
         // Add new rows into new matrix
         for (int i = 0; i < rows; i++) {
             System.arraycopy(newRows[i], 0, newGameMatrix[TetrisGame.ROWS - rows + i], 0, TetrisGame.COLS);
         }
 
-        System.out.println("New matrix: ");
-        printMatrix(newGameMatrix);
-
         return newGameMatrix;
     }
 
-    // Update
+    // Update brick offset
     private boolean updateBrick(int[][] newMatrix) {
         int[][] brick = game.getViewData().getBrickShape();
         int offsetX = game.getViewData().getxPosition();
@@ -117,14 +120,6 @@ public class HardcoreMode implements GameMode {
         }
         game.getBoard().setBrickOffset(offsetX, offsetY);
         return true;
-    }
-
-    // Debug
-    private void printMatrix(int[][] matrix) {
-        for (int[] row : matrix) {
-            System.out.println(Arrays.toString(row));
-        }
-        System.out.println();
     }
 
 }

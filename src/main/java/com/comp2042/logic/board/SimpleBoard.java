@@ -12,23 +12,34 @@ import com.comp2042.logic.data.ViewData;
 import java.awt.Point;
 import java.util.*;
 
+/**
+ * A simple implementation of the {@link Board} interface.
+ * Manages the current brick, upcoming bricks, board matrix, and {@link Score}.
+ */
 public class SimpleBoard implements Board {
-    // Board
+    /** Board dimensions. */
     private final int width ;
     private final int height;
+    /** Current game matrix (board state). */
     private int[][] currentGameMatrix;
-    // Helpers
+    /** Brick generator and rotator helpers. */
     private final BrickGenerator brickGenerator;
     private final BrickRotator brickRotator;
-    // Bricks
+    /** Current active brick and upcoming bricks queue. */
     private Brick currentBrick;
     private Queue<Brick> nextBricks;
-    // Util
+    /** Current brick offset and score. */
     private Point currentOffset;
     private Score score;
+    /** Flag indicating if the board is full. */
     private boolean isFull;
 
-    // Constructor
+    /**
+     * Constructs a new SimpleBoard.
+     *
+     * @param rows number of rows
+     * @param cols number of columns
+     */
     public SimpleBoard(int rows, int cols) {
         this.width = cols;
         this.height = rows;
@@ -36,6 +47,7 @@ public class SimpleBoard implements Board {
         brickRotator = new BrickRotator();
     }
 
+    /**{@inheritDoc} */
     @Override
     public boolean moveBrickDown() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
@@ -50,7 +62,7 @@ public class SimpleBoard implements Board {
         }
     }
 
-
+    /**{@inheritDoc} */
     @Override
     public void moveBrickLeft() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
@@ -60,6 +72,7 @@ public class SimpleBoard implements Board {
         if (!conflict) currentOffset = p;
     }
 
+    /**{@inheritDoc} */
     @Override
     public void moveBrickRight() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
@@ -69,6 +82,7 @@ public class SimpleBoard implements Board {
         if (!conflict) currentOffset = p;
     }
 
+    /**{@inheritDoc} */
     @Override
     public void rotateLeftBrick() {
         NextShapeInfo nextShape = brickRotator.getNextShape();
@@ -77,6 +91,7 @@ public class SimpleBoard implements Board {
         if (success) brickRotator.setCurrentShape(nextShape.getPosition());
     }
 
+    /**{@inheritDoc} */
     private boolean tryApplyRotation(int[][] nextShapeMatrix) {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
         for (int[] kick : brickRotator.KICK_OFFSETS) {
@@ -101,7 +116,7 @@ public class SimpleBoard implements Board {
         return false;
     }
 
-
+    /**{@inheritDoc} */
     @Override
     public void hardDropBrick() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
@@ -115,6 +130,7 @@ public class SimpleBoard implements Board {
         }
     }
 
+    /**{@inheritDoc} */
     @Override
     public void createNewBrick() {
         currentBrick = brickGenerator.getBrick();
@@ -124,31 +140,42 @@ public class SimpleBoard implements Board {
         isFull =  MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
     }
 
-    @Override
-    public void setBoardMatrix(int[][] newBoardMatrix) {
-        currentGameMatrix = newBoardMatrix;
-    }
-
-    @Override
-    public void setBrickOffset(int offsetX, int offsetY) {
-        this.currentOffset = new Point(offsetX, offsetY);
-    }
-
-    @Override
-    public int[][] getBoardMatrix() {
-        return currentGameMatrix;
-    }
-
-    @Override
-    public ViewData getViewData() {
-        return new ViewData(brickRotator.getCurrentShape(), currentBrick.getColor(), (int) currentOffset.getX(), (int) currentOffset.getY(), getGhostY());
-    }
-
+    /**{@inheritDoc} */
     @Override
     public void mergeBrickToBackground() {
         currentGameMatrix = MatrixOperations.merge(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
     }
 
+    /**{@inheritDoc} */
+    @Override
+    public ClearRow clearRow() {
+        ClearRow clearRow = MatrixOperations.checkRemoving(currentGameMatrix);
+        currentGameMatrix = clearRow.getNewMatrix();
+        return clearRow;
+    }
+
+    /**{@inheritDoc} */
+    @Override
+    public void setBoardMatrix(int[][] newBoardMatrix) {currentGameMatrix = newBoardMatrix;}
+
+    /**{@inheritDoc} */
+    @Override
+    public void setBrickOffset(int offsetX, int offsetY) {this.currentOffset = new Point(offsetX, offsetY);}
+
+    /**{@inheritDoc} */
+    @Override
+    public int[][] getBoardMatrix() {return currentGameMatrix;}
+
+    @Override
+    public Queue<Brick> getNextBricks() {return nextBricks;}
+
+    /**{@inheritDoc} */
+    @Override
+    public ViewData getViewData() {
+        return new ViewData(brickRotator.getCurrentShape(), currentBrick.getColor(), (int) currentOffset.getX(), (int) currentOffset.getY(), getGhostY());
+    }
+
+    /**{@inheritDoc} */
     @Override
     public int getGhostY() {
         int ghostY = currentOffset.y;
@@ -163,21 +190,15 @@ public class SimpleBoard implements Board {
         return ghostY;
     }
 
+    /**{@inheritDoc} */
     @Override
-    public ClearRow clearRow() {
-        ClearRow clearRow = MatrixOperations.checkRemoving(currentGameMatrix);
-        currentGameMatrix = clearRow.getNewMatrix();
-        return clearRow;
-    }
+    public Score getScore() {return score;}
 
-    @Override
-    public Score getScore() {
-        return score;
-    }
-
+    /**{@inheritDoc} */
     @Override
     public boolean isFull() {return isFull;}
 
+    /**{@inheritDoc} */
     @Override
     public void newGame() {
         currentGameMatrix = new int[height][width];
@@ -186,8 +207,4 @@ public class SimpleBoard implements Board {
         isFull = false;
         createNewBrick();
     }
-
-    @Override
-    public Queue<Brick> getNextBricks() {return nextBricks;}
-
 }

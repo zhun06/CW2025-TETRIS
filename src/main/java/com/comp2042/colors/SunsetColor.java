@@ -2,17 +2,21 @@ package com.comp2042.colors;
 
 import javafx.scene.paint.Color;
 
+/**SunsetColor theme implementing {@link ThemeColor} interface.*/
 public class SunsetColor implements ThemeColor {
-
+    /** {@inheritDoc} */
     @Override
     public Color getPreviewColor() { return Color.web("#FFDDD2"); } // soft sunset pink
 
+    /** {@inheritDoc} */
     @Override
     public Color getBoardColor() { return Color.web("#FFAB76"); } // warm orange board
 
+    /** {@inheritDoc} */
     @Override
     public Color getGridColor() { return Color.web("#FF8A5B"); } // deeper orange grid
 
+    /** {@inheritDoc} */
     @Override
     public Color getBrickColor(int value) {
         return switch (value) {
@@ -28,9 +32,11 @@ public class SunsetColor implements ThemeColor {
         };
     }
 
+    /** {@inheritDoc} */
     @Override
     public Color getBrickOutline(int value) { return Color.web("#4E342E"); } // dark brown outline
 
+    /** {@inheritDoc} */
     @Override
     public Color getGhostColor(int value) {
         return switch (value) {
@@ -45,13 +51,16 @@ public class SunsetColor implements ThemeColor {
         };
     }
 
-    // VFX colors
+    /** {@inheritDoc} */
     @Override
     public Color getOverlayColor() { return Color.rgb(255, 180, 130, 0.25); }
+    /** {@inheritDoc} */
     @Override
     public Color getTextColor() { return Color.web("#D84315"); }       // deep orange text
+    /** {@inheritDoc} */
     @Override
     public Color getClearRowColor() { return Color.web("#FFC107"); }   // golden glow
+    /** {@inheritDoc} */
     @Override
     public Color getLevelUpColor() { return Color.web("#FF7043"); }    // warm orange ring
 }

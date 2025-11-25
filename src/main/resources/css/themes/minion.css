@@ -29,7 +29,7 @@
 
 /* ===================== LABELS ===================== */
 .title {
-    -fx-text-fill: #1976D2; /* minion goggles blue */
+    -fx-text-fill: #0057FF; /* brighter readable minion blue */
     -fx-effect:
             dropshadow(gaussian, black, 5, 1.0, 2, 0),
             dropshadow(gaussian, black, 5, 1.0, -2, 0),
@@ -38,7 +38,7 @@
 }
 
 .homeLabel, .themeLabel, .resultLabel, .leaderBoardLabel, .inGameLabel {
-    -fx-text-fill: #0D47A1;
+    -fx-text-fill: #0057FF;
     -fx-effect:
             dropshadow(gaussian, black, 4, 1.0, 2, 0),
             dropshadow(gaussian, black, 4, 1.0, -2, 0),
@@ -51,7 +51,7 @@
 }
 
 .previewLabel, .overlayLabel {
-    -fx-text-fill: #FFC107;
+    -fx-text-fill: #0057FF;
     -fx-effect:
             dropshadow(gaussian, black, 5, 1.0, 2, 0),
             dropshadow(gaussian, black, 5, 1.0, -2, 0),
@@ -101,13 +101,13 @@
 }
 
 .table-view .column-header .label {
-    -fx-text-fill: #0D47A1;
+    -fx-text-fill: #0057FF;
     -fx-effect: dropshadow(gaussian, black, 3, 0.9, 0, 0);
 }
 
 .table-row-cell {
     -fx-background-color: #FFFDE7;
-    -fx-text-fill: #0D47A1;
+    -fx-text-fill: #0057FF;
 }
 
 .table-row-cell:odd {
@@ -116,16 +116,16 @@
 
 .table-row-cell:hover {
     -fx-background-color: #FFEB3B;
-    -fx-text-fill: #0D47A1;
+    -fx-text-fill: #0057FF;
 }
 
 .table-row-cell:selected {
     -fx-background-color: #FBC02D;
-    -fx-text-fill: #0D47A1;
+    -fx-text-fill: #0057FF;
 }
 
 .table-cell {
-    -fx-text-fill: #0D47A1;
+    -fx-text-fill: #0057FF;
 }
 
 .table-view .column-header,

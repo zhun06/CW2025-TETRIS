@@ -2,17 +2,21 @@ package com.comp2042.colors;
 
 import javafx.scene.paint.Color;
 
+/**MinionColor theme implementing {@link ThemeColor} interface.*/
 public class MinionColor implements ThemeColor {
-
+    /** {@inheritDoc} */
     @Override
     public Color getPreviewColor() { return Color.web("#FFF9C4"); } // soft banana yellow background
 
+    /** {@inheritDoc} */
     @Override
     public Color getBoardColor() { return Color.web("#FFEB3B"); } // bright banana board
 
+    /** {@inheritDoc} */
     @Override
     public Color getGridColor() { return Color.web("#FDD835"); } // slightly darker yellow grid
 
+    /** {@inheritDoc} */
     @Override
     public Color getBrickColor(int value) {
         return switch (value) {
@@ -28,9 +32,11 @@ public class MinionColor implements ThemeColor {
         };
     }
 
+    /** {@inheritDoc} */
     @Override
     public Color getBrickOutline(int value) { return Color.BLACK; }
 
+    /** {@inheritDoc} */
     @Override
     public Color getGhostColor(int value) {
         return switch (value) {
@@ -45,13 +51,16 @@ public class MinionColor implements ThemeColor {
         };
     }
 
-    // VFX colors
+    /** {@inheritDoc} */
     @Override
     public Color getOverlayColor() { return Color.rgb(255, 255, 180, 0.25); } // translucent yellow overlay
+    /** {@inheritDoc} */
     @Override
     public Color getTextColor() { return Color.web("#FBC02D"); } // bright yellow text
+    /** {@inheritDoc} */
     @Override
     public Color getClearRowColor() { return Color.web("#FFEB3B"); } // bright banana glow
+    /** {@inheritDoc} */
     @Override
     public Color getLevelUpColor() { return Color.web("#FDD835"); } // golden ring for level up
 }

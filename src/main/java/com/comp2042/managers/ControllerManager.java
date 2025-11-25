@@ -6,12 +6,13 @@ import com.comp2042.util.GameChoice;
 import javafx.scene.Parent;
 import java.io.IOException;
 
-// ALL scene switch goes through here
-// Manage and store ALL Controller roots
-// Each fxml file loaded exactly once
-// If controller don't exist: create and store controller and it's root
-// Else: reuse controller and it's root
+/**
+ * Manages all scene switches and controller instances.
+ * Each FXML file is loaded exactly once. If a controller does not exist, it is created and stored along with its root.
+ * Otherwise, the existing controller and root are reused.
+ */
 public class ControllerManager {
+
     // Roots
     private static Parent homeRoot, themeRoot, gameRoot, leaderBoardRoot;
     // Game manager
@@ -22,67 +23,84 @@ public class ControllerManager {
     private static GameController gameController;
     private static LeaderBoardController leaderBoardController;
 
+    /**
+     * Switches to the HomeController scene.
+     * @throws IOException if FXML cannot be loaded
+     */
     public static void callHomeController() throws IOException {
-        SceneManager.initScene(); // Ensure scene exist
-        if (homeRoot == null) setupHomeController(); // Setup
-        SceneManager.setRoot(homeRoot); // Reuse root
-        homeRoot.requestFocus(); // Focus
+        SceneManager.initScene();
+        if (homeRoot == null) setupHomeController();
+        SceneManager.setRoot(homeRoot);
+        homeRoot.requestFocus();
     }
 
+    /** Initializes the HomeController and its root. */
     private static void setupHomeController() throws IOException {
         SceneManager.readFXML("home");
-        homeController = SceneManager.getLoader().getController(); // Get loader -> get controller
-        homeRoot = SceneManager.getRoot(); // Get root
-        homeController.addKeyHandler(); // Add key handler
+        homeController = SceneManager.getLoader().getController();
+        homeRoot = SceneManager.getRoot();
+        homeController.addKeyHandler();
     }
 
+    /**
+     * Switches to the ThemeController scene.
+     * @throws IOException if FXML cannot be loaded
+     */
     public static void callThemeController() throws IOException {
-        SceneManager.initScene(); // Ensure scene exist
-        if (themeRoot == null) setupThemeController(); // Setup
-        SceneManager.setRoot(themeRoot); // Reuse root
-        themeRoot.requestFocus(); // Focus
+        SceneManager.initScene();
+        if (themeRoot == null) setupThemeController();
+        SceneManager.setRoot(themeRoot);
+        themeRoot.requestFocus();
     }
 
+    /** Initializes the ThemeController and its root. */
     private static void setupThemeController() throws IOException {
         SceneManager.readFXML("theme");
-        themeRoot = SceneManager.getRoot(); // Get root
-        themeController = SceneManager.getLoader().getController(); // Get loader -> get controller
-        themeController.addKeyHandler(); // Add key handler
+        themeRoot = SceneManager.getRoot();
+        themeController = SceneManager.getLoader().getController();
+        themeController.addKeyHandler();
     }
 
+    /**
+     * Switches to the GameController scene and starts the specified game.
+     * @param gameChoice the game mode to start
+     * @throws IOException if FXML cannot be loaded
+     */
     public static void callGameController(GameChoice gameChoice) throws IOException {
-        SceneManager.initScene(); // Ensure scene exist
-        if (gameRoot == null) setupGameController(); // Setup
-        SceneManager.setRoot(gameRoot); // Reuse root
-        gameRoot.requestFocus(); // Focus
-        gameManager.startGame(gameChoice); // Start Game
+        SceneManager.initScene();
+        if (gameRoot == null) setupGameController();
+        SceneManager.setRoot(gameRoot);
+        gameRoot.requestFocus();
+        gameManager.startGame(gameChoice);
     }
 
+    /** Initializes the GameController and its root. */
     private static void setupGameController() throws IOException {
         SceneManager.readFXML("game");
-        gameRoot = SceneManager.getRoot(); // Get root
-        gameController = SceneManager.getLoader().getController(); // Get loader -> get controller
-        gameController.addKeyHandler(); // Add key handler
-        gameManager = GameManager.getInstance(gameController); // Create GameManager singleton instance
-        gameController.setGameManager(gameManager); // Pass game manager
+        gameRoot = SceneManager.getRoot();
+        gameController = SceneManager.getLoader().getController();
+        gameController.addKeyHandler();
+        gameManager = GameManager.getInstance(gameController);
+        gameController.setGameManager(gameManager);
     }
 
+    /**
+     * Switches to the LeaderBoardController scene and refreshes it.
+     * @throws IOException if FXML cannot be loaded
+     */
     public static void callLeaderBoardController() throws IOException {
-        SceneManager.initScene(); // Ensure scene exist
-        if (leaderBoardRoot == null) setupLeaderBoardController(); // Setup
-        leaderBoardController.refresh(); // Update leader board
-        SceneManager.setRoot(leaderBoardRoot); // Reuse root
-        leaderBoardRoot.requestFocus(); // Focus
+        SceneManager.initScene();
+        if (leaderBoardRoot == null) setupLeaderBoardController();
+        leaderBoardController.refresh();
+        SceneManager.setRoot(leaderBoardRoot);
+        leaderBoardRoot.requestFocus();
     }
 
+    /** Initializes the LeaderBoardController and its root. */
     private static void setupLeaderBoardController() throws IOException {
         SceneManager.readFXML("leaderBoard");
-        leaderBoardRoot = SceneManager.getRoot(); // Get root
-        leaderBoardController = SceneManager.getLoader().getController(); // Get loader -> get controller
-        leaderBoardController.addKeyHandler(); // Add key handler
+        leaderBoardRoot = SceneManager.getRoot();
+        leaderBoardController = SceneManager.getLoader().getController();
+        leaderBoardController.addKeyHandler();
     }
-
-
-
 }
-

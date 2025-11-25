@@ -1,5 +1,6 @@
 package com.comp2042.util;
 
+/** Represents the current state of the game*/
 public enum GameState {
     START,
     PAUSE,
@@ -10,6 +11,5 @@ public enum GameState {
     LOSE,
     RESTART,
     EXIT,
-    CHANGE_THEME,
     LEADER_BOARD
 }

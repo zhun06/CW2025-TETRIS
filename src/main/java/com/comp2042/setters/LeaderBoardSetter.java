@@ -11,10 +11,19 @@ import javafx.scene.control.TableView;
 
 import java.time.Duration;
 
+/**
+ * Populates and manages the LeaderBoard TableView.
+ * Maps ScoreRecord properties to the appropriate columns and formats them depending on the game mode.
+ */
 public class LeaderBoardSetter {
+
     private final TableView<ScoreRecord> leaderBoardTable;
     private final TableColumn<ScoreRecord, String> modeColumn, timeColumn, scoreColumn, rowsColumn;
 
+    /**
+     * Constructor.
+     * @param lbc the LeaderBoardController providing table and columns
+     */
     public LeaderBoardSetter(LeaderBoardController lbc) {
         leaderBoardTable = lbc.getLeaderBoardTable();
         modeColumn = lbc.getLeaderBoardColumns().get(0);
@@ -26,47 +35,35 @@ public class LeaderBoardSetter {
         centerColumn();
     }
 
+    /** Maps ScoreRecord properties to TableView columns with custom formatting. */
     private void setColumnFactories() {
-        // Map ScoreRecord properties to the columns
         modeColumn.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(String.valueOf(cellData.getValue().getMode())));
 
         timeColumn.setCellValueFactory(cellData -> {
             GameChoice mode = cellData.getValue().getMode();
-            if (mode.equals(GameChoice.ZEN) || mode.equals(GameChoice.BLITZ)) {
-                return new ReadOnlyObjectWrapper<>("N/A");
-            }
+            if (mode.equals(GameChoice.ZEN) || mode.equals(GameChoice.BLITZ)) return new ReadOnlyObjectWrapper<>("N/A");
 
             Duration duration = cellData.getValue().getTime();
-            if (duration == null) {
-                return new ReadOnlyObjectWrapper<>("None");
-            }
-
-            String formattedTime = formatSeconds(duration);
-
-            return new ReadOnlyObjectWrapper<>(formattedTime);
+            return new ReadOnlyObjectWrapper<>(duration == null ? "None" : formatSeconds(duration));
         });
 
         scoreColumn.setCellValueFactory(cellData -> {
             GameChoice mode = cellData.getValue().getMode();
-            if (mode.equals(GameChoice.FORTY_LINES) || mode.equals(GameChoice.BLITZ) || mode.equals(GameChoice.HARDCORE) ) {
+            if (mode.equals(GameChoice.FORTY_LINES) || mode.equals(GameChoice.BLITZ) || mode.equals(GameChoice.HARDCORE))
                 return new ReadOnlyObjectWrapper<>("N/A");
-            }
-
             return new ReadOnlyObjectWrapper<>(String.valueOf(cellData.getValue().getScore()));
         });
 
-
         rowsColumn.setCellValueFactory(cellData -> {
             GameChoice mode = cellData.getValue().getMode();
-            if (mode.equals(GameChoice.ZEN) || mode.equals(GameChoice.FORTY_LINES) || mode.equals(GameChoice.HARDCORE)){
+            if (mode.equals(GameChoice.ZEN) || mode.equals(GameChoice.FORTY_LINES) || mode.equals(GameChoice.HARDCORE))
                 return new ReadOnlyObjectWrapper<>("N/A");
-            }
             return new ReadOnlyObjectWrapper<>(String.valueOf(cellData.getValue().getRows()));
         });
-
     }
 
+    /** Centers the text in all TableView columns. */
     public void centerColumn() {
         modeColumn.setStyle("-fx-alignment: CENTER;");
         timeColumn.setStyle("-fx-alignment: CENTER;");
@@ -74,31 +71,23 @@ public class LeaderBoardSetter {
         rowsColumn.setStyle("-fx-alignment: CENTER;");
     }
 
+    /** Updates the TableView with the latest scores from CSV. */
     public void update() {
         CsvLoader csvLoader = new CsvLoader();
         csvLoader.load();
 
         ObservableList<ScoreRecord> items = leaderBoardTable.getItems();
-        items.clear(); // Clear existing rows
+        items.clear();
 
-        // Iterate through all modes and create a row (ScoreRecord) for each
         for (GameChoice mode : GameChoice.values()) {
             ScoreRecord scoreData = csvLoader.get(mode);
-
-            ScoreRecord record = new ScoreRecord(
-                    mode,
-                    scoreData.getTime(),
-                    scoreData.getScore(),
-                    scoreData.getRows()
-            );
-
-            items.add(record); // Add new row to the TableView
+            items.add(new ScoreRecord(mode, scoreData.getTime(), scoreData.getScore(), scoreData.getRows()));
         }
     }
 
+    /** Formats Duration to seconds with 2 decimal places. */
     private String formatSeconds(Duration d) {
         double seconds = d.toNanos() / 1_000_000_000.0;
         return String.format("%.2f", seconds);
     }
-
 }

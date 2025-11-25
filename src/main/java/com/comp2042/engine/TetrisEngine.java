@@ -15,9 +15,18 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-// Setup timeline and rendering
+/**
+ * The core engine of the Tetris game. Responsible for setting up the game
+ * timeline, rendering the board and previews, managing stats, handling
+ * sound effects, and detecting game-over conditions.
+ *
+ * <p>This class orchestrates the main game loop via {@link AnimationTimer} and
+ * a {@link Timeline} for falling pieces. It delegates rendering and UI updates
+ * to helper classes like {@link BoardRenderer}, {@link PreviewRenderer},
+ * {@link StatsSetter}, {@link ResultSetter}, and {@link SfxManager}.</p>
+ */
 public class TetrisEngine  {
-    // Boss
+    // GameManager (Boss)
     GameManager gameManager;
     // Helpers (created once and REUSED)
     private BoardRenderer boardRenderer;
@@ -25,20 +34,29 @@ public class TetrisEngine  {
     private StatsSetter statsSetter;
     private ResultSetter resultSetter;
     private SfxManager sfxManager;
-    // Timeline
+    // Timeline for falling brick
     private Timeline boardTimeLine;
+    // Main loop for rendering and updates
     private AnimationTimer gameLoop;
+    // Callback when game is over
     private Runnable onGameOver;
-    // Flags
+    // Game over lags
     private boolean gameOverPending;
     private boolean gameOverHandled;
 
     private final TetrisGame game;
     private final GameController gameController;
-
+    // Current speed of falling brick
     private int currentSpeed;
 
-    // Constructor
+    /**
+     * Constructs a new {@code TetrisEngine} with the provided game manager,
+     * game model, and controller.
+     *
+     * @param gameManager the manager controlling game state
+     * @param game the {@link TetrisGame} model
+     * @param gameController the {@link GameController} for UI
+     */
     public TetrisEngine(GameManager gameManager, TetrisGame game, GameController gameController) {
         this.gameManager = gameManager;
         this.game = game;
@@ -46,7 +64,10 @@ public class TetrisEngine  {
         this.initialize();
     }
 
-    // Once
+    /**
+     * Initializes helper objects and sets up the game-over callback.
+     * Called once during construction.
+     */
     private void initialize() {
         boardRenderer = new BoardRenderer(gameController, game.getBoard());
         previewRenderer = new PreviewRenderer(gameController);
@@ -56,6 +77,10 @@ public class TetrisEngine  {
         onGameOver = gameManager.setOnGameOver();
     }
 
+    /**
+     * Starts a new game. Initializes a new game state, sets up the board
+     * timeline and main game loop, and resets game-over flags.
+     */
     public void start() {
         game.createNewGame();
         this.onNewGame();
@@ -65,6 +90,7 @@ public class TetrisEngine  {
         gameOverHandled = false;
     }
 
+    /**Called when starting a new game to notify all helpers to reset their state.*/
     private void onNewGame() {
         boardRenderer.onNewGame();
         previewRenderer.onNewGame();
@@ -72,6 +98,10 @@ public class TetrisEngine  {
         sfxManager.onNewGame();
     }
 
+    /**
+     * Sets up the {@link Timeline} controlling piece falling speed.
+     * Updates the board and checks for speed changes.
+     */
     private void setupBoardTimeline() {
         currentSpeed = game.getFallSpeed();
         boardTimeLine = new Timeline(new KeyFrame(Duration.millis(currentSpeed), e -> {
@@ -81,6 +111,11 @@ public class TetrisEngine  {
         boardTimeLine.setCycleCount(Timeline.INDEFINITE);
     }
 
+    /**
+     * Sets up the main {@link AnimationTimer} game loop. Responsible for
+     * rendering the board, previews, updating stats, playing sound effects,
+     * and checking for game-over.
+     */
     private void setupGameLoop() {
         gameLoop = new AnimationTimer() {
             @Override
@@ -98,6 +133,10 @@ public class TetrisEngine  {
         };
     }
 
+    /**
+     * Checks whether the falling speed has changed. If so, resets the timeline
+     * to use the new speed.
+     */
     private void checkSpeedChange() {
         int desired = game.getFallSpeed();
         if (desired != currentSpeed) {
@@ -107,6 +146,10 @@ public class TetrisEngine  {
         }
     }
 
+    /**
+     * Checks for game-over conditions. If the game is over, sets flags and
+     * notifies the {@link GameManager} via the {@code onGameOver} callback.
+     */
     private void checkGameOver() {
         if (game.isGameOver()) {
             gameOverPending = true;
@@ -117,7 +160,14 @@ public class TetrisEngine  {
         }
     }
 
-    // Getter
+    /**
+     * Returns the {@link Timeline} controlling falling pieces.
+     * @return the board timeline
+     */
     public Timeline getBoardTimeLine() {return boardTimeLine;}
+    /**
+     * Returns the main {@link AnimationTimer} game loop.
+     * @return the animation timer
+     */
     public AnimationTimer getGameLoop() {return gameLoop;}
 }
