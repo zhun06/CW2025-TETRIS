@@ -39,11 +39,8 @@ public class MatrixOperations {
     }
 
 
-    private static boolean checkOutOfBound(int[][] matrix, int targetX, int targetY) {
-        if (targetX >= 0 && targetY < matrix.length && targetX < matrix[targetY].length) {
-            return false;
-        }
-        return true;
+    private static boolean checkOutOfBound(int[][] matrix, int x, int y) {
+        return x < 0 || y < 0 || y >= matrix.length || x >= matrix[y].length;
     }
 
     /**

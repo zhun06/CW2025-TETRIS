@@ -7,8 +7,6 @@ import com.comp2042.logic.data.ViewData;
 
 import java.util.Queue;
 
-import java.util.Queue;
-
 /**
  * Interface representing a Tetris game board.
  * Provides methods to move and rotate bricks, manage the board state,

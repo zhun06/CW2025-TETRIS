@@ -4,7 +4,6 @@ import com.comp2042.controllers.GameController;
 import com.comp2042.logic.data.ClearRow;
 import com.comp2042.logic.data.SfxData;
 import com.comp2042.util.SfxEvent;
-import javafx.scene.canvas.Canvas;
 
 import java.util.Deque;
 

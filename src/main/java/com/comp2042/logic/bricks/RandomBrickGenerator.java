@@ -29,7 +29,7 @@ public class RandomBrickGenerator implements BrickGenerator {
         brickList.add(new TBrick());
         brickList.add(new ZBrick());
 
-        while (nextBricks.size() <= preview_size) {
+        while (nextBricks.size() < preview_size) {
             nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
         }
     }
@@ -40,7 +40,7 @@ public class RandomBrickGenerator implements BrickGenerator {
      */
     @Override
     public Brick getBrick() {
-        while (nextBricks.size() <= preview_size + 1) {
+        while (nextBricks.size() <= preview_size) {
             nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
         }
         return nextBricks.poll();

@@ -2,6 +2,7 @@ package com.comp2042.highScore;
 
 import com.comp2042.util.GameChoice;
 
+import com.comp2042.setters.LeaderBoardSetter;
 import java.time.Duration;
 
 /**
@@ -9,7 +10,7 @@ import java.time.Duration;
  *
  * <p>Each record stores the game mode, the duration of the game, the
  * score achieved, and the number of cleared rows. This class is used
- * by {@link CsvLoader} and {@link com.comp2042.setters.LeaderBoardSetter}to manage leaderboard data.</p>
+ * by {@link CsvLoader} and {@link LeaderBoardSetter}to manage leaderboard data.</p>
  */
 public class ScoreRecord {
     public GameChoice mode;

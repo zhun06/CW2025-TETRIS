@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**Represents the L-shaped Tetris brick*/
-final class LBrick implements Brick {
+public final class LBrick implements Brick {
 
     private final List<int[][]> brickMatrix = new ArrayList<>();
 

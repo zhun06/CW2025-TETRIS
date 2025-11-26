@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**Represents the S-shaped Tetris brick*/
-final class SBrick implements Brick {
+public final class SBrick implements Brick {
 
     private final List<int[][]> brickMatrix = new ArrayList<>();
 
