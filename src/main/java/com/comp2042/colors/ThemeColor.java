@@ -3,53 +3,63 @@ package com.comp2042.colors;
 import javafx.scene.paint.Color;
 
 /**
- * Defines a color theme for the Tetris game. Implementations of this interface
- * return all colors used for the board, bricks, grid, VFX, and UI text.
+ * Represents a color theme for the Tetris game. Implementations of this interface
+ * provide all colors used for the game board, bricks, grid lines, visual effects,
+ * and UI text.
  *
- * <p>Each {@code ThemeColor} supplies a consistent visual style that determines
- * how the game should be rendered. Implementations are responsible for providing
- * colors that match their intended theme (e.g., Ocean, Neon, Candy, etc.).</p>
+ * <p>Each {@code ThemeColor} defines a consistent visual style that controls how
+ * the game is rendered. Implementations should supply colors that match their
+ * intended theme (e.g., Ocean, Neon, Candy, etc.).</p>
  */
 public interface ThemeColor {
+
     /**
-     * Returns the color of the preview window where the next piece is shown.
+     * Returns the color used for the preview window that shows the next piece.
      *
-     * @return a {@link Color} used for the preview background
+     * @return a {@link Color} used as the preview background
      */
     Color getPreviewColor();
 
     /**
      * Returns the background color of the Tetris board.
      *
-     * @return a {@link Color} used for the board background
+     * @return a {@link Color} used as the board background
      */
     Color getBoardColor();
 
     /**
-     * Returns the color of the grid lines drawn on the board.
+     * Returns the color of the grid lines displayed on the Tetris board.
      *
      * @return a {@link Color} used for grid lines
      */
     Color getGridColor();
 
     /**
-     * Returns the fill color of a Tetris brick based on its value.
+     * Returns the fill color of a Tetris brick for the specified brick ID.
+     *
+     * <p>Valid brick IDs are from 1 to 8. If an invalid value is provided,
+     * {@link Color#TRANSPARENT} is returned.</p>
      *
      * @param value the brick ID (1–8)
-     * @return a {@link Color} for the brick, or {@code TRANSPARENT} if invalid
+     * @return a {@link Color} used to fill the brick
      */
     Color getBrickColor(int value);
 
     /**
-     * Returns the outline color for a brick based on its value.
+     * Returns the outline color of a Tetris brick for the specified brick ID.
+     *
+     * <p>Valid brick IDs are from 1 to 8.</p>
      *
      * @param value the brick ID (1–8)
-     * @return a {@link Color} for the brick outline
+     * @return a {@link Color} used for the brick outline
      */
     Color getBrickOutline(int value);
 
     /**
-     * Returns the ghost-piece color for a given brick value.
+     * Returns the color of the ghost piece for the specified brick ID.
+     *
+     * <p>Ghost pieces are shown as a visual preview of where a brick will land.
+     * Valid brick IDs are from 1 to 8. Invalid values return {@link Color#TRANSPARENT}.</p>
      *
      * @param value the brick ID (1–8)
      * @return a {@link Color} representing the ghost piece
@@ -57,32 +67,31 @@ public interface ThemeColor {
     Color getGhostColor(int value);
 
     /**
-     * Returns the overlay color used during effects such as pausing, clearing,
+     * Returns the overlay color used for effects such as pausing, clearing rows,
      * or transitions.
      *
-     * @return a semi-transparent {@link Color} used for overlays
+     * @return a semi-transparent {@link Color} used as an overlay
      */
     Color getOverlayColor();
 
     /**
-     * Returns the theme's text color, used for UI labels such as score,
-     * level, and messages.
+     * Returns the color used for UI text such as score, level, and messages.
      *
      * @return a {@link Color} used for text rendering
      */
     Color getTextColor();
 
     /**
-     * Returns the highlight color used when a row is cleared.
+     * Returns the highlight color applied when a row is cleared.
      *
-     * @return a {@link Color} used for row-clear VFX
+     * @return a {@link Color} used for row-clear visual effects
      */
     Color getClearRowColor();
 
     /**
      * Returns the color used to indicate a level-up event.
      *
-     * @return a {@link Color} for level-up animations or effects
+     * @return a {@link Color} used for level-up animations or effects
      */
     Color getLevelUpColor();
 }

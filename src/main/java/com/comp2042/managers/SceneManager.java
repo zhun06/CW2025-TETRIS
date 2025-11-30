@@ -19,6 +19,7 @@ public class SceneManager {
     private static Theme currentTheme = Theme.CANDY;
     private static String fileName;
 
+    /**Prevent instantiation of this utility class*/
     private SceneManager() {}
 
     /** Initializes the scene if it has not been created. */

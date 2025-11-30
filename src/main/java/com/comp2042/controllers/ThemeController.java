@@ -18,10 +18,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Controller for the theme selection page. Manages previewing available
- * themes, navigation buttons, and theme confirmation.
+ * Controller for the theme selection page. Manages previewing available themes,
+ * navigation buttons, and theme confirmation.
  *
- * <p>Handles button clicks and keyboard shortcuts for cycling themes,
+ * <p>Handles button clicks and keyboard shortcuts for cycling through themes,
  * confirming selection, and updating the UI stylesheet.</p>
  */
 public class ThemeController {
@@ -95,7 +95,10 @@ public class ThemeController {
         this.setTheme();
     }
 
-    /**Adds key event handler to support navigation shortcuts and confirmation keys.*/
+    /**
+     * Adds key event handler to support navigation shortcuts and confirmation keys.
+     * Includes arrow keys, A/D, space/enter, and fullscreen toggle.
+     */
     public void addKeyHandler() {
         Stage stage = SceneManager.getStage();
         root.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
@@ -140,4 +143,3 @@ public class ThemeController {
     @FXML
     private void confirmBtn() throws IOException {ControllerManager.callHomeController();}
 }
-

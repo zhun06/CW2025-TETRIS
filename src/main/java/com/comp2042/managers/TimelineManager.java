@@ -29,8 +29,23 @@ public class TimelineManager {
         }
     }
 
-    private void onStartOrResume() { boardTimeline.play(); gameLoop.start(); }
-    private void onPause() { boardTimeline.pause(); gameLoop.stop(); }
-    private void onUpdate() { boardTimeline.play(); }
-    private void onGameOverOrExitOrRestart() { boardTimeline.stop(); gameLoop.stop(); }
+    private void onStartOrResume() {
+        boardTimeline.play();
+        gameLoop.start();
+    }
+
+    private void onPause() {
+        boardTimeline.pause();
+        gameLoop.stop();
+    }
+
+    private void onUpdate() {
+        boardTimeline.play();
+    }
+
+    private void onGameOverOrExitOrRestart() {
+        boardTimeline.stop();
+        gameLoop.stop();
+    }
+
 }

@@ -39,4 +39,3 @@ public class ScoreRecord {
     public int getScore() { return score; }
     public int getRows() { return rows; }
 }
-

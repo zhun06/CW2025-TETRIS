@@ -20,11 +20,11 @@ import java.util.List;
 
 /**
  * Controller for the in-game UI. Manages the Tetris board, game state,
- * score labels, previews, pause and game-over panels, and user input.
+ * score and time labels, previews, pause and game-over panels, and user input.
  *
  * <p>Handles button actions for pausing, restarting, exiting, resuming,
- * and viewing leaderboards. Also provides keyboard shortcuts for
- * fullscreen toggle.</p>
+ * and viewing leaderboards. Provides keyboard shortcuts for fullscreen toggle
+ * and other in-game actions.</p>
  */
 public class GameController {
     @FXML

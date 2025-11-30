@@ -7,6 +7,7 @@ import com.comp2042.logic.games.TetrisGame;
 import com.comp2042.sfx.SoundLoader;
 import com.comp2042.util.GameChoice;
 import com.comp2042.util.GameState;
+import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
@@ -32,11 +33,11 @@ public class GameManager {
     private static GameChoice currentGameChoice;
     private static GameState currentGameState;
 
-    private final GameController gameController;
+    private final GridPane gameBoard;
 
     /** Private constructor for singleton pattern. */
     private GameManager(GameController gameController) {
-        this.gameController = gameController;
+        this.gameBoard = gameController.getGameBoard();
         this.game = new TetrisGame();
         this.engine = new TetrisEngine(this, game, gameController);
         this.gameKeyHandlerManager = new GameKeyHandlerManager(this, game, gameController);
@@ -147,5 +148,5 @@ public class GameManager {
     public static GameState getCurrentGameState() { return currentGameState; }
 
     /** Sets focus to the game board. */
-    private void setFocus() { gameController.getGameBoard().requestFocus(); }
+    private void setFocus() { gameBoard.requestFocus(); }
 }

@@ -86,7 +86,7 @@
     -fx-font-weight: bold;
     -fx-border-width: 6px;
     -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
+    -fx-background-radius: 15px;
     -fx-padding: 10 25 10 25;
     -fx-cursor: hand;
 }

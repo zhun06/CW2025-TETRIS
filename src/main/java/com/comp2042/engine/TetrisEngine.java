@@ -45,7 +45,6 @@ public class TetrisEngine  {
     private boolean gameOverHandled;
 
     private final TetrisGame game;
-    private final GameController gameController;
     // Current speed of falling brick
     private int currentSpeed;
 
@@ -60,15 +59,14 @@ public class TetrisEngine  {
     public TetrisEngine(GameManager gameManager, TetrisGame game, GameController gameController) {
         this.gameManager = gameManager;
         this.game = game;
-        this.gameController = gameController;
-        this.initialize();
+        this.initialize(gameController);
     }
 
     /**
      * Initializes helper objects and sets up the game-over callback.
      * Called once during construction.
      */
-    private void initialize() {
+    private void initialize(GameController gameController) {
         boardRenderer = new BoardRenderer(gameController, game.getBoard());
         previewRenderer = new PreviewRenderer(gameController);
         statsSetter = new StatsSetter(gameController);

@@ -22,8 +22,8 @@ import java.util.List;
  * Controller for the leaderboard page. Manages the leaderboard TableView,
  * table columns, and navigation buttons to home and theme pages.
  *
- * <p>Provides functionality to refresh leaderboard data from CSV
- * and handles keyboard shortcuts.</p>
+ * <p>Provides functionality to refresh leaderboard data from CSV files and
+ * handles keyboard shortcuts for navigation and fullscreen toggle.</p>
  */
 public class LeaderBoardController {
     @FXML
@@ -42,7 +42,7 @@ public class LeaderBoardController {
      * Handles button clicks for home and theme navigation.
      *
      * @param event the button click event
-     * @throws IOException if an I/O error occurs
+     * @throws IOException if an I/O error occurs during handling
      */
     @FXML
     private void onButtonClick(ActionEvent event) throws IOException {

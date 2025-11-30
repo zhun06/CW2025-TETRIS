@@ -19,9 +19,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
- * Controller for the landing/home page. Manages the game mode
- * preview, navigation buttons, game mode selection, start button,
- * leaderboard access, and quit functionality.
+ * Controller for the landing/home page. Manages game mode previews,
+ * navigation buttons, game mode selection, start button, leaderboard access,
+ * and quit functionality.
  *
  * <p>Handles button clicks and keyboard shortcuts for navigation,
  * game mode selection, and starting a game.</p>
@@ -72,7 +72,8 @@ public class HomeController {
     }
 
     /**
-     * Handles previous/next game preview button clicks.
+     * Handles previous/next game preview button clicks to cycle through available
+     * game modes.
      *
      * @param event the button click event
      */
@@ -91,10 +92,10 @@ public class HomeController {
     }
 
     /**
-     * Handles general home page button clicks (theme, leaderboard, start, quit).
+     * Handles home page button clicks: theme, leaderboard, start, and quit.
      *
      * @param event the button click event
-     * @throws IOException if an I/O error occurs
+     * @throws IOException if an I/O error occurs during handling
      */
     @FXML
     private void onButtonClick(ActionEvent event) throws IOException {
@@ -160,9 +161,7 @@ public class HomeController {
 
 
     // Private helper methods for button actions
-    private void themeBtn() throws IOException {
-        ControllerManager.callThemeController();
-    }
+    private void themeBtn() throws IOException {ControllerManager.callThemeController();}
 
     private void startBtn() throws IOException {
         switch (currentIndex) {

@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class RandomBrickGenerator implements BrickGenerator {
 
     /** Number of bricks shown in the preview window. */
-    private final int preview_size = 3;
+    private final int PREVIEW_SIZE = 3;
 
     private final List<Brick> brickList;
     private final Deque<Brick> nextBricks = new ArrayDeque<>();
@@ -29,7 +29,7 @@ public class RandomBrickGenerator implements BrickGenerator {
         brickList.add(new TBrick());
         brickList.add(new ZBrick());
 
-        while (nextBricks.size() < preview_size) {
+        while (nextBricks.size() < PREVIEW_SIZE) {
             nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
         }
     }
@@ -40,7 +40,7 @@ public class RandomBrickGenerator implements BrickGenerator {
      */
     @Override
     public Brick getBrick() {
-        while (nextBricks.size() <= preview_size) {
+        while (nextBricks.size() <= PREVIEW_SIZE) {
             nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
         }
         return nextBricks.poll();
