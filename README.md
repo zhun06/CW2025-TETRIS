@@ -26,6 +26,8 @@
 - Rotate: Up arrow, W
 - Hard drop: Space, tab, enter
 
+![Screenshot](./src/main/resources/images/screenshot.png)
+
 ## Implemented and working properly
 ### In game features
 1. In game scoreboard (stats): level, score, rows, time and high score.
